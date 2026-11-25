@@ -43,10 +43,14 @@ models/*
 results/**/*.npy
 results/**/*.npz
 results/**/checkpoints/
-results/**/RUNNING.lock
+RUNNING.lock
+*.tmp
 mlruns/
 wandb/
 emissions.csv
 
 # Credenciales
 kaggle.json
+
+# Enunciado del curso (material del profesor; copia local, no se publica)
+reports/enunciado/

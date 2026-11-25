@@ -1,0 +1,2 @@
+7138f5c0c5c1a05bb5c9115ee8e0fd1d067a23e4b3e09fde840ef54562e63320  data/raw/sartorius/sartorius-cell-instance-segmentation.zip
+4f917ee44c4fed9d461288bac2d96bba681b2f4e65efedc90b8e47f918041342  data/raw/jarvis/jarvis-calling-hiring-contest.zip
