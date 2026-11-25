@@ -1,0 +1,6 @@
+# Finales de línea LF en todo el repo (evita que sha256sum -c falle por CRLF en Windows)
+* text=auto eol=lf
+*.png binary
+*.jpg binary
+*.pdf binary
+*.ipynb text eol=lf
