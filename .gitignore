@@ -1,0 +1,52 @@
+# Entornos
+.venv/
+venv/
+.env
+
+# Python
+__pycache__/
+*.py[cod]
+*.egg-info/
+.pytest_cache/
+.ruff_cache/
+.mypy_cache/
+.coverage
+htmlcov/
+
+# Jupyter / Book
+.ipynb_checkpoints/
+book/_build/
+
+# Datos: nunca en Git (términos de uso de Kaggle). Solo se versionan los hashes y las particiones.
+data/*
+!data/.gitkeep
+!data/SHA256SUMS.txt
+!data/splits/
+!data/splits/**
+data/raw/*
+!data/raw/.gitkeep
+data/processed/*
+!data/processed/.gitkeep
+
+# Modelos y checkpoints
+models/*
+!models/.gitkeep
+!models/registry.json
+*.keras
+*.h5
+*.ckpt
+*.pt
+*.pth
+*.onnx
+
+# Resultados: se versionan tablas pequeñas (csv/json/yaml); se ignoran binarios y logs pesados
+results/**/*.npy
+results/**/*.npz
+results/**/checkpoints/
+results/**/RUNNING.lock
+mlruns/
+wandb/
+emissions.csv
+
+# Credenciales
+kaggle.json
