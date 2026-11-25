@@ -1,8 +1,8 @@
 # Proyecto integrador de aprendizaje automático (sección 4.8)
 
-Segmentación de instancias celulares (Sartorius), clasificación de texto (Jarvis Calling Hiring Contest) y despliegue con MLOps. Curso de Deep Learning, Universidad del Norte, profesor Lihki Rubio.
+Segmentación de instancias celulares (Sartorius), clasificación de texto (Jarvis Calling Hiring Contest) y despliegue con MLOps. Curso de Deep Learning, Universidad del Norte.
 
-**Autores:** Anye San Juan Benavides y Juan David Díaz Fernández.
+**Autores:** Anyely Sanjuan Benavides y Juan David Díaz Fernández · **Profesor:** Dr. Lihki Rubio.
 
 ## Estructura
 
