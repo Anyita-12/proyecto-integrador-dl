@@ -28,6 +28,10 @@ kaggle competitions download -c sartorius-cell-instance-segmentation -p data\raw
 kaggle competitions download -c jarvis-calling-hiring-contest -p data\raw\jarvis
 ```
 
+## Enlace HTML
+
+https://anyita-12.github.io/proyecto-integrador-dl/intro.html
+
 ## Flujo de trabajo
 
 Rama `feature/<tarea>` → pull request revisado por la otra persona → merge a `main` → recompilar y publicar el Book.
