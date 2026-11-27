@@ -1,0 +1,1107 @@
+
+<!DOCTYPE html>
+
+
+<html lang="es" data-content_root="./" >
+
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" /><meta name="viewport" content="width=device-width, initial-scale=1" />
+
+    <title>Preprocesamiento y representaciones de texto &#8212; Segmentación de células y clasificación de hojas de vida</title>
+  
+  
+  
+  <script data-cfasync="false">
+    document.documentElement.dataset.mode = localStorage.getItem("mode") || "";
+    document.documentElement.dataset.theme = localStorage.getItem("theme") || "";
+  </script>
+  <!--
+    this give us a css class that will be invisible only if js is disabled
+  -->
+  <noscript>
+    <style>
+      .pst-js-only { display: none !important; }
+
+    </style>
+  </noscript>
+  
+  <!-- Loaded before other Sphinx assets -->
+  <link href="_static/styles/theme.css?digest=55c26ed414f5f8a31ebb" rel="stylesheet" />
+<link href="_static/styles/pydata-sphinx-theme.css?digest=55c26ed414f5f8a31ebb" rel="stylesheet" />
+
+    <link rel="stylesheet" type="text/css" href="_static/pygments.css?v=03e43079" />
+    <link rel="stylesheet" type="text/css" href="_static/styles/sphinx-book-theme.css?v=3c74b3bc" />
+    <link rel="stylesheet" type="text/css" href="_static/togglebutton.css?v=9c3e77be" />
+    <link rel="stylesheet" type="text/css" href="_static/copybutton.css?v=76b2166b" />
+    <link rel="stylesheet" type="text/css" href="_static/mystnb.11b39860a7a0cbfd473a3ad8a317855267ff0bd372690045ca344a6b62be495e.css?v=8cd3d715" />
+    <link rel="stylesheet" type="text/css" href="_static/sphinx-thebe.css?v=4fa983c6" />
+    <link rel="stylesheet" type="text/css" href="_static/sphinx-design.min.css?v=6a604523" />
+    <link rel="stylesheet" type="text/css" href="_static/autores.css?v=fc0dcfce" />
+  
+  <!-- So that users can add custom icons -->
+  <script defer src="_static/scripts/fontawesome.js?digest=55c26ed414f5f8a31ebb"></script>
+  <!-- Pre-loaded scripts that we'll load fully later -->
+  <link rel="preload" as="script" href="_static/scripts/bootstrap.js?digest=55c26ed414f5f8a31ebb" />
+<link rel="preload" as="script" href="_static/scripts/pydata-sphinx-theme.js?digest=55c26ed414f5f8a31ebb" />
+
+    <script src="_static/documentation_options.js?v=78d55cf8"></script>
+    <script src="_static/doctools.js?v=9a2dae69"></script>
+    <script src="_static/sphinx_highlight.js?v=dc90522c"></script>
+    <script src="_static/clipboard.min.js?v=a7894cd8"></script>
+    <script src="_static/copybutton.js?v=f281be69"></script>
+    <script src="_static/scripts/sphinx-book-theme.js?v=fab101a9"></script>
+    <script>let toggleHintShow = 'Haz clic para mostrar';</script>
+    <script>let toggleHintHide = 'Haz clic para ocultar';</script>
+    <script>let toggleOpenOnPrint = 'true';</script>
+    <script src="_static/togglebutton.js?v=b8b12719"></script>
+    <script src="_static/translations.js?v=d190bf04"></script>
+    <script>var togglebuttonSelector = '.toggle, .admonition.dropdown';</script>
+    <script data-sd-tabs-storage-prefix="sphinx-design-tab-id-" src="_static/design-tabs.js?v=fcb327ea"></script>
+    <script>const THEBE_JS_URL = "https://unpkg.com/thebe@0.8.2/lib/index.js"; const thebe_selector = ".thebe,.cell"; const thebe_selector_input = "pre"; const thebe_selector_output = ".output, .cell_output"</script>
+    <script async="async" src="_static/sphinx-thebe.js?v=c100c467"></script>
+    <script>var togglebuttonSelector = '.toggle, .admonition.dropdown';</script>
+    <script>const THEBE_JS_URL = "https://unpkg.com/thebe@0.8.2/lib/index.js"; const thebe_selector = ".thebe,.cell"; const thebe_selector_input = "pre"; const thebe_selector_output = ".output, .cell_output"</script>
+    <script>DOCUMENTATION_OPTIONS.pagename = '21_nlp_representaciones';</script>
+    <script>DOCUMENTATION_OPTIONS.search_as_you_type = false;</script>
+    <link rel="index" title="Índice" href="genindex.html" />
+    <link rel="search" title="Búsqueda" href="search.html" />
+    <link rel="next" title="Modelos de clasificación de texto y búsqueda de hiperparámetros" href="22_nlp_modelos.html" />
+    <link rel="prev" title="Análisis exploratorio y auditoría de las hojas de vida" href="20_nlp_eda.html" />
+  <meta name="viewport" content="width=device-width, initial-scale=1"/>
+  <meta name="docsearch:language" content="es"/>
+  <meta name="docsearch:version" content="" />
+  
+    
+    <script src="_static/searchtools.js"></script>
+    <script src="_static/language_data.js"></script>
+    <script src="searchindex.js"></script>
+  
+  </head>
+  <body data-default-mode="">
+  
+  
+  <div id="pst-skip-link" class="skip-link d-print-none"><a href="#main-content">Saltar al contenido principal</a></div>
+
+  
+  <div id="pst-scroll-pixel-helper"></div>
+  
+  <button type="button" class="btn rounded-pill" id="pst-back-to-top">
+    <i class="fa-solid fa-arrow-up"></i>Volver arriba</button>
+  
+  
+  
+  
+  <dialog id="pst-search-dialog">
+    
+<form class="bd-search d-flex align-items-center"
+      action="search.html"
+      method="get">
+  <i class="fa-solid fa-magnifying-glass"></i>
+  <input type="search"
+         class="form-control"
+         name="q"
+         placeholder="Search this book..."
+         aria-label="Search this book..."
+         autocomplete="off"
+         autocorrect="off"
+         autocapitalize="off"
+         spellcheck="false"/>
+  <span class="search-button__kbd-shortcut"><kbd class="kbd-shortcut__modifier">Ctrl</kbd>+<kbd>K</kbd></span>
+</form>
+  </dialog>
+
+  <div class="pst-async-banner-revealer d-none">
+  <aside id="bd-header-version-warning" class="d-none d-print-none" aria-label="Advertencia de versión"></aside>
+</div>
+
+  
+    <header id="pst-header" class="bd-header navbar navbar-expand-lg bd-navbar d-print-none">
+<div class="bd-header__inner bd-page-width">
+  <button class="pst-navbar-icon sidebar-toggle primary-toggle" aria-label="Navegación del sitio">
+    <span class="fa-solid fa-bars"></span>
+  </button>
+  
+  
+  <div class="col-lg-9 navbar-header-items">
+    
+    
+    <div class="navbar-header-items__end">
+      
+        <div class="navbar-item navbar-persistent--container">
+          
+
+<button class="btn search-button-field search-button__button pst-js-only" title="Búsqueda" aria-label="Búsqueda" data-bs-placement="bottom" data-bs-toggle="tooltip">
+ <i class="fa-solid fa-magnifying-glass"></i>
+ <span class="search-button__default-text">Búsqueda</span>
+ <span class="search-button__kbd-shortcut"><kbd class="kbd-shortcut__modifier">Ctrl</kbd>+<kbd class="kbd-shortcut__modifier">K</kbd></span>
+</button>
+        </div>
+      
+      
+    </div>
+    
+  </div>
+  
+  
+    <div class="navbar-persistent--mobile">
+
+<button class="btn search-button-field search-button__button pst-js-only" title="Búsqueda" aria-label="Búsqueda" data-bs-placement="bottom" data-bs-toggle="tooltip">
+ <i class="fa-solid fa-magnifying-glass"></i>
+ <span class="search-button__default-text">Búsqueda</span>
+ <span class="search-button__kbd-shortcut"><kbd class="kbd-shortcut__modifier">Ctrl</kbd>+<kbd class="kbd-shortcut__modifier">K</kbd></span>
+</button>
+    </div>
+  
+
+  
+    <button class="pst-navbar-icon sidebar-toggle secondary-toggle" aria-label="En esta página">
+      <span class="fa-solid fa-outdent"></span>
+    </button>
+  
+</div>
+
+    </header>
+  
+
+  <div class="bd-container">
+    <div class="bd-container__inner bd-page-width">
+      
+      
+      
+      <dialog id="pst-primary-sidebar-modal"></dialog>
+      <div id="pst-primary-sidebar" class="bd-sidebar-primary bd-sidebar">
+        
+
+  
+  <div class="sidebar-header-items sidebar-primary__section">
+    
+    
+    
+    
+  </div>
+  
+    <div class="sidebar-primary-items__start sidebar-primary__section">
+        <div class="sidebar-primary-item">
+
+  
+    
+  
+
+<a class="navbar-brand logo" href="intro.html">
+  
+  
+  
+  
+  
+  
+    <p class="title logo__title">Segmentación de células y clasificación de hojas de vida</p>
+  
+</a></div>
+        <div class="sidebar-primary-item"><div class="sidebar-autores">
+  <div class="autor">
+    <img src="_static/autores/anyely.jpg" alt="Anyely Sanjuan Benavides">
+    <p class="autor-nombre">Anyely Sanjuan Benavides</p>
+    <p class="autor-detalle">Msc. Analítica de Datos<br>Universidad del Norte</p>
+  </div>
+  <div class="autor">
+    <img src="_static/autores/juan.jpg" alt="Juan David Díaz Fernández">
+    <p class="autor-nombre">Juan David Díaz Fernández</p>
+    <p class="autor-detalle">Msc. Ingeniería Mecánica<br>Universidad del Norte</p>
+  </div>
+</div></div>
+        <div class="sidebar-primary-item">
+
+<button class="btn search-button-field search-button__button pst-js-only" title="Búsqueda" aria-label="Búsqueda" data-bs-placement="bottom" data-bs-toggle="tooltip">
+ <i class="fa-solid fa-magnifying-glass"></i>
+ <span class="search-button__default-text">Búsqueda</span>
+ <span class="search-button__kbd-shortcut"><kbd class="kbd-shortcut__modifier">Ctrl</kbd>+<kbd class="kbd-shortcut__modifier">K</kbd></span>
+</button></div>
+        <div class="sidebar-primary-item"><nav class="bd-links bd-docs-nav" aria-label="Main">
+    <div class="bd-toc-item navbar-nav active">
+        
+        <ul class="nav bd-sidenav bd-sidenav__home-link">
+            <li class="toctree-l1">
+                <a class="reference internal" href="intro.html">
+                    Segmentación de células y clasificación de hojas de vida
+                </a>
+            </li>
+        </ul>
+        <p aria-level="2" class="caption" role="heading"><span class="caption-text">Planteamiento</span></p>
+<ul class="nav bd-sidenav">
+<li class="toctree-l1"><a class="reference internal" href="01_problema_objetivos.html">Problema, objetivos y preguntas de investigación</a></li>
+<li class="toctree-l1"><a class="reference internal" href="02_datos_fichas.html">Datos y fichas de datos</a></li>
+<li class="toctree-l1"><a class="reference internal" href="03_declaracion_apriori.html">Declaración a priori</a></li>
+<li class="toctree-l1"><a class="reference internal" href="04_fundamentos_teoricos.html">Fundamentos teóricos</a></li>
+</ul>
+<p aria-level="2" class="caption" role="heading"><span class="caption-text">Bloque 1: segmentación de instancias celulares</span></p>
+<ul class="nav bd-sidenav">
+<li class="toctree-l1"><a class="reference internal" href="10_seg_eda.html">Análisis exploratorio y auditoría de Sartorius</a></li>
+<li class="toctree-l1"><a class="reference internal" href="11_seg_preprocesamiento.html">Preprocesamiento y aumento de datos</a></li>
+<li class="toctree-l1"><a class="reference internal" href="12_seg_modelos.html">Modelos de segmentación</a></li>
+<li class="toctree-l1"><a class="reference internal" href="13_seg_resultados.html">Resultados de segmentación</a></li>
+<li class="toctree-l1"><a class="reference internal" href="14_seg_ablaciones_robustez.html">Ablaciones, robustez, calibración y eficiencia en segmentación</a></li>
+<li class="toctree-l1"><a class="reference internal" href="15_seg_analisis_critico.html">Análisis crítico de la segmentación</a></li>
+</ul>
+<p aria-level="2" class="caption" role="heading"><span class="caption-text">Bloque 2: clasificación de texto</span></p>
+<ul class="current nav bd-sidenav">
+<li class="toctree-l1"><a class="reference internal" href="20_nlp_eda.html">Análisis exploratorio y auditoría de las hojas de vida</a></li>
+<li class="toctree-l1 current active"><a class="current reference internal" href="#">Preprocesamiento y representaciones de texto</a></li>
+<li class="toctree-l1"><a class="reference internal" href="22_nlp_modelos.html">Modelos de clasificación de texto y búsqueda de hiperparámetros</a></li>
+<li class="toctree-l1"><a class="reference internal" href="23_nlp_resultados.html">Resultados de clasificación de texto</a></li>
+<li class="toctree-l1"><a class="reference internal" href="24_nlp_robustez_equidad.html">Calibración, robustez, equidad y explicabilidad del clasificador de texto</a></li>
+<li class="toctree-l1"><a class="reference internal" href="25_nlp_analisis_critico.html">Eficiencia, riesgo en reclutamiento y análisis crítico del clasificador de texto</a></li>
+</ul>
+<p aria-level="2" class="caption" role="heading"><span class="caption-text">Despliegue y cierre</span></p>
+<ul class="nav bd-sidenav">
+<li class="toctree-l1"><a class="reference internal" href="30_mlops.html">Despliegue: API, contenedor, integración continua y registro de modelos</a></li>
+<li class="toctree-l1"><a class="reference internal" href="31_monitoreo_deriva.html">Monitoreo y experimento de deriva</a></li>
+<li class="toctree-l1"><a class="reference internal" href="40_comparacion_final.html">Comparación final y decisión</a></li>
+<li class="toctree-l1"><a class="reference internal" href="41_conclusiones.html">Conclusiones, limitaciones y trabajo futuro</a></li>
+<li class="toctree-l1"><a class="reference internal" href="42_reproducibilidad.html">Reproducibilidad, autoría y uso de herramientas</a></li>
+<li class="toctree-l1"><a class="reference internal" href="43_referencias.html">Referencias</a></li>
+</ul>
+
+    </div>
+</nav></div>
+    </div>
+  
+  
+  <div class="sidebar-primary-items__end sidebar-primary__section">
+      <div class="sidebar-primary-item">
+<div id="ethical-ad-placement"
+      class="flat"
+      data-ea-publisher="readthedocs"
+      data-ea-type="readthedocs-sidebar"
+      data-ea-manual="true">
+</div></div>
+  </div>
+
+
+      </div>
+      
+      <main id="main-content" class="bd-main" role="main">
+        
+        
+
+<div class="sbt-scroll-pixel-helper"></div>
+
+          <div class="bd-content">
+            <div class="bd-article-container">
+              
+              <div class="bd-header-article d-print-none">
+<div class="header-article-items header-article__inner">
+  
+    <div class="header-article-items__start">
+      
+        <div class="header-article-item"><button class="sidebar-toggle primary-toggle btn btn-sm" title="Toggle primary sidebar" data-bs-placement="bottom" data-bs-toggle="tooltip">
+  <span class="fa-solid fa-bars"></span>
+</button></div>
+      
+    </div>
+  
+  
+    <div class="header-article-items__end">
+      
+        <div class="header-article-item">
+
+<div class="article-header-buttons">
+
+
+<a href="https://github.com/Anyita-12/proyecto-integrador-dl" target="_blank"
+   class="btn btn-sm btn-source-repository-button"
+   title="Repositorio de origen"
+   data-bs-placement="bottom" data-bs-toggle="tooltip"
+>
+  
+
+<span class="btn__icon-container">
+  <i class="fab fa-github"></i>
+  </span>
+
+</a>
+
+
+
+
+
+
+<div class="dropdown dropdown-download-buttons">
+  <button class="btn dropdown-toggle" type="button" data-bs-toggle="dropdown" aria-expanded="false" aria-label="Descarga esta pagina">
+    <i class="fas fa-download"></i>
+  </button>
+  <ul class="dropdown-menu">
+      
+      
+      
+      <li><a href="_sources/21_nlp_representaciones.ipynb" target="_blank"
+   class="btn btn-sm btn-download-source-button dropdown-item"
+   title="Descargar archivo fuente"
+   data-bs-placement="left" data-bs-toggle="tooltip"
+>
+  
+
+<span class="btn__icon-container">
+  <i class="fas fa-file"></i>
+  </span>
+<span class="btn__text-container">.ipynb</span>
+</a>
+</li>
+      
+      
+      
+      
+      <li>
+<button onclick="window.print()"
+  class="btn btn-sm btn-download-pdf-button dropdown-item"
+  title="Imprimir en PDF"
+  data-bs-placement="left" data-bs-toggle="tooltip"
+>
+  
+
+<span class="btn__icon-container">
+  <i class="fas fa-file-pdf"></i>
+  </span>
+<span class="btn__text-container">.pdf</span>
+</button>
+</li>
+      
+  </ul>
+</div>
+
+
+
+
+<button onclick="toggleFullScreen()"
+  class="btn btn-sm btn-fullscreen-button pst-navbar-icon"
+  title="Modo de pantalla completa"
+  data-bs-placement="bottom" data-bs-toggle="tooltip"
+>
+  
+
+<span class="btn__icon-container">
+  <i class="fas fa-expand"></i>
+  </span>
+
+</button>
+
+
+
+<button class="btn btn-sm nav-link pst-navbar-icon theme-switch-button pst-js-only" aria-label="Tema" data-bs-title="Tema"  data-bs-placement="bottom" data-bs-toggle="tooltip">
+  <i class="theme-switch fa-solid fa-sun                fa-lg" data-mode="light" title="Claro"></i>
+  <i class="theme-switch fa-solid fa-moon               fa-lg" data-mode="dark"  title="Oscuro"></i>
+  <i class="theme-switch fa-solid fa-circle-half-stroke fa-lg" data-mode="auto"  title="Sistema"></i>
+</button>
+
+
+<button class="btn btn-sm pst-navbar-icon search-button search-button__button pst-js-only" title="Búsqueda" aria-label="Búsqueda" data-bs-placement="bottom" data-bs-toggle="tooltip">
+    <i class="fa-solid fa-magnifying-glass fa-lg"></i>
+</button>
+<button class="sidebar-toggle secondary-toggle btn btn-sm pst-navbar-icon" title="Toggle secondary sidebar" data-bs-placement="bottom" data-bs-toggle="tooltip">
+    <span class="fa-solid fa-list"></span>
+</button>
+</div></div>
+      
+    </div>
+  
+</div>
+</div>
+              
+              
+
+<div id="jb-print-docs-body" class="onlyprint">
+    <h1>Preprocesamiento y representaciones de texto</h1>
+    <!-- Table of contents -->
+    <div id="print-main-content">
+        <div id="jb-print-toc">
+            
+            <div>
+                <h2> Contenido </h2>
+            </div>
+            <nav aria-label="Page">
+                <ul class="pst-show_toc_level nav section-nav flex-column">
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#tres-niveles-de-limpieza">Tres niveles de limpieza</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#longitud-maxima-y-truncamiento">Longitud máxima y truncamiento</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#embeddings-de-palabras"><em>Embeddings</em> de palabras</a></li>
+</ul>
+            </nav>
+        </div>
+    </div>
+</div>
+
+              
+                
+<div id="searchbox"></div>
+                <article class="bd-article">
+                  
+  <section class="tex2jax_ignore mathjax_ignore" id="preprocesamiento-y-representaciones-de-texto">
+<h1>Preprocesamiento y representaciones de texto<a class="headerlink" href="#preprocesamiento-y-representaciones-de-texto" title="Link to this heading">#</a></h1>
+<p>En este capítulo fijamos cómo se limpia y se representa cada currículo para cada familia de modelos. Comparamos tres niveles de limpieza, justificamos la longitud máxima y la estrategia de truncamiento, y evaluamos los <em>embeddings</em> de palabras de forma intrínseca (vecinos y cobertura) y extrínseca (desempeño de la BiLSTM). Todo estadístico (vocabulario, IDF, <em>embeddings</em>) se ajusta solo con entrenamiento. Los resultados los generan los trabajos <code class="docutils literal notranslate"><span class="pre">nlp_embeddings</span></code>, <code class="docutils literal notranslate"><span class="pre">nlp_cv_tfidf_lr</span></code>, <code class="docutils literal notranslate"><span class="pre">nlp_prep_tfidf_lr</span></code>, <code class="docutils literal notranslate"><span class="pre">bert_prep</span></code> y <code class="docutils literal notranslate"><span class="pre">nlp_emb_bilstm</span></code> de la cola.</p>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="kn">import</span><span class="w"> </span><span class="nn">numpy</span><span class="w"> </span><span class="k">as</span><span class="w"> </span><span class="nn">np</span>
+<span class="kn">import</span><span class="w"> </span><span class="nn">pandas</span><span class="w"> </span><span class="k">as</span><span class="w"> </span><span class="nn">pd</span>
+<span class="kn">import</span><span class="w"> </span><span class="nn">matplotlib.pyplot</span><span class="w"> </span><span class="k">as</span><span class="w"> </span><span class="nn">plt</span>
+<span class="kn">from</span><span class="w"> </span><span class="nn">IPython.display</span><span class="w"> </span><span class="kn">import</span> <span class="n">Markdown</span><span class="p">,</span> <span class="n">display</span>
+
+<span class="kn">from</span><span class="w"> </span><span class="nn">project.book_utils</span><span class="w"> </span><span class="kn">import</span> <span class="n">CAT</span><span class="p">,</span> <span class="n">MUTED</span><span class="p">,</span> <span class="n">exists</span><span class="p">,</span> <span class="n">need</span><span class="p">,</span> <span class="n">pct</span><span class="p">,</span> <span class="n">style</span>
+<span class="kn">from</span><span class="w"> </span><span class="nn">project.stats</span><span class="w"> </span><span class="kn">import</span> <span class="n">corrected_resampled_ttest</span>
+
+<span class="n">style</span><span class="p">()</span>
+<span class="n">pd</span><span class="o">.</span><span class="n">set_option</span><span class="p">(</span><span class="s2">"display.precision"</span><span class="p">,</span> <span class="mi">3</span><span class="p">)</span>
+</pre></div>
+</div>
+</div>
+</div>
+<section id="tres-niveles-de-limpieza">
+<h2>Tres niveles de limpieza<a class="headerlink" href="#tres-niveles-de-limpieza" title="Link to this heading">#</a></h2>
+<p>Un mismo <em>pipeline</em> no sirve para todas las familias. Los modelos preentrenados como DistilBERT vieron texto con mayúsculas, puntuación y palabras vacías, y su <em>tokenizer</em> WordPiece ya las maneja; los modelos de bolsa de palabras se benefician de reducir el vocabulario. Definimos tres niveles (<code class="docutils literal notranslate"><span class="pre">src/project/jarvis_data.py</span></code>):</p>
+<div class="pst-scrollable-table-container"><table class="table">
+<thead>
+<tr class="row-odd"><th class="head"><p>Nivel</p></th>
+<th class="head"><p>Operaciones</p></th>
+<th class="head"><p>Familia por defecto</p></th>
+</tr>
+</thead>
+<tbody>
+<tr class="row-even"><td><p>Mínimo</p></td>
+<td><p>Espacios repetidos y caracteres de control; conserva mayúsculas y puntuación</p></td>
+<td><p>DistilBERT</p></td>
+</tr>
+<tr class="row-odd"><td><p>Estándar</p></td>
+<td><p>Mínimo + minúsculas + símbolos fuera; palabras vacías fuera en la tokenización</p></td>
+<td><p>TF-IDF, NB-SVM, XGBoost, FastText, CNN-1D, BiLSTM</p></td>
+</tr>
+<tr class="row-even"><td><p>Agresivo</p></td>
+<td><p>Estándar + URLs, correos y números fuera + lematización (<code class="docutils literal notranslate"><span class="pre">simplemma</span></code>)</p></td>
+<td><p>— (solo ablación)</p></td>
+</tr>
+</tbody>
+</table>
+</div>
+<p>Comparamos los tres niveles en dos familias con pruebas pareadas: TF-IDF + RL con validación cruzada de 5 pliegues (los mismos pliegues en los tres niveles) y DistilBERT con 3 semillas en validación.</p>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">_S</span> <span class="o">=</span> <span class="n">need</span><span class="p">(</span><span class="s2">"analysis/nlp_stats/stats.pkl"</span><span class="p">)</span>
+<span class="n">pa</span> <span class="o">=</span> <span class="n">_S</span><span class="p">[</span><span class="s2">"prep_ablation"</span><span class="p">]</span>
+<span class="n">NIV</span> <span class="o">=</span> <span class="p">{</span><span class="s2">"minimal"</span><span class="p">:</span> <span class="s2">"mínimo"</span><span class="p">,</span> <span class="s2">"standard"</span><span class="p">:</span> <span class="s2">"estándar"</span><span class="p">,</span> <span class="s2">"aggressive"</span><span class="p">:</span> <span class="s2">"agresivo"</span><span class="p">}</span>
+<span class="n">display</span><span class="p">(</span><span class="n">pa</span><span class="o">.</span><span class="n">assign</span><span class="p">(</span><span class="n">model</span><span class="o">=</span><span class="n">pa</span><span class="o">.</span><span class="n">model</span><span class="o">.</span><span class="n">map</span><span class="p">(</span><span class="k">lambda</span> <span class="n">m</span><span class="p">:</span> <span class="n">_S</span><span class="p">[</span><span class="s2">"labels"</span><span class="p">]</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="n">m</span><span class="p">,</span> <span class="n">m</span><span class="p">)),</span> <span class="n">pipeline</span><span class="o">=</span><span class="n">pa</span><span class="o">.</span><span class="n">pipeline</span><span class="o">.</span><span class="n">map</span><span class="p">(</span><span class="k">lambda</span> <span class="n">x</span><span class="p">:</span> <span class="n">NIV</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="n">x</span><span class="p">,</span> <span class="n">x</span><span class="p">)))</span>
+        <span class="o">.</span><span class="n">rename</span><span class="p">(</span><span class="n">columns</span><span class="o">=</span><span class="p">{</span><span class="s2">"model"</span><span class="p">:</span> <span class="s2">"modelo"</span><span class="p">,</span> <span class="s2">"pipeline"</span><span class="p">:</span> <span class="s2">"nivel"</span><span class="p">,</span> <span class="s2">"f1_macro"</span><span class="p">:</span> <span class="s2">"F1 macro"</span><span class="p">,</span> <span class="s2">"sd"</span><span class="p">:</span> <span class="s2">"DE"</span><span class="p">,</span> <span class="s2">"unit"</span><span class="p">:</span> <span class="s2">"unidad"</span><span class="p">}))</span>
+<span class="n">folds</span> <span class="o">=</span> <span class="p">{</span><span class="n">pl</span><span class="p">:</span> <span class="n">need</span><span class="p">(</span><span class="sa">f</span><span class="s2">"nlp/tfidf_lr/cv_</span><span class="si">{</span><span class="n">pl</span><span class="si">}</span><span class="s2">/cv.pkl"</span><span class="p">)[</span><span class="s2">"folds"</span><span class="p">]</span><span class="o">.</span><span class="n">sort_values</span><span class="p">(</span><span class="s2">"fold"</span><span class="p">)</span> <span class="k">for</span> <span class="n">pl</span> <span class="ow">in</span> <span class="p">(</span><span class="s2">"minimal"</span><span class="p">,</span> <span class="s2">"standard"</span><span class="p">,</span> <span class="s2">"aggressive"</span><span class="p">)</span>
+         <span class="k">if</span> <span class="n">exists</span><span class="p">(</span><span class="sa">f</span><span class="s2">"nlp/tfidf_lr/cv_</span><span class="si">{</span><span class="n">pl</span><span class="si">}</span><span class="s2">/cv.pkl"</span><span class="p">)}</span>
+<span class="n">rows</span> <span class="o">=</span> <span class="p">[]</span>
+<span class="k">for</span> <span class="n">a</span> <span class="ow">in</span> <span class="n">folds</span><span class="p">:</span>
+    <span class="k">if</span> <span class="n">a</span> <span class="o">==</span> <span class="s2">"standard"</span> <span class="ow">or</span> <span class="s2">"standard"</span> <span class="ow">not</span> <span class="ow">in</span> <span class="n">folds</span><span class="p">:</span>
+        <span class="k">continue</span>
+    <span class="n">d</span> <span class="o">=</span> <span class="n">folds</span><span class="p">[</span><span class="n">a</span><span class="p">]</span><span class="o">.</span><span class="n">f1_macro</span><span class="o">.</span><span class="n">to_numpy</span><span class="p">()</span> <span class="o">-</span> <span class="n">folds</span><span class="p">[</span><span class="s2">"standard"</span><span class="p">]</span><span class="o">.</span><span class="n">f1_macro</span><span class="o">.</span><span class="n">to_numpy</span><span class="p">()</span>
+    <span class="n">t</span><span class="p">,</span> <span class="n">p</span> <span class="o">=</span> <span class="n">corrected_resampled_ttest</span><span class="p">(</span><span class="n">d</span><span class="p">,</span> <span class="nb">int</span><span class="p">(</span><span class="n">folds</span><span class="p">[</span><span class="n">a</span><span class="p">]</span><span class="o">.</span><span class="n">n_train</span><span class="o">.</span><span class="n">mean</span><span class="p">()),</span> <span class="nb">int</span><span class="p">(</span><span class="n">folds</span><span class="p">[</span><span class="n">a</span><span class="p">]</span><span class="o">.</span><span class="n">n_test</span><span class="o">.</span><span class="n">mean</span><span class="p">()))</span>
+    <span class="n">rows</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="nb">dict</span><span class="p">(</span><span class="n">comparación</span><span class="o">=</span><span class="sa">f</span><span class="s2">"</span><span class="si">{</span><span class="n">NIV</span><span class="p">[</span><span class="n">a</span><span class="p">]</span><span class="si">}</span><span class="s2"> − estándar (TF-IDF + RL)"</span><span class="p">,</span> <span class="n">diferencia</span><span class="o">=</span><span class="n">d</span><span class="o">.</span><span class="n">mean</span><span class="p">(),</span> <span class="n">t</span><span class="o">=</span><span class="n">t</span><span class="p">,</span> <span class="n">p</span><span class="o">=</span><span class="n">p</span><span class="p">))</span>
+<span class="k">if</span> <span class="n">rows</span><span class="p">:</span>
+    <span class="kn">from</span><span class="w"> </span><span class="nn">project.stats</span><span class="w"> </span><span class="kn">import</span> <span class="n">holm_adjust</span> <span class="k">as</span> <span class="n">holm</span>
+    <span class="n">pr</span> <span class="o">=</span> <span class="n">pd</span><span class="o">.</span><span class="n">DataFrame</span><span class="p">(</span><span class="n">rows</span><span class="p">);</span> <span class="n">pr</span><span class="p">[</span><span class="s2">"p (Holm)"</span><span class="p">]</span> <span class="o">=</span> <span class="n">holm</span><span class="p">(</span><span class="n">pr</span><span class="o">.</span><span class="n">p</span><span class="o">.</span><span class="n">to_numpy</span><span class="p">())</span>
+    <span class="n">display</span><span class="p">(</span><span class="n">pr</span><span class="o">.</span><span class="n">round</span><span class="p">({</span><span class="s2">"diferencia"</span><span class="p">:</span> <span class="mi">3</span><span class="p">,</span> <span class="s2">"t"</span><span class="p">:</span> <span class="mi">2</span><span class="p">,</span> <span class="s2">"p"</span><span class="p">:</span> <span class="mi">3</span><span class="p">,</span> <span class="s2">"p (Holm)"</span><span class="p">:</span> <span class="mi">3</span><span class="p">}))</span>
+<span class="k">else</span><span class="p">:</span>
+    <span class="n">display</span><span class="p">(</span><span class="n">Markdown</span><span class="p">(</span><span class="s2">"La comparación pareada entre niveles no está disponible: necesita la validación cruzada de TF-IDF + RL con los "</span>
+                     <span class="s2">"niveles mínimo y agresivo (trabajo `nlp_prep_tfidf_lr`), que no terminó dentro del presupuesto."</span><span class="p">))</span>
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<div class="output text_html"><div>
+<style scoped>
+    .dataframe tbody tr th:only-of-type {
+        vertical-align: middle;
+    }
+
+    .dataframe tbody tr th {
+        vertical-align: top;
+    }
+
+    .dataframe thead th {
+        text-align: right;
+    }
+</style>
+<table border="1" class="dataframe">
+  <thead>
+    <tr style="text-align: right;">
+      <th></th>
+      <th>modelo</th>
+      <th>nivel</th>
+      <th>F1 macro</th>
+      <th>DE</th>
+      <th>unidad</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <th>0</th>
+      <td>TF-IDF + RL</td>
+      <td>mínimo</td>
+      <td>0.605</td>
+      <td>0.037</td>
+      <td>5 pliegues</td>
+    </tr>
+    <tr>
+      <th>1</th>
+      <td>TF-IDF + RL</td>
+      <td>estándar</td>
+      <td>0.638</td>
+      <td>0.023</td>
+      <td>5 pliegues</td>
+    </tr>
+    <tr>
+      <th>2</th>
+      <td>TF-IDF + RL</td>
+      <td>agresivo</td>
+      <td>0.637</td>
+      <td>0.031</td>
+      <td>5 pliegues</td>
+    </tr>
+    <tr>
+      <th>3</th>
+      <td>DistilBERT</td>
+      <td>mínimo</td>
+      <td>0.774</td>
+      <td>0.007</td>
+      <td>3 semillas (val)</td>
+    </tr>
+    <tr>
+      <th>4</th>
+      <td>DistilBERT</td>
+      <td>estándar</td>
+      <td>0.781</td>
+      <td>0.004</td>
+      <td>3 semillas (val)</td>
+    </tr>
+    <tr>
+      <th>5</th>
+      <td>DistilBERT</td>
+      <td>agresivo</td>
+      <td>0.766</td>
+      <td>0.007</td>
+      <td>3 semillas (val)</td>
+    </tr>
+  </tbody>
+</table>
+</div></div><div class="output text_html"><div>
+<style scoped>
+    .dataframe tbody tr th:only-of-type {
+        vertical-align: middle;
+    }
+
+    .dataframe tbody tr th {
+        vertical-align: top;
+    }
+
+    .dataframe thead th {
+        text-align: right;
+    }
+</style>
+<table border="1" class="dataframe">
+  <thead>
+    <tr style="text-align: right;">
+      <th></th>
+      <th>comparación</th>
+      <th>diferencia</th>
+      <th>t</th>
+      <th>p</th>
+      <th>p (Holm)</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <th>0</th>
+      <td>mínimo − estándar (TF-IDF + RL)</td>
+      <td>-0.033</td>
+      <td>-3.18</td>
+      <td>0.033</td>
+      <td>0.067</td>
+    </tr>
+    <tr>
+      <th>1</th>
+      <td>agresivo − estándar (TF-IDF + RL)</td>
+      <td>-0.001</td>
+      <td>-0.08</td>
+      <td>0.937</td>
+      <td>0.937</td>
+    </tr>
+  </tbody>
+</table>
+</div></div></div>
+</div>
+<p>La <em>t</em> de Nadeau–Bengio corrige la varianza por el solapamiento de los conjuntos de entrenamiento entre pliegues <span class="bibtex-citation" id="id1">[<a class="reference internal" href="43_referencias.html#id23" title="Claude Nadeau and Yoshua Bengio. Inference for the generalization error. Machine Learning, 52:239–281, 2003. doi:10.1023/A:1024068626366.">Nadeau and Bengio, 2003</a>]</span>. Con 5 pliegues tiene 4 grados de libertad y solo detecta diferencias grandes; una diferencia no significativa aquí significa que el nivel de limpieza no cambia el resultado más allá de la variación entre pliegues, no que los tres niveles sean equivalentes.</p>
+</section>
+<section id="longitud-maxima-y-truncamiento">
+<h2>Longitud máxima y truncamiento<a class="headerlink" href="#longitud-maxima-y-truncamiento" title="Link to this heading">#</a></h2>
+<p>DistilBERT admite 512 <em>tokens</em> (510 más [CLS] y [SEP]). La mayoría de los currículos supera esa longitud (cifras abajo), así que truncar es inevitable. Elegimos <strong>cabeza + cola</strong> (255 + 255 <em>tokens</em>): la cabeza contiene el título del cargo y el resumen profesional, y la cola suele contener educación y habilidades. Las redes propias usan la misma estrategia sobre palabras, con la longitud que elige la búsqueda de hiperparámetros (50, 100 o 512).</p>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">docs</span> <span class="o">=</span> <span class="n">need</span><span class="p">(</span><span class="s2">"eda/nlp/docs.pkl"</span><span class="p">)</span>
+<span class="n">docs</span> <span class="o">=</span> <span class="n">docs</span><span class="p">[</span><span class="n">docs</span><span class="o">.</span><span class="n">split</span><span class="o">.</span><span class="n">isin</span><span class="p">([</span><span class="s2">"train"</span><span class="p">,</span> <span class="s2">"val"</span><span class="p">,</span> <span class="s2">"test"</span><span class="p">])]</span>
+<span class="n">tr_</span> <span class="o">=</span> <span class="n">docs</span><span class="o">.</span><span class="n">groupby</span><span class="p">(</span><span class="s2">"Category"</span><span class="p">)</span><span class="o">.</span><span class="n">agg</span><span class="p">(</span><span class="n">n</span><span class="o">=</span><span class="p">(</span><span class="s2">"n_bert_tokens"</span><span class="p">,</span> <span class="s2">"size"</span><span class="p">),</span> <span class="n">mediana_tokens</span><span class="o">=</span><span class="p">(</span><span class="s2">"n_bert_tokens"</span><span class="p">,</span> <span class="s2">"median"</span><span class="p">),</span>
+                                   <span class="n">truncados_512</span><span class="o">=</span><span class="p">(</span><span class="s2">"n_bert_tokens"</span><span class="p">,</span> <span class="k">lambda</span> <span class="n">s</span><span class="p">:</span> <span class="p">(</span><span class="n">s</span> <span class="o">&gt;</span> <span class="mi">510</span><span class="p">)</span><span class="o">.</span><span class="n">mean</span><span class="p">()),</span>
+                                   <span class="n">fraccion_perdida</span><span class="o">=</span><span class="p">(</span><span class="s2">"n_bert_tokens"</span><span class="p">,</span> <span class="k">lambda</span> <span class="n">s</span><span class="p">:</span> <span class="n">np</span><span class="o">.</span><span class="n">clip</span><span class="p">(</span><span class="mi">1</span> <span class="o">-</span> <span class="mi">510</span> <span class="o">/</span> <span class="n">s</span><span class="o">.</span><span class="n">clip</span><span class="p">(</span><span class="n">lower</span><span class="o">=</span><span class="mi">1</span><span class="p">),</span> <span class="mi">0</span><span class="p">,</span> <span class="mi">1</span><span class="p">)</span><span class="o">.</span><span class="n">mean</span><span class="p">()))</span>
+<span class="n">tr_</span> <span class="o">=</span> <span class="n">tr_</span><span class="o">.</span><span class="n">sort_values</span><span class="p">(</span><span class="s2">"truncados_512"</span><span class="p">)</span>
+<span class="n">fig</span><span class="p">,</span> <span class="n">ax</span> <span class="o">=</span> <span class="n">plt</span><span class="o">.</span><span class="n">subplots</span><span class="p">(</span><span class="n">figsize</span><span class="o">=</span><span class="p">(</span><span class="mi">8</span><span class="p">,</span> <span class="mf">5.6</span><span class="p">))</span>
+<span class="n">ax</span><span class="o">.</span><span class="n">barh</span><span class="p">(</span><span class="n">tr_</span><span class="o">.</span><span class="n">index</span><span class="p">,</span> <span class="n">tr_</span><span class="o">.</span><span class="n">truncados_512</span><span class="p">,</span> <span class="n">color</span><span class="o">=</span><span class="n">CAT</span><span class="p">[</span><span class="mi">0</span><span class="p">],</span> <span class="n">height</span><span class="o">=</span><span class="mf">0.7</span><span class="p">,</span> <span class="n">label</span><span class="o">=</span><span class="s2">"documentos truncados"</span><span class="p">)</span>
+<span class="n">ax</span><span class="o">.</span><span class="n">barh</span><span class="p">(</span><span class="n">tr_</span><span class="o">.</span><span class="n">index</span><span class="p">,</span> <span class="n">tr_</span><span class="o">.</span><span class="n">fraccion_perdida</span><span class="p">,</span> <span class="n">color</span><span class="o">=</span><span class="n">CAT</span><span class="p">[</span><span class="mi">1</span><span class="p">],</span> <span class="n">height</span><span class="o">=</span><span class="mf">0.4</span><span class="p">,</span> <span class="n">label</span><span class="o">=</span><span class="s2">"fracción media de tokens descartada"</span><span class="p">)</span>
+<span class="n">ax</span><span class="o">.</span><span class="n">set</span><span class="p">(</span><span class="n">xlabel</span><span class="o">=</span><span class="s2">"fracción"</span><span class="p">,</span> <span class="n">xlim</span><span class="o">=</span><span class="p">(</span><span class="mi">0</span><span class="p">,</span> <span class="mi">1</span><span class="p">));</span> <span class="n">ax</span><span class="o">.</span><span class="n">legend</span><span class="p">(</span><span class="n">loc</span><span class="o">=</span><span class="s2">"lower right"</span><span class="p">)</span>
+<span class="n">plt</span><span class="o">.</span><span class="n">show</span><span class="p">()</span>
+<span class="n">display</span><span class="p">(</span><span class="n">Markdown</span><span class="p">(</span><span class="sa">f</span><span class="s2">"La mediana es de </span><span class="si">{</span><span class="n">docs</span><span class="o">.</span><span class="n">n_bert_tokens</span><span class="o">.</span><span class="n">median</span><span class="p">()</span><span class="si">:</span><span class="s2">.0f</span><span class="si">}</span><span class="s2"> *tokens* WordPiece y el </span><span class="si">{</span><span class="n">pct</span><span class="p">((</span><span class="n">docs</span><span class="o">.</span><span class="n">n_bert_tokens</span><span class="w"> </span><span class="o">&gt;</span><span class="w"> </span><span class="mi">510</span><span class="p">)</span><span class="o">.</span><span class="n">mean</span><span class="p">())</span><span class="si">}</span><span class="s2"> de los currículos supera 510. "</span>
+                 <span class="sa">f</span><span class="s2">"La tasa de truncamiento va de </span><span class="si">{</span><span class="n">pct</span><span class="p">(</span><span class="n">tr_</span><span class="o">.</span><span class="n">truncados_512</span><span class="o">.</span><span class="n">min</span><span class="p">())</span><span class="si">}</span><span class="s2"> (</span><span class="si">{</span><span class="n">tr_</span><span class="o">.</span><span class="n">index</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span><span class="si">}</span><span class="s2">) a </span><span class="si">{</span><span class="n">pct</span><span class="p">(</span><span class="n">tr_</span><span class="o">.</span><span class="n">truncados_512</span><span class="o">.</span><span class="n">max</span><span class="p">())</span><span class="si">}</span><span class="s2"> "</span>
+                 <span class="sa">f</span><span class="s2">"(</span><span class="si">{</span><span class="n">tr_</span><span class="o">.</span><span class="n">index</span><span class="p">[</span><span class="o">-</span><span class="mi">1</span><span class="p">]</span><span class="si">}</span><span class="s2">); en promedio se descarta el </span><span class="si">{</span><span class="n">pct</span><span class="p">(</span><span class="n">np</span><span class="o">.</span><span class="n">clip</span><span class="p">(</span><span class="mi">1</span><span class="w"> </span><span class="o">-</span><span class="w"> </span><span class="mi">510</span><span class="w"> </span><span class="o">/</span><span class="w"> </span><span class="n">docs</span><span class="o">.</span><span class="n">n_bert_tokens</span><span class="o">.</span><span class="n">clip</span><span class="p">(</span><span class="n">lower</span><span class="o">=</span><span class="mi">1</span><span class="p">),</span><span class="w"> </span><span class="mi">0</span><span class="p">,</span><span class="w"> </span><span class="mi">1</span><span class="p">)</span><span class="o">.</span><span class="n">mean</span><span class="p">())</span><span class="si">}</span><span class="s2"> "</span>
+                 <span class="sa">f</span><span class="s2">"de los *tokens* de un documento."</span><span class="p">))</span>
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<img alt="_images/b88991662fd1c8af2f7a2b5012ca7098dd717a6e4c431de4f4b2394d8ca9f07f.png" src="_images/b88991662fd1c8af2f7a2b5012ca7098dd717a6e4c431de4f4b2394d8ca9f07f.png" />
+<p>La mediana es de 975 <em>tokens</em> WordPiece y el 89.9 % de los currículos supera 510. La tasa de truncamiento va de 75.9 % (SALES) a 100.0 % (BPO); en promedio se descarta el 44.6 % de los <em>tokens</em> de un documento.</p>
+</div>
+</div>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">_fp</span> <span class="o">=</span> <span class="n">tr_</span><span class="o">.</span><span class="n">fraccion_perdida</span><span class="o">.</span><span class="n">sort_values</span><span class="p">()</span>
+<span class="n">display</span><span class="p">(</span><span class="n">Markdown</span><span class="p">(</span>
+    <span class="sa">f</span><span class="s2">"La fracción media de *tokens* descartados va de </span><span class="si">{</span><span class="n">pct</span><span class="p">(</span><span class="n">_fp</span><span class="o">.</span><span class="n">iloc</span><span class="p">[</span><span class="mi">0</span><span class="p">])</span><span class="si">}</span><span class="s2"> (</span><span class="si">{</span><span class="n">_fp</span><span class="o">.</span><span class="n">index</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span><span class="si">}</span><span class="s2">) a </span><span class="si">{</span><span class="n">pct</span><span class="p">(</span><span class="n">_fp</span><span class="o">.</span><span class="n">iloc</span><span class="p">[</span><span class="o">-</span><span class="mi">1</span><span class="p">])</span><span class="si">}</span><span class="s2"> (</span><span class="si">{</span><span class="n">_fp</span><span class="o">.</span><span class="n">index</span><span class="p">[</span><span class="o">-</span><span class="mi">1</span><span class="p">]</span><span class="si">}</span><span class="s2">). "</span>
+    <span class="s2">"Las clases con currículos más largos pierden más contenido al truncar, de modo que la ventana fija puede perjudicar más a esas "</span>
+    <span class="s2">"clases. La sensibilidad a la longitud se mide en el capítulo </span><span class="si">{doc}</span><span class="s2">`24_nlp_robustez_equidad` con la perturbación «primeras 200 "</span>
+    <span class="s2">"palabras»."</span><span class="p">))</span>
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<p>La fracción media de <em>tokens</em> descartados va de 34.4 % (SALES) a 54.4 % (BPO). Las clases con currículos más largos pierden más contenido al truncar, de modo que la ventana fija puede perjudicar más a esas clases. La sensibilidad a la longitud se mide en el capítulo <a class="reference internal" href="24_nlp_robustez_equidad.html"><span class="doc">Calibración, robustez, equidad y explicabilidad del clasificador de texto</span></a> con la perturbación «primeras 200 palabras».</p>
+</div>
+</div>
+</section>
+<section id="embeddings-de-palabras">
+<h2><em>Embeddings</em> de palabras<a class="headerlink" href="#embeddings-de-palabras" title="Link to this heading">#</a></h2>
+<p>Entrenamos Word2Vec (CBOW y <em>skip-gram</em>) <span class="bibtex-citation" id="id2">[<a class="reference internal" href="43_referencias.html#id36" title="Tomas Mikolov, Kai Chen, Greg Corrado, and Jeffrey Dean. Efficient estimation of word representations in vector space. arXiv:1301.3781, 2013.">Mikolov <em>et al.</em>, 2013</a>]</span> y FastText <em>skip-gram</em> <span class="bibtex-citation" id="id3">[<a class="reference internal" href="43_referencias.html#id38" title="Piotr Bojanowski, Edouard Grave, Armand Joulin, and Tomas Mikolov. Enriching word vectors with subword information. Transactions of the Association for Computational Linguistics, 5:135–146, 2017.">Bojanowski <em>et al.</em>, 2017</a>]</span> <strong>solo con los textos de entrenamiento</strong>, con dimensión 100 y 200, ventana 5, frecuencia mínima 2 y 10 épocas. Como vectores preentrenados usamos GloVe de 100 dimensiones (Wikipedia + Gigaword) <span class="bibtex-citation" id="id4">[<a class="reference internal" href="43_referencias.html#id37" title="Jeffrey Pennington, Richard Socher, and Christopher D. Manning. GloVe: global vectors for word representation. In Proceedings of the 2014 Conference on Empirical Methods in Natural Language Processing (EMNLP), 1532–1543. 2014.">Pennington <em>et al.</em>, 2014</a>]</span>. La ventana de 5 palabras captura el contexto de una línea de currículo (cargo, empresa, tareas) sin mezclar secciones distintas; las dos dimensiones son las de la rejilla de la BiLSTM.</p>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">er</span> <span class="o">=</span> <span class="n">need</span><span class="p">(</span><span class="s2">"nlp/embeddings/embeddings_report.pkl"</span><span class="p">)</span>
+<span class="n">cov</span> <span class="o">=</span> <span class="n">pd</span><span class="o">.</span><span class="n">DataFrame</span><span class="p">([</span><span class="nb">dict</span><span class="p">(</span><span class="n">vectores</span><span class="o">=</span><span class="n">k</span><span class="p">,</span> <span class="n">vocabulario</span><span class="o">=</span><span class="n">v</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="s2">"vocab"</span><span class="p">),</span> <span class="n">cobertura_val</span><span class="o">=</span><span class="n">v</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="s2">"val_token_coverage"</span><span class="p">),</span>
+                         <span class="o">**</span><span class="p">{</span><span class="s2">"segundos de entrenamiento"</span><span class="p">:</span> <span class="p">(</span><span class="sa">f</span><span class="s2">"</span><span class="si">{</span><span class="n">v</span><span class="p">[</span><span class="s1">'seconds'</span><span class="p">]</span><span class="si">:</span><span class="s2">.0f</span><span class="si">}</span><span class="s2">"</span> <span class="k">if</span> <span class="n">v</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="s2">"seconds"</span><span class="p">)</span> <span class="ow">is</span> <span class="ow">not</span> <span class="kc">None</span> <span class="ow">and</span> <span class="n">np</span><span class="o">.</span><span class="n">isfinite</span><span class="p">(</span><span class="n">v</span><span class="p">[</span><span class="s2">"seconds"</span><span class="p">])</span>
+                                                         <span class="k">else</span> <span class="s2">"— (preentrenado)"</span><span class="p">)})</span>
+                    <span class="k">for</span> <span class="n">k</span><span class="p">,</span> <span class="n">v</span> <span class="ow">in</span> <span class="n">er</span><span class="o">.</span><span class="n">items</span><span class="p">()</span> <span class="k">if</span> <span class="nb">isinstance</span><span class="p">(</span><span class="n">v</span><span class="p">,</span> <span class="nb">dict</span><span class="p">)</span> <span class="ow">and</span> <span class="s2">"error"</span> <span class="ow">not</span> <span class="ow">in</span> <span class="n">v</span><span class="p">])</span>
+<span class="n">cov</span>
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<div class="output text_html"><div>
+<style scoped>
+    .dataframe tbody tr th:only-of-type {
+        vertical-align: middle;
+    }
+
+    .dataframe tbody tr th {
+        vertical-align: top;
+    }
+
+    .dataframe thead th {
+        text-align: right;
+    }
+</style>
+<table border="1" class="dataframe">
+  <thead>
+    <tr style="text-align: right;">
+      <th></th>
+      <th>vectores</th>
+      <th>vocabulario</th>
+      <th>cobertura_val</th>
+      <th>segundos de entrenamiento</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <th>0</th>
+      <td>w2v_sg_100</td>
+      <td>20185</td>
+      <td>0.972</td>
+      <td>62</td>
+    </tr>
+    <tr>
+      <th>1</th>
+      <td>w2v_cbow_100</td>
+      <td>20185</td>
+      <td>0.972</td>
+      <td>16</td>
+    </tr>
+    <tr>
+      <th>2</th>
+      <td>fasttext_sg_100</td>
+      <td>20185</td>
+      <td>0.972</td>
+      <td>142</td>
+    </tr>
+    <tr>
+      <th>3</th>
+      <td>w2v_sg_200</td>
+      <td>20185</td>
+      <td>0.972</td>
+      <td>72</td>
+    </tr>
+    <tr>
+      <th>4</th>
+      <td>w2v_cbow_200</td>
+      <td>20185</td>
+      <td>0.972</td>
+      <td>19</td>
+    </tr>
+    <tr>
+      <th>5</th>
+      <td>fasttext_sg_200</td>
+      <td>20185</td>
+      <td>0.972</td>
+      <td>188</td>
+    </tr>
+    <tr>
+      <th>6</th>
+      <td>glove_100</td>
+      <td>400000</td>
+      <td>0.991</td>
+      <td>— (preentrenado)</td>
+    </tr>
+  </tbody>
+</table>
+</div></div></div>
+</div>
+<p>La cobertura es la fracción de <em>tokens</em> de validación que tienen vector propio. FastText construye un vector para cualquier palabra a partir de sus n-gramas de caracteres (3 a 6), así que su cobertura efectiva es total: una palabra mal escrita o un término técnico raro recibe un vector cercano al de sus variantes. Word2Vec y GloVe asignan a esas palabras un vector aleatorio, equivalente a <code class="docutils literal notranslate"><span class="pre">&lt;UNK&gt;</span></code>.</p>
+<p><strong>Evaluación intrínseca.</strong> La tabla muestra los cinco vecinos más cercanos (similitud coseno) de diez palabras del dominio.</p>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="kn">from</span><span class="w"> </span><span class="nn">project.nlp_embeddings</span><span class="w"> </span><span class="kn">import</span> <span class="n">PROBES</span> <span class="k">as</span> <span class="n">probes</span>  <span class="c1"># noqa: E402</span>
+<span class="n">nb</span> <span class="o">=</span> <span class="p">{}</span>
+<span class="k">for</span> <span class="n">k</span> <span class="ow">in</span> <span class="p">(</span><span class="s2">"w2v_sg_100"</span><span class="p">,</span> <span class="s2">"w2v_cbow_100"</span><span class="p">,</span> <span class="s2">"fasttext_sg_100"</span><span class="p">,</span> <span class="s2">"glove_100"</span><span class="p">):</span>
+    <span class="k">if</span> <span class="n">k</span> <span class="ow">in</span> <span class="n">er</span> <span class="ow">and</span> <span class="s2">"neighbors"</span> <span class="ow">in</span> <span class="n">er</span><span class="p">[</span><span class="n">k</span><span class="p">]:</span>
+        <span class="n">nb</span><span class="p">[</span><span class="n">k</span><span class="p">]</span> <span class="o">=</span> <span class="p">{</span><span class="n">p</span><span class="p">:</span> <span class="s2">", "</span><span class="o">.</span><span class="n">join</span><span class="p">(</span><span class="n">w</span> <span class="k">for</span> <span class="n">w</span><span class="p">,</span> <span class="n">_</span> <span class="ow">in</span> <span class="p">(</span><span class="n">er</span><span class="p">[</span><span class="n">k</span><span class="p">][</span><span class="s2">"neighbors"</span><span class="p">]</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="n">p</span><span class="p">)</span> <span class="ow">or</span> <span class="p">[]))</span> <span class="ow">or</span> <span class="s2">"—"</span> <span class="k">for</span> <span class="n">p</span> <span class="ow">in</span> <span class="n">probes</span><span class="p">}</span>
+<span class="n">pd</span><span class="o">.</span><span class="n">DataFrame</span><span class="p">(</span><span class="n">nb</span><span class="p">)</span>
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<div class="output text_html"><div>
+<style scoped>
+    .dataframe tbody tr th:only-of-type {
+        vertical-align: middle;
+    }
+
+    .dataframe tbody tr th {
+        vertical-align: top;
+    }
+
+    .dataframe thead th {
+        text-align: right;
+    }
+</style>
+<table border="1" class="dataframe">
+  <thead>
+    <tr style="text-align: right;">
+      <th></th>
+      <th>w2v_sg_100</th>
+      <th>w2v_cbow_100</th>
+      <th>fasttext_sg_100</th>
+      <th>glove_100</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <th>python</th>
+      <td>perl, scripting, postgresql, plsql, punjabi</td>
+      <td>sas, scripting, perl, spss, rational</td>
+      <td>tsql, plsql, rdb, r3, ajax</td>
+      <td>monty, php, perl, cleese, flipper</td>
+    </tr>
+    <tr>
+      <th>nurse</th>
+      <td>rn, registered, hygienist, inpatient, northbrook</td>
+      <td>rn, registered, counselor, cna, aide</td>
+      <td>nursery, nurses, nursing, rn, clinician</td>
+      <td>doctor, nurses, physician, nursing, dentist</td>
+    </tr>
+    <tr>
+      <th>accounting</th>
+      <td>finance, payable, accountant, taxation, bookke...</td>
+      <td>auditing, ap, budgeting, taxation, administrative</td>
+      <td>accountemps, counting, discounting, payable, a...</td>
+      <td>auditing, audit, financial, auditors, practices</td>
+    </tr>
+    <tr>
+      <th>teacher</th>
+      <td>substitute, kindergarten, preschool, educator,...</td>
+      <td>kindergarten, substitute, adjunct, pk, teaching</td>
+      <td>teaches, teach, teachers, kindergarten, substi...</td>
+      <td>student, school, teaching, taught, teachers</td>
+    </tr>
+    <tr>
+      <th>sales</th>
+      <td>selling, retail, quotas, vigorous, reps</td>
+      <td>selling, retail, revenue, store, profitability</td>
+      <td>salesmen, salesman, telesales, salespeople, wh...</td>
+      <td>retail, revenue, profit, earnings, consumer</td>
+    </tr>
+    <tr>
+      <th>chef</th>
+      <td>sous, partie, cook, banquette, expediter</td>
+      <td>sous, cook, pampered, pastry, hostess</td>
+      <td>sous, chefs, butcher, cheer, cuisine</td>
+      <td>chefs, restaurant, restaurateur, gourmet, cuisine</td>
+    </tr>
+    <tr>
+      <th>lawyer</th>
+      <td>bail, fd, withdraws, lender, excise</td>
+      <td>dealings, sphr, jumbo, arden, rho</td>
+      <td>lawyers, attorneys, subpoena, attorney, landlord</td>
+      <td>attorney, lawyers, judge, attorneys, counsel</td>
+    </tr>
+    <tr>
+      <th>pilot</th>
+      <td>lcs, encore, transitioning, aircrew, dw</td>
+      <td>mosul, fte, wing, drilling, 1mil</td>
+      <td>pilots, piloted, battalion, combatant, platoon</td>
+      <td>pilots, crew, flight, plane, helicopter</td>
+    </tr>
+    <tr>
+      <th>marketing</th>
+      <td>advertising, offline, campaigns, sweepstakes, ...</td>
+      <td>pr, advertising, promotional, communications, ...</td>
+      <td>marketingpower, remarketing, telemarketing, ma...</td>
+      <td>advertising, business, merchandising, product,...</td>
+    </tr>
+    <tr>
+      <th>construction</th>
+      <td>demolition, project, residential, stair, site</td>
+      <td>project, phases, interior, residential, engine...</td>
+      <td>constructions, reconstruction, constructioncon...</td>
+      <td>building, projects, industrial, built, project</td>
+    </tr>
+  </tbody>
+</table>
+</div></div></div>
+</div>
+<p><strong>Evaluación extrínseca.</strong> Entrenamos la BiLSTM con su mejor configuración y siete variantes de <em>embeddings</em>, 3 semillas cada una, y medimos la F1 macro en validación.</p>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="k">if</span> <span class="n">exists</span><span class="p">(</span><span class="s2">"nlp/bilstm/emb_ablation/rows.pkl"</span><span class="p">):</span>
+    <span class="n">E</span> <span class="o">=</span> <span class="n">pd</span><span class="o">.</span><span class="n">DataFrame</span><span class="p">(</span><span class="n">need</span><span class="p">(</span><span class="s2">"nlp/bilstm/emb_ablation/rows.pkl"</span><span class="p">))</span><span class="o">.</span><span class="n">drop</span><span class="p">(</span><span class="n">columns</span><span class="o">=</span><span class="p">[</span><span class="s2">"val"</span><span class="p">])</span>
+    <span class="n">g</span> <span class="o">=</span> <span class="n">E</span><span class="o">.</span><span class="n">groupby</span><span class="p">(</span><span class="s2">"variant"</span><span class="p">)</span><span class="o">.</span><span class="n">f1_macro</span><span class="o">.</span><span class="n">agg</span><span class="p">([</span><span class="s2">"mean"</span><span class="p">,</span> <span class="s2">"std"</span><span class="p">,</span> <span class="s2">"count"</span><span class="p">])</span><span class="o">.</span><span class="n">sort_values</span><span class="p">(</span><span class="s2">"mean"</span><span class="p">,</span> <span class="n">ascending</span><span class="o">=</span><span class="kc">False</span><span class="p">)</span>
+    <span class="n">fig</span><span class="p">,</span> <span class="n">ax</span> <span class="o">=</span> <span class="n">plt</span><span class="o">.</span><span class="n">subplots</span><span class="p">(</span><span class="n">figsize</span><span class="o">=</span><span class="p">(</span><span class="mf">7.5</span><span class="p">,</span> <span class="mf">3.6</span><span class="p">))</span>
+    <span class="n">ax</span><span class="o">.</span><span class="n">barh</span><span class="p">(</span><span class="n">g</span><span class="o">.</span><span class="n">index</span><span class="p">,</span> <span class="n">g</span><span class="p">[</span><span class="s2">"mean"</span><span class="p">],</span> <span class="n">xerr</span><span class="o">=</span><span class="n">g</span><span class="p">[</span><span class="s2">"std"</span><span class="p">],</span> <span class="n">color</span><span class="o">=</span><span class="n">CAT</span><span class="p">[</span><span class="mi">0</span><span class="p">],</span> <span class="n">ecolor</span><span class="o">=</span><span class="n">MUTED</span><span class="p">,</span> <span class="n">height</span><span class="o">=</span><span class="mf">0.6</span><span class="p">)</span>
+    <span class="k">for</span> <span class="n">k</span><span class="p">,</span> <span class="p">(</span><span class="n">v</span><span class="p">,</span> <span class="n">s_</span><span class="p">)</span> <span class="ow">in</span> <span class="nb">enumerate</span><span class="p">(</span><span class="nb">zip</span><span class="p">(</span><span class="n">g</span><span class="p">[</span><span class="s2">"mean"</span><span class="p">],</span> <span class="n">g</span><span class="p">[</span><span class="s2">"std"</span><span class="p">])):</span>
+        <span class="n">ax</span><span class="o">.</span><span class="n">text</span><span class="p">(</span><span class="n">v</span> <span class="o">+</span> <span class="n">s_</span> <span class="o">+</span> <span class="mf">0.005</span><span class="p">,</span> <span class="n">k</span><span class="p">,</span> <span class="sa">f</span><span class="s2">"</span><span class="si">{</span><span class="n">v</span><span class="si">:</span><span class="s2">.3f</span><span class="si">}</span><span class="s2">"</span><span class="p">,</span> <span class="n">va</span><span class="o">=</span><span class="s2">"center"</span><span class="p">,</span> <span class="n">fontsize</span><span class="o">=</span><span class="mi">9</span><span class="p">)</span>
+    <span class="n">ax</span><span class="o">.</span><span class="n">invert_yaxis</span><span class="p">();</span> <span class="n">ax</span><span class="o">.</span><span class="n">set</span><span class="p">(</span><span class="n">xlabel</span><span class="o">=</span><span class="s2">"F1 macro de validación (media ± DE, 3 semillas)"</span><span class="p">)</span>
+    <span class="n">plt</span><span class="o">.</span><span class="n">show</span><span class="p">()</span>
+    <span class="n">display</span><span class="p">(</span><span class="n">g</span><span class="o">.</span><span class="n">rename</span><span class="p">(</span><span class="n">columns</span><span class="o">=</span><span class="p">{</span><span class="s2">"mean"</span><span class="p">:</span> <span class="s2">"F1 macro"</span><span class="p">,</span> <span class="s2">"std"</span><span class="p">:</span> <span class="s2">"DE"</span><span class="p">,</span> <span class="s2">"count"</span><span class="p">:</span> <span class="s2">"semillas"</span><span class="p">}))</span>
+<span class="k">else</span><span class="p">:</span>
+    <span class="n">display</span><span class="p">(</span><span class="n">Markdown</span><span class="p">(</span><span class="s2">"La ablación de *embeddings* no terminó dentro del presupuesto."</span><span class="p">))</span>
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<img alt="_images/a45505979f4387d181132a60dac7d879acc19267a6c3d7092fcb34d6afdd318c.png" src="_images/a45505979f4387d181132a60dac7d879acc19267a6c3d7092fcb34d6afdd318c.png" />
+<div class="output text_html"><div>
+<style scoped>
+    .dataframe tbody tr th:only-of-type {
+        vertical-align: middle;
+    }
+
+    .dataframe tbody tr th {
+        vertical-align: top;
+    }
+
+    .dataframe thead th {
+        text-align: right;
+    }
+</style>
+<table border="1" class="dataframe">
+  <thead>
+    <tr style="text-align: right;">
+      <th></th>
+      <th>F1 macro</th>
+      <th>DE</th>
+      <th>semillas</th>
+    </tr>
+    <tr>
+      <th>variant</th>
+      <th></th>
+      <th></th>
+      <th></th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <th>w2v_cbow</th>
+      <td>0.699</td>
+      <td>0.008</td>
+      <td>3</td>
+    </tr>
+    <tr>
+      <th>w2v_sg</th>
+      <td>0.686</td>
+      <td>0.005</td>
+      <td>3</td>
+    </tr>
+    <tr>
+      <th>glove</th>
+      <td>0.685</td>
+      <td>0.011</td>
+      <td>3</td>
+    </tr>
+    <tr>
+      <th>fasttext_sg</th>
+      <td>0.681</td>
+      <td>0.007</td>
+      <td>3</td>
+    </tr>
+    <tr>
+      <th>w2v_sg_congelado</th>
+      <td>0.674</td>
+      <td>0.023</td>
+      <td>3</td>
+    </tr>
+    <tr>
+      <th>glove_congelado</th>
+      <td>0.674</td>
+      <td>0.008</td>
+      <td>3</td>
+    </tr>
+    <tr>
+      <th>random</th>
+      <td>0.649</td>
+      <td>0.028</td>
+      <td>3</td>
+    </tr>
+  </tbody>
+</table>
+</div></div></div>
+</div>
+<p>Las variantes congeladas aíslan la calidad de los vectores de partida: si un vector congelado rinde cerca del mismo vector ajustado, la red aprovecha la semántica previa; si rinde mucho menos, el ajuste durante el entrenamiento es lo que aporta. La comparación entre FastText y Word2Vec <em>skip-gram</em> mide el efecto de construir vectores para palabras fuera del vocabulario.</p>
+</section>
+</section>
+
+    <script type="text/x-thebe-config">
+    {
+        requestKernel: true,
+        binderOptions: {
+            repo: "binder-examples/jupyter-stacks-datascience",
+            ref: "master",
+        },
+        codeMirrorConfig: {
+            theme: "abcdef",
+            mode: "python"
+        },
+        kernelOptions: {
+            name: "python3",
+            path: "./."
+        },
+        predefinedOutput: true
+    }
+    </script>
+    <script>kernelName = 'python3'</script>
+
+                </article>
+              
+
+              
+              
+              
+              
+                <footer class="prev-next-footer d-print-none">
+                  
+<div class="prev-next-area">
+    <a class="left-prev"
+       href="20_nlp_eda.html"
+       title="página anterior">
+      <i class="fa-solid fa-angle-left"></i>
+      <div class="prev-next-info">
+        <p class="prev-next-subtitle">anterior</p>
+        <p class="prev-next-title">Análisis exploratorio y auditoría de las hojas de vida</p>
+      </div>
+    </a>
+    <a class="right-next"
+       href="22_nlp_modelos.html"
+       title="siguiente página">
+      <div class="prev-next-info">
+        <p class="prev-next-subtitle">siguiente</p>
+        <p class="prev-next-title">Modelos de clasificación de texto y búsqueda de hiperparámetros</p>
+      </div>
+      <i class="fa-solid fa-angle-right"></i>
+    </a>
+</div>
+                </footer>
+              
+            </div>
+            
+            
+              
+                <dialog id="pst-secondary-sidebar-modal"></dialog>
+                <div id="pst-secondary-sidebar" class="bd-sidebar-secondary bd-toc"><div class="sidebar-secondary-items sidebar-secondary__inner">
+
+
+  <div class="sidebar-secondary-item"><div
+    id="pst-page-navigation-heading-2"
+    class="page-toc tocsection onthispage">
+    <i class="fa-solid fa-list"></i> Contenido
+  </div>
+  <nav id="pst-page-toc-nav" class="page-toc" aria-labelledby="pst-page-navigation-heading-2">
+    <ul class="pst-show_toc_level nav section-nav flex-column">
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#tres-niveles-de-limpieza">Tres niveles de limpieza</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#longitud-maxima-y-truncamiento">Longitud máxima y truncamiento</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#embeddings-de-palabras"><em>Embeddings</em> de palabras</a></li>
+</ul>
+  </nav></div>
+
+</div></div>
+              
+            
+          </div>
+          <footer class="bd-footer-content">
+            
+<div class="bd-footer-content__inner container">
+  
+  <div class="footer-item">
+    
+<p class="component-author">
+Por Anyely Sanjuan Benavides y Juan David Díaz Fernández
+</p>
+
+  </div>
+  
+  <div class="footer-item">
+    
+
+  <p class="copyright">
+    
+      © Copyright 2026.
+      <br/>
+    
+  </p>
+
+  </div>
+  
+  <div class="footer-item">
+    
+  </div>
+  
+  <div class="footer-item">
+    
+  </div>
+  
+</div>
+          </footer>
+        
+
+      </main>
+    </div>
+  </div>
+  
+  <!-- Scripts loaded after <body> so the DOM is not blocked -->
+  <script defer src="_static/scripts/bootstrap.js?digest=55c26ed414f5f8a31ebb"></script>
+<script defer src="_static/scripts/pydata-sphinx-theme.js?digest=55c26ed414f5f8a31ebb"></script>
+
+  <footer class="bd-footer">
+  </footer>
+  </body>
+</html>

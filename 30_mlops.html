@@ -1,0 +1,1155 @@
+
+<!DOCTYPE html>
+
+
+<html lang="es" data-content_root="./" >
+
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" /><meta name="viewport" content="width=device-width, initial-scale=1" />
+
+    <title>Despliegue: API, contenedor, integración continua y registro de modelos &#8212; Segmentación de células y clasificación de hojas de vida</title>
+  
+  
+  
+  <script data-cfasync="false">
+    document.documentElement.dataset.mode = localStorage.getItem("mode") || "";
+    document.documentElement.dataset.theme = localStorage.getItem("theme") || "";
+  </script>
+  <!--
+    this give us a css class that will be invisible only if js is disabled
+  -->
+  <noscript>
+    <style>
+      .pst-js-only { display: none !important; }
+
+    </style>
+  </noscript>
+  
+  <!-- Loaded before other Sphinx assets -->
+  <link href="_static/styles/theme.css?digest=55c26ed414f5f8a31ebb" rel="stylesheet" />
+<link href="_static/styles/pydata-sphinx-theme.css?digest=55c26ed414f5f8a31ebb" rel="stylesheet" />
+
+    <link rel="stylesheet" type="text/css" href="_static/pygments.css?v=03e43079" />
+    <link rel="stylesheet" type="text/css" href="_static/styles/sphinx-book-theme.css?v=3c74b3bc" />
+    <link rel="stylesheet" type="text/css" href="_static/togglebutton.css?v=9c3e77be" />
+    <link rel="stylesheet" type="text/css" href="_static/copybutton.css?v=76b2166b" />
+    <link rel="stylesheet" type="text/css" href="_static/mystnb.11b39860a7a0cbfd473a3ad8a317855267ff0bd372690045ca344a6b62be495e.css?v=8cd3d715" />
+    <link rel="stylesheet" type="text/css" href="_static/sphinx-thebe.css?v=4fa983c6" />
+    <link rel="stylesheet" type="text/css" href="_static/sphinx-design.min.css?v=6a604523" />
+    <link rel="stylesheet" type="text/css" href="_static/autores.css?v=fc0dcfce" />
+  
+  <!-- So that users can add custom icons -->
+  <script defer src="_static/scripts/fontawesome.js?digest=55c26ed414f5f8a31ebb"></script>
+  <!-- Pre-loaded scripts that we'll load fully later -->
+  <link rel="preload" as="script" href="_static/scripts/bootstrap.js?digest=55c26ed414f5f8a31ebb" />
+<link rel="preload" as="script" href="_static/scripts/pydata-sphinx-theme.js?digest=55c26ed414f5f8a31ebb" />
+
+    <script src="_static/documentation_options.js?v=78d55cf8"></script>
+    <script src="_static/doctools.js?v=9a2dae69"></script>
+    <script src="_static/sphinx_highlight.js?v=dc90522c"></script>
+    <script src="_static/clipboard.min.js?v=a7894cd8"></script>
+    <script src="_static/copybutton.js?v=f281be69"></script>
+    <script src="_static/scripts/sphinx-book-theme.js?v=fab101a9"></script>
+    <script>let toggleHintShow = 'Haz clic para mostrar';</script>
+    <script>let toggleHintHide = 'Haz clic para ocultar';</script>
+    <script>let toggleOpenOnPrint = 'true';</script>
+    <script src="_static/togglebutton.js?v=b8b12719"></script>
+    <script src="_static/translations.js?v=d190bf04"></script>
+    <script>var togglebuttonSelector = '.toggle, .admonition.dropdown';</script>
+    <script data-sd-tabs-storage-prefix="sphinx-design-tab-id-" src="_static/design-tabs.js?v=fcb327ea"></script>
+    <script>const THEBE_JS_URL = "https://unpkg.com/thebe@0.8.2/lib/index.js"; const thebe_selector = ".thebe,.cell"; const thebe_selector_input = "pre"; const thebe_selector_output = ".output, .cell_output"</script>
+    <script async="async" src="_static/sphinx-thebe.js?v=c100c467"></script>
+    <script>var togglebuttonSelector = '.toggle, .admonition.dropdown';</script>
+    <script>const THEBE_JS_URL = "https://unpkg.com/thebe@0.8.2/lib/index.js"; const thebe_selector = ".thebe,.cell"; const thebe_selector_input = "pre"; const thebe_selector_output = ".output, .cell_output"</script>
+    <script>DOCUMENTATION_OPTIONS.pagename = '30_mlops';</script>
+    <script>DOCUMENTATION_OPTIONS.search_as_you_type = false;</script>
+    <link rel="index" title="Índice" href="genindex.html" />
+    <link rel="search" title="Búsqueda" href="search.html" />
+    <link rel="next" title="Monitoreo y experimento de deriva" href="31_monitoreo_deriva.html" />
+    <link rel="prev" title="Eficiencia, riesgo en reclutamiento y análisis crítico del clasificador de texto" href="25_nlp_analisis_critico.html" />
+  <meta name="viewport" content="width=device-width, initial-scale=1"/>
+  <meta name="docsearch:language" content="es"/>
+  <meta name="docsearch:version" content="" />
+  
+    
+    <script src="_static/searchtools.js"></script>
+    <script src="_static/language_data.js"></script>
+    <script src="searchindex.js"></script>
+  
+  </head>
+  <body data-default-mode="">
+  
+  
+  <div id="pst-skip-link" class="skip-link d-print-none"><a href="#main-content">Saltar al contenido principal</a></div>
+
+  
+  <div id="pst-scroll-pixel-helper"></div>
+  
+  <button type="button" class="btn rounded-pill" id="pst-back-to-top">
+    <i class="fa-solid fa-arrow-up"></i>Volver arriba</button>
+  
+  
+  
+  
+  <dialog id="pst-search-dialog">
+    
+<form class="bd-search d-flex align-items-center"
+      action="search.html"
+      method="get">
+  <i class="fa-solid fa-magnifying-glass"></i>
+  <input type="search"
+         class="form-control"
+         name="q"
+         placeholder="Search this book..."
+         aria-label="Search this book..."
+         autocomplete="off"
+         autocorrect="off"
+         autocapitalize="off"
+         spellcheck="false"/>
+  <span class="search-button__kbd-shortcut"><kbd class="kbd-shortcut__modifier">Ctrl</kbd>+<kbd>K</kbd></span>
+</form>
+  </dialog>
+
+  <div class="pst-async-banner-revealer d-none">
+  <aside id="bd-header-version-warning" class="d-none d-print-none" aria-label="Advertencia de versión"></aside>
+</div>
+
+  
+    <header id="pst-header" class="bd-header navbar navbar-expand-lg bd-navbar d-print-none">
+<div class="bd-header__inner bd-page-width">
+  <button class="pst-navbar-icon sidebar-toggle primary-toggle" aria-label="Navegación del sitio">
+    <span class="fa-solid fa-bars"></span>
+  </button>
+  
+  
+  <div class="col-lg-9 navbar-header-items">
+    
+    
+    <div class="navbar-header-items__end">
+      
+        <div class="navbar-item navbar-persistent--container">
+          
+
+<button class="btn search-button-field search-button__button pst-js-only" title="Búsqueda" aria-label="Búsqueda" data-bs-placement="bottom" data-bs-toggle="tooltip">
+ <i class="fa-solid fa-magnifying-glass"></i>
+ <span class="search-button__default-text">Búsqueda</span>
+ <span class="search-button__kbd-shortcut"><kbd class="kbd-shortcut__modifier">Ctrl</kbd>+<kbd class="kbd-shortcut__modifier">K</kbd></span>
+</button>
+        </div>
+      
+      
+    </div>
+    
+  </div>
+  
+  
+    <div class="navbar-persistent--mobile">
+
+<button class="btn search-button-field search-button__button pst-js-only" title="Búsqueda" aria-label="Búsqueda" data-bs-placement="bottom" data-bs-toggle="tooltip">
+ <i class="fa-solid fa-magnifying-glass"></i>
+ <span class="search-button__default-text">Búsqueda</span>
+ <span class="search-button__kbd-shortcut"><kbd class="kbd-shortcut__modifier">Ctrl</kbd>+<kbd class="kbd-shortcut__modifier">K</kbd></span>
+</button>
+    </div>
+  
+
+  
+    <button class="pst-navbar-icon sidebar-toggle secondary-toggle" aria-label="En esta página">
+      <span class="fa-solid fa-outdent"></span>
+    </button>
+  
+</div>
+
+    </header>
+  
+
+  <div class="bd-container">
+    <div class="bd-container__inner bd-page-width">
+      
+      
+      
+      <dialog id="pst-primary-sidebar-modal"></dialog>
+      <div id="pst-primary-sidebar" class="bd-sidebar-primary bd-sidebar">
+        
+
+  
+  <div class="sidebar-header-items sidebar-primary__section">
+    
+    
+    
+    
+  </div>
+  
+    <div class="sidebar-primary-items__start sidebar-primary__section">
+        <div class="sidebar-primary-item">
+
+  
+    
+  
+
+<a class="navbar-brand logo" href="intro.html">
+  
+  
+  
+  
+  
+  
+    <p class="title logo__title">Segmentación de células y clasificación de hojas de vida</p>
+  
+</a></div>
+        <div class="sidebar-primary-item"><div class="sidebar-autores">
+  <div class="autor">
+    <img src="_static/autores/anyely.jpg" alt="Anyely Sanjuan Benavides">
+    <p class="autor-nombre">Anyely Sanjuan Benavides</p>
+    <p class="autor-detalle">Msc. Analítica de Datos<br>Universidad del Norte</p>
+  </div>
+  <div class="autor">
+    <img src="_static/autores/juan.jpg" alt="Juan David Díaz Fernández">
+    <p class="autor-nombre">Juan David Díaz Fernández</p>
+    <p class="autor-detalle">Msc. Ingeniería Mecánica<br>Universidad del Norte</p>
+  </div>
+</div></div>
+        <div class="sidebar-primary-item">
+
+<button class="btn search-button-field search-button__button pst-js-only" title="Búsqueda" aria-label="Búsqueda" data-bs-placement="bottom" data-bs-toggle="tooltip">
+ <i class="fa-solid fa-magnifying-glass"></i>
+ <span class="search-button__default-text">Búsqueda</span>
+ <span class="search-button__kbd-shortcut"><kbd class="kbd-shortcut__modifier">Ctrl</kbd>+<kbd class="kbd-shortcut__modifier">K</kbd></span>
+</button></div>
+        <div class="sidebar-primary-item"><nav class="bd-links bd-docs-nav" aria-label="Main">
+    <div class="bd-toc-item navbar-nav active">
+        
+        <ul class="nav bd-sidenav bd-sidenav__home-link">
+            <li class="toctree-l1">
+                <a class="reference internal" href="intro.html">
+                    Segmentación de células y clasificación de hojas de vida
+                </a>
+            </li>
+        </ul>
+        <p aria-level="2" class="caption" role="heading"><span class="caption-text">Planteamiento</span></p>
+<ul class="nav bd-sidenav">
+<li class="toctree-l1"><a class="reference internal" href="01_problema_objetivos.html">Problema, objetivos y preguntas de investigación</a></li>
+<li class="toctree-l1"><a class="reference internal" href="02_datos_fichas.html">Datos y fichas de datos</a></li>
+<li class="toctree-l1"><a class="reference internal" href="03_declaracion_apriori.html">Declaración a priori</a></li>
+<li class="toctree-l1"><a class="reference internal" href="04_fundamentos_teoricos.html">Fundamentos teóricos</a></li>
+</ul>
+<p aria-level="2" class="caption" role="heading"><span class="caption-text">Bloque 1: segmentación de instancias celulares</span></p>
+<ul class="nav bd-sidenav">
+<li class="toctree-l1"><a class="reference internal" href="10_seg_eda.html">Análisis exploratorio y auditoría de Sartorius</a></li>
+<li class="toctree-l1"><a class="reference internal" href="11_seg_preprocesamiento.html">Preprocesamiento y aumento de datos</a></li>
+<li class="toctree-l1"><a class="reference internal" href="12_seg_modelos.html">Modelos de segmentación</a></li>
+<li class="toctree-l1"><a class="reference internal" href="13_seg_resultados.html">Resultados de segmentación</a></li>
+<li class="toctree-l1"><a class="reference internal" href="14_seg_ablaciones_robustez.html">Ablaciones, robustez, calibración y eficiencia en segmentación</a></li>
+<li class="toctree-l1"><a class="reference internal" href="15_seg_analisis_critico.html">Análisis crítico de la segmentación</a></li>
+</ul>
+<p aria-level="2" class="caption" role="heading"><span class="caption-text">Bloque 2: clasificación de texto</span></p>
+<ul class="nav bd-sidenav">
+<li class="toctree-l1"><a class="reference internal" href="20_nlp_eda.html">Análisis exploratorio y auditoría de las hojas de vida</a></li>
+<li class="toctree-l1"><a class="reference internal" href="21_nlp_representaciones.html">Preprocesamiento y representaciones de texto</a></li>
+<li class="toctree-l1"><a class="reference internal" href="22_nlp_modelos.html">Modelos de clasificación de texto y búsqueda de hiperparámetros</a></li>
+<li class="toctree-l1"><a class="reference internal" href="23_nlp_resultados.html">Resultados de clasificación de texto</a></li>
+<li class="toctree-l1"><a class="reference internal" href="24_nlp_robustez_equidad.html">Calibración, robustez, equidad y explicabilidad del clasificador de texto</a></li>
+<li class="toctree-l1"><a class="reference internal" href="25_nlp_analisis_critico.html">Eficiencia, riesgo en reclutamiento y análisis crítico del clasificador de texto</a></li>
+</ul>
+<p aria-level="2" class="caption" role="heading"><span class="caption-text">Despliegue y cierre</span></p>
+<ul class="current nav bd-sidenav">
+<li class="toctree-l1 current active"><a class="current reference internal" href="#">Despliegue: API, contenedor, integración continua y registro de modelos</a></li>
+<li class="toctree-l1"><a class="reference internal" href="31_monitoreo_deriva.html">Monitoreo y experimento de deriva</a></li>
+<li class="toctree-l1"><a class="reference internal" href="40_comparacion_final.html">Comparación final y decisión</a></li>
+<li class="toctree-l1"><a class="reference internal" href="41_conclusiones.html">Conclusiones, limitaciones y trabajo futuro</a></li>
+<li class="toctree-l1"><a class="reference internal" href="42_reproducibilidad.html">Reproducibilidad, autoría y uso de herramientas</a></li>
+<li class="toctree-l1"><a class="reference internal" href="43_referencias.html">Referencias</a></li>
+</ul>
+
+    </div>
+</nav></div>
+    </div>
+  
+  
+  <div class="sidebar-primary-items__end sidebar-primary__section">
+      <div class="sidebar-primary-item">
+<div id="ethical-ad-placement"
+      class="flat"
+      data-ea-publisher="readthedocs"
+      data-ea-type="readthedocs-sidebar"
+      data-ea-manual="true">
+</div></div>
+  </div>
+
+
+      </div>
+      
+      <main id="main-content" class="bd-main" role="main">
+        
+        
+
+<div class="sbt-scroll-pixel-helper"></div>
+
+          <div class="bd-content">
+            <div class="bd-article-container">
+              
+              <div class="bd-header-article d-print-none">
+<div class="header-article-items header-article__inner">
+  
+    <div class="header-article-items__start">
+      
+        <div class="header-article-item"><button class="sidebar-toggle primary-toggle btn btn-sm" title="Toggle primary sidebar" data-bs-placement="bottom" data-bs-toggle="tooltip">
+  <span class="fa-solid fa-bars"></span>
+</button></div>
+      
+    </div>
+  
+  
+    <div class="header-article-items__end">
+      
+        <div class="header-article-item">
+
+<div class="article-header-buttons">
+
+
+<a href="https://github.com/Anyita-12/proyecto-integrador-dl" target="_blank"
+   class="btn btn-sm btn-source-repository-button"
+   title="Repositorio de origen"
+   data-bs-placement="bottom" data-bs-toggle="tooltip"
+>
+  
+
+<span class="btn__icon-container">
+  <i class="fab fa-github"></i>
+  </span>
+
+</a>
+
+
+
+
+
+
+<div class="dropdown dropdown-download-buttons">
+  <button class="btn dropdown-toggle" type="button" data-bs-toggle="dropdown" aria-expanded="false" aria-label="Descarga esta pagina">
+    <i class="fas fa-download"></i>
+  </button>
+  <ul class="dropdown-menu">
+      
+      
+      
+      <li><a href="_sources/30_mlops.ipynb" target="_blank"
+   class="btn btn-sm btn-download-source-button dropdown-item"
+   title="Descargar archivo fuente"
+   data-bs-placement="left" data-bs-toggle="tooltip"
+>
+  
+
+<span class="btn__icon-container">
+  <i class="fas fa-file"></i>
+  </span>
+<span class="btn__text-container">.ipynb</span>
+</a>
+</li>
+      
+      
+      
+      
+      <li>
+<button onclick="window.print()"
+  class="btn btn-sm btn-download-pdf-button dropdown-item"
+  title="Imprimir en PDF"
+  data-bs-placement="left" data-bs-toggle="tooltip"
+>
+  
+
+<span class="btn__icon-container">
+  <i class="fas fa-file-pdf"></i>
+  </span>
+<span class="btn__text-container">.pdf</span>
+</button>
+</li>
+      
+  </ul>
+</div>
+
+
+
+
+<button onclick="toggleFullScreen()"
+  class="btn btn-sm btn-fullscreen-button pst-navbar-icon"
+  title="Modo de pantalla completa"
+  data-bs-placement="bottom" data-bs-toggle="tooltip"
+>
+  
+
+<span class="btn__icon-container">
+  <i class="fas fa-expand"></i>
+  </span>
+
+</button>
+
+
+
+<button class="btn btn-sm nav-link pst-navbar-icon theme-switch-button pst-js-only" aria-label="Tema" data-bs-title="Tema"  data-bs-placement="bottom" data-bs-toggle="tooltip">
+  <i class="theme-switch fa-solid fa-sun                fa-lg" data-mode="light" title="Claro"></i>
+  <i class="theme-switch fa-solid fa-moon               fa-lg" data-mode="dark"  title="Oscuro"></i>
+  <i class="theme-switch fa-solid fa-circle-half-stroke fa-lg" data-mode="auto"  title="Sistema"></i>
+</button>
+
+
+<button class="btn btn-sm pst-navbar-icon search-button search-button__button pst-js-only" title="Búsqueda" aria-label="Búsqueda" data-bs-placement="bottom" data-bs-toggle="tooltip">
+    <i class="fa-solid fa-magnifying-glass fa-lg"></i>
+</button>
+<button class="sidebar-toggle secondary-toggle btn btn-sm pst-navbar-icon" title="Toggle secondary sidebar" data-bs-placement="bottom" data-bs-toggle="tooltip">
+    <span class="fa-solid fa-list"></span>
+</button>
+</div></div>
+      
+    </div>
+  
+</div>
+</div>
+              
+              
+
+<div id="jb-print-docs-body" class="onlyprint">
+    <h1>Despliegue: API, contenedor, integración continua y registro de modelos</h1>
+    <!-- Table of contents -->
+    <div id="print-main-content">
+        <div id="jb-print-toc">
+            
+            <div>
+                <h2> Contenido </h2>
+            </div>
+            <nav aria-label="Page">
+                <ul class="pst-show_toc_level nav section-nav flex-column">
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#arquitectura">Arquitectura</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#exportacion-paridad-y-cuantizacion">Exportación, paridad y cuantización</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#prueba-de-carga">Prueba de carga</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#integracion-continua">Integración continua</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#trazabilidad-mlflow-dvc-y-tarjetas-de-modelo">Trazabilidad: MLflow, DVC y tarjetas de modelo</a><ul class="nav section-nav flex-column">
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#tarjeta-de-modelo-segmentacion-de-instancias-celulares">Tarjeta de modelo: segmentación de instancias celulares</a><ul class="nav section-nav flex-column">
+<li class="toc-h4 nav-item toc-entry"><a class="reference internal nav-link" href="#detalles-del-modelo">Detalles del modelo</a></li>
+<li class="toc-h4 nav-item toc-entry"><a class="reference internal nav-link" href="#uso-previsto">Uso previsto</a></li>
+<li class="toc-h4 nav-item toc-entry"><a class="reference internal nav-link" href="#factores">Factores</a></li>
+<li class="toc-h4 nav-item toc-entry"><a class="reference internal nav-link" href="#metricas">Métricas</a></li>
+<li class="toc-h4 nav-item toc-entry"><a class="reference internal nav-link" href="#datos-de-entrenamiento-y-evaluacion">Datos de entrenamiento y evaluación</a></li>
+<li class="toc-h4 nav-item toc-entry"><a class="reference internal nav-link" href="#consideraciones-eticas-y-limitaciones">Consideraciones éticas y limitaciones</a></li>
+<li class="toc-h4 nav-item toc-entry"><a class="reference internal nav-link" href="#monitoreo">Monitoreo</a></li>
+</ul>
+</li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#tarjeta-de-modelo-clasificacion-de-curriculos-en-24-categorias">Tarjeta de modelo: clasificación de currículos en 24 categorías</a><ul class="nav section-nav flex-column">
+<li class="toc-h4 nav-item toc-entry"><a class="reference internal nav-link" href="#id1">Detalles del modelo</a></li>
+<li class="toc-h4 nav-item toc-entry"><a class="reference internal nav-link" href="#id2">Uso previsto</a></li>
+<li class="toc-h4 nav-item toc-entry"><a class="reference internal nav-link" href="#id3">Métricas</a></li>
+<li class="toc-h4 nav-item toc-entry"><a class="reference internal nav-link" href="#id4">Datos de entrenamiento y evaluación</a></li>
+<li class="toc-h4 nav-item toc-entry"><a class="reference internal nav-link" href="#id5">Consideraciones éticas y limitaciones</a></li>
+<li class="toc-h4 nav-item toc-entry"><a class="reference internal nav-link" href="#id6">Monitoreo</a></li>
+</ul>
+</li>
+</ul>
+</li>
+</ul>
+            </nav>
+        </div>
+    </div>
+</div>
+
+              
+                
+<div id="searchbox"></div>
+                <article class="bd-article">
+                  
+  <section class="tex2jax_ignore mathjax_ignore" id="despliegue-api-contenedor-integracion-continua-y-registro-de-modelos">
+<h1>Despliegue: API, contenedor, integración continua y registro de modelos<a class="headerlink" href="#despliegue-api-contenedor-integracion-continua-y-registro-de-modelos" title="Link to this heading">#</a></h1>
+<p>En este capítulo describimos cómo los dos modelos elegidos llegan a producción y qué garantías comprobamos en el camino: paridad numérica tras la exportación, efecto de la cuantización, regresión sobre un conjunto dorado, comportamiento bajo carga y trazabilidad de cada versión. Los resultados los generan los trabajos <code class="docutils literal notranslate"><span class="pre">mlops_export_seg</span></code>, <code class="docutils literal notranslate"><span class="pre">mlops_export_text</span></code>, <code class="docutils literal notranslate"><span class="pre">mlops_bert_quant</span></code> y <code class="docutils literal notranslate"><span class="pre">mlops_load</span></code> de la cola.</p>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="kn">import</span><span class="w"> </span><span class="nn">pandas</span><span class="w"> </span><span class="k">as</span><span class="w"> </span><span class="nn">pd</span>
+<span class="kn">import</span><span class="w"> </span><span class="nn">matplotlib.pyplot</span><span class="w"> </span><span class="k">as</span><span class="w"> </span><span class="nn">plt</span>
+<span class="kn">from</span><span class="w"> </span><span class="nn">IPython.display</span><span class="w"> </span><span class="kn">import</span> <span class="n">Markdown</span><span class="p">,</span> <span class="n">display</span>
+
+<span class="kn">from</span><span class="w"> </span><span class="nn">project.book_utils</span><span class="w"> </span><span class="kn">import</span> <span class="n">CAT</span><span class="p">,</span> <span class="n">MUTED</span><span class="p">,</span> <span class="n">exists</span><span class="p">,</span> <span class="n">need</span><span class="p">,</span> <span class="n">style</span>
+
+<span class="n">style</span><span class="p">()</span>
+<span class="n">pd</span><span class="o">.</span><span class="n">set_option</span><span class="p">(</span><span class="s2">"display.precision"</span><span class="p">,</span> <span class="mi">3</span><span class="p">)</span>
+<span class="n">md</span> <span class="o">=</span> <span class="k">lambda</span> <span class="n">t</span><span class="p">:</span> <span class="n">display</span><span class="p">(</span><span class="n">Markdown</span><span class="p">(</span><span class="n">t</span><span class="p">))</span>  <span class="c1"># noqa: E731</span>
+</pre></div>
+</div>
+</div>
+</div>
+<section id="arquitectura">
+<h2>Arquitectura<a class="headerlink" href="#arquitectura" title="Link to this heading">#</a></h2>
+<div class="highlight-text notranslate"><div class="highlight"><pre><span></span> results/ (pickles y pesos)
+       │  scripts/mlops.py export-seg | export-text   (paridad, cuantización, conjunto dorado)
+       ▼
+ models/serving/{text,seg}/  model.onnx o model.pkl + meta.json + golden.json ──► MLflow: registro de versiones
+       │  docker build (multi-etapa, usuario no root)                              (staging / production / previous)
+       ▼
+ API FastAPI  /health /ready /model_info /metrics /metrics/prometheus /predict_text /predict_image
+       │  PRED_LOG (JSONL con señales agregadas, sin textos ni imágenes)
+       ▼
+ Monitoreo de deriva por ventanas (capítulo 31)
+</pre></div>
+</div>
+<div class="pst-scrollable-table-container"><table class="table">
+<thead>
+<tr class="row-odd"><th class="head"><p>Ruta</p></th>
+<th class="head"><p>Entrada</p></th>
+<th class="head"><p>Salida</p></th>
+<th class="head"><p>Validación</p></th>
+</tr>
+</thead>
+<tbody>
+<tr class="row-even"><td><p><code class="docutils literal notranslate"><span class="pre">GET</span> <span class="pre">/health</span></code></p></td>
+<td><p>—</p></td>
+<td><p>estado del proceso</p></td>
+<td><p>—</p></td>
+</tr>
+<tr class="row-odd"><td><p><code class="docutils literal notranslate"><span class="pre">GET</span> <span class="pre">/ready</span></code></p></td>
+<td><p>—</p></td>
+<td><p>200 si los dos modelos cargaron; 503 con el error si no</p></td>
+<td><p>—</p></td>
+</tr>
+<tr class="row-even"><td><p><code class="docutils literal notranslate"><span class="pre">GET</span> <span class="pre">/model_info</span></code></p></td>
+<td><p>—</p></td>
+<td><p>nombre, versión, posproceso y métricas de validación de cada modelo</p></td>
+<td><p>—</p></td>
+</tr>
+<tr class="row-odd"><td><p><code class="docutils literal notranslate"><span class="pre">GET</span> <span class="pre">/metrics</span></code></p></td>
+<td><p>—</p></td>
+<td><p>contadores y latencias p50/p95/p99 por ruta, en JSON</p></td>
+<td><p>—</p></td>
+</tr>
+<tr class="row-even"><td><p><code class="docutils literal notranslate"><span class="pre">GET</span> <span class="pre">/metrics/prometheus</span></code></p></td>
+<td><p>—</p></td>
+<td><p>las mismas señales en el formato de texto de Prometheus, para un <em>scrape</em> y paneles de Grafana</p></td>
+<td><p>—</p></td>
+</tr>
+<tr class="row-odd"><td><p><code class="docutils literal notranslate"><span class="pre">POST</span> <span class="pre">/predict_text</span></code></p></td>
+<td><p>JSON <code class="docutils literal notranslate"><span class="pre">{&quot;text&quot;,</span> <span class="pre">&quot;top_k&quot;}</span></code></p></td>
+<td><p>etiqueta, probabilidades de las k primeras clases, versión, latencia</p></td>
+<td><p>texto de 1 a 100 000 caracteres; <code class="docutils literal notranslate"><span class="pre">top_k</span></code> entre 1 y 24</p></td>
+</tr>
+<tr class="row-even"><td><p><code class="docutils literal notranslate"><span class="pre">POST</span> <span class="pre">/predict_image</span></code></p></td>
+<td><p>archivo PNG/JPEG/TIFF</p></td>
+<td><p>número de instancias y máscaras en RLE (convención de Kaggle)</p></td>
+<td><p>lado entre 32 y 2048 px; se convierte a escala de grises</p></td>
+</tr>
+</tbody>
+</table>
+</div>
+<p>Cada respuesta lleva un <code class="docutils literal notranslate"><span class="pre">request_id</span></code> que también aparece en los registros JSON del servidor. Con la variable <code class="docutils literal notranslate"><span class="pre">PRED_LOG</span></code> activa, la API escribe por petición solo señales agregadas (longitud, etiqueta y confianza para texto; intensidad, fracción de primer plano y número de instancias para imágenes): <strong>no guarda el texto ni la imagen</strong>, porque los currículos contienen datos personales.</p>
+</section>
+<section id="exportacion-paridad-y-cuantizacion">
+<h2>Exportación, paridad y cuantización<a class="headerlink" href="#exportacion-paridad-y-cuantizacion" title="Link to this heading">#</a></h2>
+<p><strong>Segmentación.</strong> Exportamos U-Net++ (la semilla con mejor AP de validación) a ONNX y comparamos sus salidas con las del modelo de Keras en las 92 imágenes de validación. La cuantización estática int8 (formato QDQ, calibración con 32 imágenes de entrenamiento) solo se sirve si el AP cae como máximo 0.01 y la latencia baja.</p>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="k">if</span> <span class="n">exists</span><span class="p">(</span><span class="s2">"mlops/export_seg/export_seg.pkl"</span><span class="p">):</span>
+    <span class="n">ex</span> <span class="o">=</span> <span class="n">need</span><span class="p">(</span><span class="s2">"mlops/export_seg/export_seg.pkl"</span><span class="p">)</span>
+    <span class="n">par</span> <span class="o">=</span> <span class="n">ex</span><span class="p">[</span><span class="s2">"parity"</span><span class="p">]</span>
+    <span class="n">_mx</span> <span class="o">=</span> <span class="n">par</span><span class="o">.</span><span class="n">max_abs_diff</span><span class="o">.</span><span class="n">max</span><span class="p">()</span>
+    <span class="n">md</span><span class="p">(</span><span class="sa">f</span><span class="s2">"Modelo exportado: </span><span class="si">{</span><span class="p">({</span><span class="s1">'unetpp_main'</span><span class="p">:</span><span class="w"> </span><span class="s1">'U-Net++'</span><span class="p">,</span><span class="w"> </span><span class="s1">'maskrcnn_main'</span><span class="p">:</span><span class="w"> </span><span class="s1">'Mask R-CNN'</span><span class="p">})</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="n">ex</span><span class="p">[</span><span class="s1">'model'</span><span class="p">],</span><span class="w"> </span><span class="n">ex</span><span class="p">[</span><span class="s1">'model'</span><span class="p">])</span><span class="si">}</span><span class="s2">, semilla </span><span class="si">{</span><span class="n">ex</span><span class="p">[</span><span class="s1">'seed'</span><span class="p">]</span><span class="si">}</span><span class="s2">. "</span>
+       <span class="sa">f</span><span class="s2">"Diferencia máxima absoluta entre probabilidades de Keras y ONNX: </span><span class="si">{</span><span class="n">_mx</span><span class="si">:</span><span class="s2">.2e</span><span class="si">}</span><span class="s2">, "</span>
+       <span class="o">+</span> <span class="p">(</span><span class="s2">"dentro de la tolerancia declarada de 10⁻³. "</span> <span class="k">if</span> <span class="n">_mx</span> <span class="o">&lt;=</span> <span class="mf">1e-3</span> <span class="k">else</span>
+          <span class="sa">f</span><span class="s2">"por encima de la tolerancia declarada de 10⁻³ en </span><span class="si">{</span><span class="nb">int</span><span class="p">((</span><span class="n">par</span><span class="o">.</span><span class="n">max_abs_diff</span><span class="w"> </span><span class="o">&gt;</span><span class="w"> </span><span class="mf">1e-3</span><span class="p">)</span><span class="o">.</span><span class="n">sum</span><span class="p">())</span><span class="si">}</span><span class="s2"> de </span><span class="si">{</span><span class="nb">len</span><span class="p">(</span><span class="n">par</span><span class="p">)</span><span class="si">}</span><span class="s2"> imágenes; la diferencia "</span>
+          <span class="sa">f</span><span class="s2">"no cambia el resultado del post-proceso de forma apreciable: el AP medio difiere en </span><span class="si">{</span><span class="nb">abs</span><span class="p">(</span><span class="n">par</span><span class="o">.</span><span class="n">ap_keras</span><span class="o">.</span><span class="n">mean</span><span class="p">()</span><span class="w"> </span><span class="o">-</span><span class="w"> </span><span class="n">par</span><span class="o">.</span><span class="n">ap_onnx</span><span class="o">.</span><span class="n">mean</span><span class="p">())</span><span class="si">:</span><span class="s2">.4f</span><span class="si">}</span><span class="s2">. "</span><span class="p">)</span>
+       <span class="o">+</span> <span class="sa">f</span><span class="s2">"AP de validación: Keras </span><span class="si">{</span><span class="n">par</span><span class="o">.</span><span class="n">ap_keras</span><span class="o">.</span><span class="n">mean</span><span class="p">()</span><span class="si">:</span><span class="s2">.4f</span><span class="si">}</span><span class="s2">, ONNX </span><span class="si">{</span><span class="n">par</span><span class="o">.</span><span class="n">ap_onnx</span><span class="o">.</span><span class="n">mean</span><span class="p">()</span><span class="si">:</span><span class="s2">.4f</span><span class="si">}</span><span class="s2">. "</span>
+       <span class="sa">f</span><span class="s2">"Latencia ONNX en CPU por imagen: p50 </span><span class="si">{</span><span class="mf">1e3</span><span class="w"> </span><span class="o">*</span><span class="w"> </span><span class="n">par</span><span class="o">.</span><span class="n">lat_onnx_s</span><span class="o">.</span><span class="n">median</span><span class="p">()</span><span class="si">:</span><span class="s2">.0f</span><span class="si">}</span><span class="s2"> ms."</span><span class="p">)</span>
+    <span class="n">q</span> <span class="o">=</span> <span class="n">ex</span><span class="p">[</span><span class="s2">"quant"</span><span class="p">]</span>
+    <span class="k">if</span> <span class="s2">"ap_drop"</span> <span class="ow">in</span> <span class="n">q</span><span class="p">:</span>
+        <span class="n">md</span><span class="p">(</span><span class="sa">f</span><span class="s2">"Cuantización int8: AP </span><span class="si">{</span><span class="n">q</span><span class="p">[</span><span class="s1">'ap'</span><span class="p">]</span><span class="si">:</span><span class="s2">.4f</span><span class="si">}</span><span class="s2"> (caída </span><span class="si">{</span><span class="n">q</span><span class="p">[</span><span class="s1">'ap_drop'</span><span class="p">]</span><span class="si">:</span><span class="s2">+.4f</span><span class="si">}</span><span class="s2">), latencia p50 </span><span class="si">{</span><span class="mf">1e3</span><span class="w"> </span><span class="o">*</span><span class="w"> </span><span class="n">q</span><span class="p">[</span><span class="s1">'lat_p50'</span><span class="p">]</span><span class="si">:</span><span class="s2">.0f</span><span class="si">}</span><span class="s2"> ms, tamaño </span><span class="si">{</span><span class="n">q</span><span class="p">[</span><span class="s1">'size_mb'</span><span class="p">]</span><span class="si">:</span><span class="s2">.1f</span><span class="si">}</span><span class="s2"> MB. "</span>
+           <span class="sa">f</span><span class="s2">"**</span><span class="si">{</span><span class="s1">'Se sirve la versión int8.'</span><span class="w"> </span><span class="k">if</span><span class="w"> </span><span class="n">ex</span><span class="p">[</span><span class="s1">'served_int8'</span><span class="p">]</span><span class="w"> </span><span class="k">else</span><span class="w"> </span><span class="s1">'Se sirve la versión fp32'</span><span class="si">}</span><span class="s2">**"</span>
+           <span class="o">+</span> <span class="p">(</span><span class="s2">""</span> <span class="k">if</span> <span class="n">ex</span><span class="p">[</span><span class="s2">"served_int8"</span><span class="p">]</span> <span class="k">else</span> <span class="s2">" porque la versión int8 no cumple a la vez caída ≤ 0.01 y menor latencia."</span><span class="p">))</span>
+    <span class="k">else</span><span class="p">:</span>
+        <span class="n">md</span><span class="p">(</span><span class="sa">f</span><span class="s2">"La cuantización estática falló: `</span><span class="si">{</span><span class="n">q</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="s1">'error'</span><span class="p">,</span><span class="w"> </span><span class="s1">''</span><span class="p">)[:</span><span class="mi">200</span><span class="p">]</span><span class="si">}</span><span class="s2">`. Se sirve la versión fp32."</span><span class="p">)</span>
+    <span class="n">md</span><span class="p">(</span><span class="sa">f</span><span class="s2">"Tamaño del modelo servido: </span><span class="si">{</span><span class="n">ex</span><span class="p">[</span><span class="s1">'onnx_mb'</span><span class="p">]</span><span class="si">:</span><span class="s2">.1f</span><span class="si">}</span><span class="s2"> MB. AP del conjunto dorado (6 imágenes): </span><span class="si">{</span><span class="n">ex</span><span class="p">[</span><span class="s1">'golden_ap'</span><span class="p">]</span><span class="si">:</span><span class="s2">.3f</span><span class="si">}</span><span class="s2">."</span><span class="p">)</span>
+<span class="k">else</span><span class="p">:</span>
+    <span class="n">md</span><span class="p">(</span><span class="s2">"La exportación de segmentación no terminó (`python scripts/mlops.py export-seg`)."</span><span class="p">)</span>
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<p>Modelo exportado: U-Net++, semilla 2. Diferencia máxima absoluta entre probabilidades de Keras y ONNX: 2.21e-03, por encima de la tolerancia declarada de 10⁻³ en 91 de 92 imágenes; la diferencia no cambia el resultado del post-proceso de forma apreciable: el AP medio difiere en 0.0002. AP de validación: Keras 0.2300, ONNX 0.2298. Latencia ONNX en CPU por imagen: p50 1947 ms.</p>
+<p>La cuantización estática falló: <code class="docutils literal notranslate"><span class="pre">Incomplete</span> <span class="pre">symbolic</span> <span class="pre">shape</span> <span class="pre">inference</span></code>. Se sirve la versión fp32.</p>
+<p>Tamaño del modelo servido: 18.2 MB. AP del conjunto dorado (6 imágenes): 0.125.</p>
+</div>
+</div>
+<p><strong>Texto.</strong> La regla de elección se fijó antes de ver test: servimos DistilBERT solo si su F1 macro de validación supera la de TF-IDF + RL en más de δ = 0.02, porque DistilBERT cuesta más en latencia y memoria (medición en el capítulo <a class="reference internal" href="25_nlp_analisis_critico.html"><span class="doc">Eficiencia, riesgo en reclutamiento y análisis crítico del clasificador de texto</span></a>).</p>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="k">if</span> <span class="n">exists</span><span class="p">(</span><span class="s2">"mlops/export_text/export_text.pkl"</span><span class="p">):</span>
+    <span class="n">et</span> <span class="o">=</span> <span class="n">need</span><span class="p">(</span><span class="s2">"mlops/export_text/export_text.pkl"</span><span class="p">)</span>
+    <span class="n">md</span><span class="p">(</span><span class="sa">f</span><span class="s2">"F1 macro de validación: TF-IDF + RL </span><span class="si">{</span><span class="n">et</span><span class="p">[</span><span class="s1">'f1_val_lr'</span><span class="p">]</span><span class="si">:</span><span class="s2">.3f</span><span class="si">}</span><span class="s2">, DistilBERT "</span>
+       <span class="o">+</span> <span class="p">(</span><span class="sa">f</span><span class="s2">"</span><span class="si">{</span><span class="n">et</span><span class="p">[</span><span class="s1">'f1_val_bert'</span><span class="p">]</span><span class="si">:</span><span class="s2">.3f</span><span class="si">}</span><span class="s2">"</span> <span class="k">if</span> <span class="n">et</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="s2">"f1_val_bert"</span><span class="p">)</span> <span class="o">==</span> <span class="n">et</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="s2">"f1_val_bert"</span><span class="p">)</span> <span class="ow">and</span> <span class="n">et</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="s2">"f1_val_bert"</span><span class="p">)</span> <span class="ow">is</span> <span class="ow">not</span> <span class="kc">None</span> <span class="k">else</span> <span class="s2">"—"</span><span class="p">)</span>
+       <span class="o">+</span> <span class="sa">f</span><span class="s2">". **Modelo servido: </span><span class="si">{</span><span class="p">({</span><span class="s1">'distilbert'</span><span class="p">:</span><span class="w"> </span><span class="s1">'DistilBERT'</span><span class="p">,</span><span class="w"> </span><span class="s1">'tfidf_lr'</span><span class="p">:</span><span class="w"> </span><span class="s1">'TF-IDF + RL'</span><span class="p">})</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="n">et</span><span class="p">[</span><span class="s1">'choice'</span><span class="p">],</span><span class="w"> </span><span class="n">et</span><span class="p">[</span><span class="s1">'choice'</span><span class="p">])</span><span class="si">}</span><span class="s2">.** F1 macro del modelo servido en validación: </span><span class="si">{</span><span class="n">et</span><span class="p">[</span><span class="s1">'val_f1_served'</span><span class="p">]</span><span class="si">:</span><span class="s2">.3f</span><span class="si">}</span><span class="s2">; latencia en CPU por "</span>
+       <span class="sa">f</span><span class="s2">"documento p50 </span><span class="si">{</span><span class="n">et</span><span class="p">[</span><span class="s1">'lat_p50_ms'</span><span class="p">]</span><span class="si">:</span><span class="s2">.1f</span><span class="si">}</span><span class="s2"> ms, p95 </span><span class="si">{</span><span class="n">et</span><span class="p">[</span><span class="s1">'lat_p95_ms'</span><span class="p">]</span><span class="si">:</span><span class="s2">.1f</span><span class="si">}</span><span class="s2"> ms; exactitud en el conjunto dorado (40 textos): </span><span class="si">{</span><span class="n">et</span><span class="p">[</span><span class="s1">'golden_accuracy'</span><span class="p">]</span><span class="si">:</span><span class="s2">.3f</span><span class="si">}</span><span class="s2">."</span><span class="p">)</span>
+    <span class="k">if</span> <span class="s2">"parity_max_abs"</span> <span class="ow">in</span> <span class="n">et</span><span class="p">:</span>
+        <span class="n">md</span><span class="p">(</span><span class="sa">f</span><span class="s2">"Paridad entre el *pipeline* servido y las probabilidades del entrenamiento: diferencia máxima </span><span class="si">{</span><span class="n">et</span><span class="p">[</span><span class="s1">'parity_max_abs'</span><span class="p">]</span><span class="si">:</span><span class="s2">.2e</span><span class="si">}</span><span class="s2">."</span><span class="p">)</span>
+<span class="k">else</span><span class="p">:</span>
+    <span class="n">md</span><span class="p">(</span><span class="s2">"La exportación de texto no terminó (`python scripts/mlops.py export-text`)."</span><span class="p">)</span>
+<span class="k">if</span> <span class="n">exists</span><span class="p">(</span><span class="s2">"mlops/bert_quant/bert_quant.pkl"</span><span class="p">):</span>
+    <span class="n">bq</span> <span class="o">=</span> <span class="n">need</span><span class="p">(</span><span class="s2">"mlops/bert_quant/bert_quant.pkl"</span><span class="p">)[</span><span class="s2">"table"</span><span class="p">]</span>
+    <span class="n">display</span><span class="p">(</span><span class="n">bq</span><span class="o">.</span><span class="n">rename</span><span class="p">(</span><span class="n">columns</span><span class="o">=</span><span class="p">{</span><span class="s2">"variant"</span><span class="p">:</span> <span class="s2">"DistilBERT"</span><span class="p">,</span> <span class="s2">"f1_val"</span><span class="p">:</span> <span class="s2">"F1 macro (150 docs. val)"</span><span class="p">,</span> <span class="s2">"lat_p50_ms"</span><span class="p">:</span> <span class="s2">"p50 (ms)"</span><span class="p">,</span> <span class="s2">"lat_p95_ms"</span><span class="p">:</span> <span class="s2">"p95 (ms)"</span><span class="p">,</span>
+                               <span class="s2">"size_mb"</span><span class="p">:</span> <span class="s2">"tamaño (MB)"</span><span class="p">,</span> <span class="s2">"agreement_with_fp32"</span><span class="p">:</span> <span class="s2">"acuerdo con fp32"</span><span class="p">})</span><span class="o">.</span><span class="n">style</span><span class="o">.</span><span class="n">hide</span><span class="p">(</span><span class="n">axis</span><span class="o">=</span><span class="s2">"index"</span><span class="p">)</span><span class="o">.</span><span class="n">format</span><span class="p">(</span><span class="n">precision</span><span class="o">=</span><span class="mi">3</span><span class="p">,</span> <span class="n">na_rep</span><span class="o">=</span><span class="s2">"—"</span><span class="p">))</span>
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<p>F1 macro de validación: TF-IDF + RL 0.659, DistilBERT 0.774. <strong>Modelo servido: DistilBERT.</strong> F1 macro del modelo servido en validación: 0.776; latencia en CPU por documento p50 190.3 ms, p95 197.9 ms; exactitud en el conjunto dorado (40 textos): 0.850.</p>
+<div class="output text_html"><style type="text/css">
+</style>
+<table id="T_1e284">
+  <thead>
+    <tr>
+      <th id="T_1e284_level0_col0" class="col_heading level0 col0" >DistilBERT</th>
+      <th id="T_1e284_level0_col1" class="col_heading level0 col1" >F1 macro (150 docs. val)</th>
+      <th id="T_1e284_level0_col2" class="col_heading level0 col2" >p50 (ms)</th>
+      <th id="T_1e284_level0_col3" class="col_heading level0 col3" >p95 (ms)</th>
+      <th id="T_1e284_level0_col4" class="col_heading level0 col4" >tamaño (MB)</th>
+      <th id="T_1e284_level0_col5" class="col_heading level0 col5" >acuerdo con fp32</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <td id="T_1e284_row0_col0" class="data row0 col0" >ONNX fp32</td>
+      <td id="T_1e284_row0_col1" class="data row0 col1" >0.351</td>
+      <td id="T_1e284_row0_col2" class="data row0 col2" >182.344</td>
+      <td id="T_1e284_row0_col3" class="data row0 col3" >200.157</td>
+      <td id="T_1e284_row0_col4" class="data row0 col4" >268.012</td>
+      <td id="T_1e284_row0_col5" class="data row0 col5" >—</td>
+    </tr>
+    <tr>
+      <td id="T_1e284_row1_col0" class="data row1 col0" >ONNX int8 dinámico</td>
+      <td id="T_1e284_row1_col1" class="data row1 col1" >0.351</td>
+      <td id="T_1e284_row1_col2" class="data row1 col2" >68.185</td>
+      <td id="T_1e284_row1_col3" class="data row1 col3" >73.949</td>
+      <td id="T_1e284_row1_col4" class="data row1 col4" >67.380</td>
+      <td id="T_1e284_row1_col5" class="data row1 col5" >0.947</td>
+    </tr>
+  </tbody>
+</table>
+</div></div>
+</div>
+</section>
+<section id="prueba-de-carga">
+<h2>Prueba de carga<a class="headerlink" href="#prueba-de-carga" title="Link to this heading">#</a></h2>
+<p>Levantamos la API con un solo proceso de uvicorn en CPU y la sometimos a niveles crecientes de usuarios concurrentes con Locust (cada usuario espera entre 0.1 y 0.5 s entre peticiones; 80 % texto, 10 % imagen, 10 % <code class="docutils literal notranslate"><span class="pre">/health</span></code>). Definimos el punto de saturación como el primer nivel a partir del cual duplicar los usuarios aumenta el rendimiento menos de un 10 %.</p>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="k">if</span> <span class="n">exists</span><span class="p">(</span><span class="s2">"mlops/load/load.pkl"</span><span class="p">):</span>
+    <span class="n">ld</span> <span class="o">=</span> <span class="n">need</span><span class="p">(</span><span class="s2">"mlops/load/load.pkl"</span><span class="p">)</span>
+    <span class="n">S</span> <span class="o">=</span> <span class="n">ld</span><span class="p">[</span><span class="s2">"sweep"</span><span class="p">]</span>
+    <span class="n">fig</span><span class="p">,</span> <span class="n">axes</span> <span class="o">=</span> <span class="n">plt</span><span class="o">.</span><span class="n">subplots</span><span class="p">(</span><span class="mi">1</span><span class="p">,</span> <span class="mi">2</span><span class="p">,</span> <span class="n">figsize</span><span class="o">=</span><span class="p">(</span><span class="mi">11</span><span class="p">,</span> <span class="mf">3.8</span><span class="p">))</span>
+    <span class="k">for</span> <span class="n">k</span><span class="p">,</span> <span class="n">ep</span> <span class="ow">in</span> <span class="nb">enumerate</span><span class="p">([</span><span class="s2">"/predict_text"</span><span class="p">,</span> <span class="s2">"/predict_image"</span><span class="p">]):</span>
+        <span class="n">g</span> <span class="o">=</span> <span class="n">S</span><span class="p">[</span><span class="n">S</span><span class="o">.</span><span class="n">endpoint</span> <span class="o">==</span> <span class="n">ep</span><span class="p">]</span><span class="o">.</span><span class="n">set_index</span><span class="p">(</span><span class="s2">"users"</span><span class="p">)</span>
+        <span class="k">if</span> <span class="nb">len</span><span class="p">(</span><span class="n">g</span><span class="p">):</span>
+            <span class="k">for</span> <span class="n">q_</span><span class="p">,</span> <span class="n">ls</span> <span class="ow">in</span> <span class="p">((</span><span class="s2">"p50_ms"</span><span class="p">,</span> <span class="s2">"-"</span><span class="p">),</span> <span class="p">(</span><span class="s2">"p95_ms"</span><span class="p">,</span> <span class="s2">"--"</span><span class="p">),</span> <span class="p">(</span><span class="s2">"p99_ms"</span><span class="p">,</span> <span class="s2">":"</span><span class="p">)):</span>
+                <span class="n">axes</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span><span class="o">.</span><span class="n">plot</span><span class="p">(</span><span class="n">g</span><span class="o">.</span><span class="n">index</span><span class="p">,</span> <span class="n">g</span><span class="p">[</span><span class="n">q_</span><span class="p">],</span> <span class="n">ls</span><span class="p">,</span> <span class="n">marker</span><span class="o">=</span><span class="s2">"o"</span><span class="p">,</span> <span class="n">color</span><span class="o">=</span><span class="n">CAT</span><span class="p">[</span><span class="n">k</span><span class="p">],</span> <span class="n">label</span><span class="o">=</span><span class="sa">f</span><span class="s2">"</span><span class="si">{</span><span class="n">ep</span><span class="si">}</span><span class="s2"> </span><span class="si">{</span><span class="n">q_</span><span class="p">[:</span><span class="mi">3</span><span class="p">]</span><span class="si">}</span><span class="s2">"</span><span class="p">)</span>
+    <span class="n">axes</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span><span class="o">.</span><span class="n">set</span><span class="p">(</span><span class="n">xscale</span><span class="o">=</span><span class="s2">"log"</span><span class="p">,</span> <span class="n">yscale</span><span class="o">=</span><span class="s2">"log"</span><span class="p">,</span> <span class="n">xlabel</span><span class="o">=</span><span class="s2">"usuarios concurrentes"</span><span class="p">,</span> <span class="n">ylabel</span><span class="o">=</span><span class="s2">"latencia (ms)"</span><span class="p">);</span> <span class="n">axes</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span><span class="o">.</span><span class="n">legend</span><span class="p">(</span><span class="n">fontsize</span><span class="o">=</span><span class="mi">7</span><span class="p">,</span> <span class="n">ncol</span><span class="o">=</span><span class="mi">2</span><span class="p">)</span>
+    <span class="n">agg</span> <span class="o">=</span> <span class="n">S</span><span class="p">[</span><span class="n">S</span><span class="o">.</span><span class="n">endpoint</span> <span class="o">==</span> <span class="s2">"Aggregated"</span><span class="p">]</span><span class="o">.</span><span class="n">set_index</span><span class="p">(</span><span class="s2">"users"</span><span class="p">)</span>
+    <span class="n">axes</span><span class="p">[</span><span class="mi">1</span><span class="p">]</span><span class="o">.</span><span class="n">plot</span><span class="p">(</span><span class="n">agg</span><span class="o">.</span><span class="n">index</span><span class="p">,</span> <span class="n">agg</span><span class="o">.</span><span class="n">rps</span><span class="p">,</span> <span class="s2">"o-"</span><span class="p">,</span> <span class="n">color</span><span class="o">=</span><span class="n">CAT</span><span class="p">[</span><span class="mi">0</span><span class="p">])</span>
+    <span class="k">if</span> <span class="n">ld</span><span class="p">[</span><span class="s2">"saturation_users"</span><span class="p">]:</span>
+        <span class="n">axes</span><span class="p">[</span><span class="mi">1</span><span class="p">]</span><span class="o">.</span><span class="n">axvline</span><span class="p">(</span><span class="n">ld</span><span class="p">[</span><span class="s2">"saturation_users"</span><span class="p">],</span> <span class="n">color</span><span class="o">=</span><span class="n">MUTED</span><span class="p">,</span> <span class="n">ls</span><span class="o">=</span><span class="s2">"--"</span><span class="p">)</span>
+    <span class="n">axes</span><span class="p">[</span><span class="mi">1</span><span class="p">]</span><span class="o">.</span><span class="n">set</span><span class="p">(</span><span class="n">xscale</span><span class="o">=</span><span class="s2">"log"</span><span class="p">,</span> <span class="n">xlabel</span><span class="o">=</span><span class="s2">"usuarios concurrentes"</span><span class="p">,</span> <span class="n">ylabel</span><span class="o">=</span><span class="s2">"peticiones/s (todas las rutas)"</span><span class="p">)</span>
+    <span class="n">plt</span><span class="o">.</span><span class="n">show</span><span class="p">()</span>
+    <span class="n">display</span><span class="p">(</span><span class="n">S</span><span class="p">[</span><span class="n">S</span><span class="o">.</span><span class="n">endpoint</span> <span class="o">!=</span> <span class="s2">"Aggregated"</span><span class="p">][[</span><span class="s2">"users"</span><span class="p">,</span> <span class="s2">"endpoint"</span><span class="p">,</span> <span class="s2">"requests"</span><span class="p">,</span> <span class="s2">"failures"</span><span class="p">,</span> <span class="s2">"rps"</span><span class="p">,</span> <span class="s2">"p50_ms"</span><span class="p">,</span> <span class="s2">"p95_ms"</span><span class="p">,</span> <span class="s2">"p99_ms"</span><span class="p">]]</span>
+            <span class="o">.</span><span class="n">rename</span><span class="p">(</span><span class="n">columns</span><span class="o">=</span><span class="p">{</span><span class="s2">"users"</span><span class="p">:</span> <span class="s2">"usuarios"</span><span class="p">,</span> <span class="s2">"endpoint"</span><span class="p">:</span> <span class="s2">"ruta"</span><span class="p">,</span> <span class="s2">"requests"</span><span class="p">:</span> <span class="s2">"peticiones"</span><span class="p">,</span> <span class="s2">"failures"</span><span class="p">:</span> <span class="s2">"fallos"</span><span class="p">,</span> <span class="s2">"rps"</span><span class="p">:</span> <span class="s2">"peticiones/s"</span><span class="p">})</span>
+            <span class="o">.</span><span class="n">style</span><span class="o">.</span><span class="n">hide</span><span class="p">(</span><span class="n">axis</span><span class="o">=</span><span class="s2">"index"</span><span class="p">)</span><span class="o">.</span><span class="n">format</span><span class="p">(</span><span class="n">precision</span><span class="o">=</span><span class="mi">1</span><span class="p">))</span>
+    <span class="k">if</span> <span class="ow">not</span> <span class="p">(</span><span class="n">S</span><span class="o">.</span><span class="n">endpoint</span> <span class="o">==</span> <span class="s2">"/predict_image"</span><span class="p">)</span><span class="o">.</span><span class="n">any</span><span class="p">():</span>
+        <span class="n">md</span><span class="p">(</span><span class="s2">"La prueba de carga corrió antes de que el modelo de segmentación estuviera exportado, así que solo cubre la ruta de texto "</span>
+           <span class="s2">"y `/health`; la ruta de imágenes no tiene medición bajo carga."</span><span class="p">)</span>
+    <span class="n">sat</span> <span class="o">=</span> <span class="n">ld</span><span class="p">[</span><span class="s2">"saturation_users"</span><span class="p">]</span>
+    <span class="n">md</span><span class="p">(</span><span class="sa">f</span><span class="s2">"Punto de saturación: </span><span class="si">{</span><span class="n">sat</span><span class="si">}</span><span class="s2"> usuarios (</span><span class="si">{</span><span class="n">agg</span><span class="o">.</span><span class="n">rps</span><span class="p">[</span><span class="n">sat</span><span class="p">]</span><span class="si">:</span><span class="s2">.1f</span><span class="si">}</span><span class="s2"> peticiones/s)."</span> <span class="k">if</span> <span class="n">sat</span> <span class="k">else</span>
+       <span class="sa">f</span><span class="s2">"No alcanzamos la saturación hasta </span><span class="si">{</span><span class="nb">max</span><span class="p">(</span><span class="n">ld</span><span class="p">[</span><span class="s1">'levels'</span><span class="p">])</span><span class="si">}</span><span class="s2"> usuarios (</span><span class="si">{</span><span class="n">agg</span><span class="o">.</span><span class="n">rps</span><span class="o">.</span><span class="n">iloc</span><span class="p">[</span><span class="o">-</span><span class="mi">1</span><span class="p">]</span><span class="si">:</span><span class="s2">.1f</span><span class="si">}</span><span class="s2"> peticiones/s)."</span><span class="p">)</span>
+    <span class="n">display</span><span class="p">(</span><span class="n">ld</span><span class="p">[</span><span class="s2">"batching"</span><span class="p">]</span><span class="o">.</span><span class="n">rename</span><span class="p">(</span><span class="n">columns</span><span class="o">=</span><span class="p">{</span><span class="s2">"model"</span><span class="p">:</span> <span class="s2">"modelo"</span><span class="p">,</span> <span class="s2">"mode"</span><span class="p">:</span> <span class="s2">"modo"</span><span class="p">,</span> <span class="s2">"docs_per_s"</span><span class="p">:</span> <span class="s2">"elementos/s"</span><span class="p">,</span> <span class="s2">"net_ms"</span><span class="p">:</span> <span class="s2">"red (ms)"</span><span class="p">,</span>
+                                           <span class="s2">"post_ms"</span><span class="p">:</span> <span class="s2">"posproceso (ms)"</span><span class="p">})</span><span class="o">.</span><span class="n">style</span><span class="o">.</span><span class="n">hide</span><span class="p">(</span><span class="n">axis</span><span class="o">=</span><span class="s2">"index"</span><span class="p">)</span><span class="o">.</span><span class="n">format</span><span class="p">(</span><span class="n">precision</span><span class="o">=</span><span class="mi">1</span><span class="p">,</span> <span class="n">na_rep</span><span class="o">=</span><span class="s2">"—"</span><span class="p">))</span>
+    <span class="n">bs</span> <span class="o">=</span> <span class="n">ld</span><span class="p">[</span><span class="s2">"batching"</span><span class="p">]</span>
+    <span class="n">bs</span> <span class="o">=</span> <span class="n">bs</span><span class="p">[(</span><span class="n">bs</span><span class="o">.</span><span class="n">model</span> <span class="o">==</span> <span class="s2">"segmentación"</span><span class="p">)</span> <span class="o">&amp;</span> <span class="n">bs</span><span class="o">.</span><span class="n">post_ms</span><span class="o">.</span><span class="n">notna</span><span class="p">()]</span> <span class="k">if</span> <span class="s2">"post_ms"</span> <span class="ow">in</span> <span class="n">bs</span> <span class="k">else</span> <span class="n">bs</span><span class="o">.</span><span class="n">iloc</span><span class="p">[</span><span class="mi">0</span><span class="p">:</span><span class="mi">0</span><span class="p">]</span>
+    <span class="k">if</span> <span class="nb">len</span><span class="p">(</span><span class="n">bs</span><span class="p">):</span>
+        <span class="n">r</span> <span class="o">=</span> <span class="n">bs</span><span class="o">.</span><span class="n">iloc</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span>
+        <span class="n">md</span><span class="p">(</span><span class="sa">f</span><span class="s2">"En segmentación, la red ocupa </span><span class="si">{</span><span class="n">r</span><span class="o">.</span><span class="n">net_ms</span><span class="si">:</span><span class="s2">.0f</span><span class="si">}</span><span class="s2"> ms y el posproceso por watershed </span><span class="si">{</span><span class="n">r</span><span class="o">.</span><span class="n">post_ms</span><span class="si">:</span><span class="s2">.0f</span><span class="si">}</span><span class="s2"> ms por imagen (medianas en CPU): "</span>
+           <span class="sa">f</span><span class="s2">"el posproceso es el </span><span class="si">{</span><span class="mi">100</span><span class="w"> </span><span class="o">*</span><span class="w"> </span><span class="n">r</span><span class="o">.</span><span class="n">post_ms</span><span class="w"> </span><span class="o">/</span><span class="w"> </span><span class="p">(</span><span class="n">r</span><span class="o">.</span><span class="n">net_ms</span><span class="w"> </span><span class="o">+</span><span class="w"> </span><span class="n">r</span><span class="o">.</span><span class="n">post_ms</span><span class="p">)</span><span class="si">:</span><span class="s2">.0f</span><span class="si">}</span><span class="s2"> % del tiempo y agrupar imágenes en lotes solo acelera la parte de la red."</span><span class="p">)</span>
+<span class="k">else</span><span class="p">:</span>
+    <span class="n">md</span><span class="p">(</span><span class="s2">"La prueba de carga no terminó (`python scripts/mlops.py load`)."</span><span class="p">)</span>
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<img alt="_images/20fc96f165d116664c1826547350faf09cc9590df4b3c8aeec4fa3dfe1c898a5.png" src="_images/20fc96f165d116664c1826547350faf09cc9590df4b3c8aeec4fa3dfe1c898a5.png" />
+<div class="output text_html"><style type="text/css">
+</style>
+<table id="T_e1ed5">
+  <thead>
+    <tr>
+      <th id="T_e1ed5_level0_col0" class="col_heading level0 col0" >usuarios</th>
+      <th id="T_e1ed5_level0_col1" class="col_heading level0 col1" >ruta</th>
+      <th id="T_e1ed5_level0_col2" class="col_heading level0 col2" >peticiones</th>
+      <th id="T_e1ed5_level0_col3" class="col_heading level0 col3" >fallos</th>
+      <th id="T_e1ed5_level0_col4" class="col_heading level0 col4" >peticiones/s</th>
+      <th id="T_e1ed5_level0_col5" class="col_heading level0 col5" >p50_ms</th>
+      <th id="T_e1ed5_level0_col6" class="col_heading level0 col6" >p95_ms</th>
+      <th id="T_e1ed5_level0_col7" class="col_heading level0 col7" >p99_ms</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <td id="T_e1ed5_row0_col0" class="data row0 col0" >1</td>
+      <td id="T_e1ed5_row0_col1" class="data row0 col1" >/health</td>
+      <td id="T_e1ed5_row0_col2" class="data row0 col2" >10</td>
+      <td id="T_e1ed5_row0_col3" class="data row0 col3" >0</td>
+      <td id="T_e1ed5_row0_col4" class="data row0 col4" >0.2</td>
+      <td id="T_e1ed5_row0_col5" class="data row0 col5" >3.0</td>
+      <td id="T_e1ed5_row0_col6" class="data row0 col6" >6.0</td>
+      <td id="T_e1ed5_row0_col7" class="data row0 col7" >6.0</td>
+    </tr>
+    <tr>
+      <td id="T_e1ed5_row1_col0" class="data row1 col0" >1</td>
+      <td id="T_e1ed5_row1_col1" class="data row1 col1" >/predict_text</td>
+      <td id="T_e1ed5_row1_col2" class="data row1 col2" >59</td>
+      <td id="T_e1ed5_row1_col3" class="data row1 col3" >0</td>
+      <td id="T_e1ed5_row1_col4" class="data row1 col4" >1.5</td>
+      <td id="T_e1ed5_row1_col5" class="data row1 col5" >200.0</td>
+      <td id="T_e1ed5_row1_col6" class="data row1 col6" >220.0</td>
+      <td id="T_e1ed5_row1_col7" class="data row1 col7" >920.0</td>
+    </tr>
+    <tr>
+      <td id="T_e1ed5_row2_col0" class="data row2 col0" >5</td>
+      <td id="T_e1ed5_row2_col1" class="data row2 col1" >/health</td>
+      <td id="T_e1ed5_row2_col2" class="data row2 col2" >33</td>
+      <td id="T_e1ed5_row2_col3" class="data row2 col3" >0</td>
+      <td id="T_e1ed5_row2_col4" class="data row2 col4" >0.8</td>
+      <td id="T_e1ed5_row2_col5" class="data row2 col5" >5.0</td>
+      <td id="T_e1ed5_row2_col6" class="data row2 col6" >8.0</td>
+      <td id="T_e1ed5_row2_col7" class="data row2 col7" >15.0</td>
+    </tr>
+    <tr>
+      <td id="T_e1ed5_row3_col0" class="data row3 col0" >5</td>
+      <td id="T_e1ed5_row3_col1" class="data row3 col1" >/predict_text</td>
+      <td id="T_e1ed5_row3_col2" class="data row3 col2" >239</td>
+      <td id="T_e1ed5_row3_col3" class="data row3 col3" >0</td>
+      <td id="T_e1ed5_row3_col4" class="data row3 col4" >6.0</td>
+      <td id="T_e1ed5_row3_col5" class="data row3 col5" >430.0</td>
+      <td id="T_e1ed5_row3_col6" class="data row3 col6" >560.0</td>
+      <td id="T_e1ed5_row3_col7" class="data row3 col7" >590.0</td>
+    </tr>
+    <tr>
+      <td id="T_e1ed5_row4_col0" class="data row4 col0" >10</td>
+      <td id="T_e1ed5_row4_col1" class="data row4 col1" >/health</td>
+      <td id="T_e1ed5_row4_col2" class="data row4 col2" >30</td>
+      <td id="T_e1ed5_row4_col3" class="data row4 col3" >0</td>
+      <td id="T_e1ed5_row4_col4" class="data row4 col4" >0.8</td>
+      <td id="T_e1ed5_row4_col5" class="data row4 col5" >10.0</td>
+      <td id="T_e1ed5_row4_col6" class="data row4 col6" >20.0</td>
+      <td id="T_e1ed5_row4_col7" class="data row4 col7" >27.0</td>
+    </tr>
+    <tr>
+      <td id="T_e1ed5_row5_col0" class="data row5 col0" >10</td>
+      <td id="T_e1ed5_row5_col1" class="data row5 col1" >/predict_text</td>
+      <td id="T_e1ed5_row5_col2" class="data row5 col2" >267</td>
+      <td id="T_e1ed5_row5_col3" class="data row5 col3" >0</td>
+      <td id="T_e1ed5_row5_col4" class="data row5 col4" >6.7</td>
+      <td id="T_e1ed5_row5_col5" class="data row5 col5" >1100.0</td>
+      <td id="T_e1ed5_row5_col6" class="data row5 col6" >1300.0</td>
+      <td id="T_e1ed5_row5_col7" class="data row5 col7" >1300.0</td>
+    </tr>
+    <tr>
+      <td id="T_e1ed5_row6_col0" class="data row6 col0" >20</td>
+      <td id="T_e1ed5_row6_col1" class="data row6 col1" >/health</td>
+      <td id="T_e1ed5_row6_col2" class="data row6 col2" >41</td>
+      <td id="T_e1ed5_row6_col3" class="data row6 col3" >0</td>
+      <td id="T_e1ed5_row6_col4" class="data row6 col4" >1.0</td>
+      <td id="T_e1ed5_row6_col5" class="data row6 col5" >12.0</td>
+      <td id="T_e1ed5_row6_col6" class="data row6 col6" >36.0</td>
+      <td id="T_e1ed5_row6_col7" class="data row6 col7" >150.0</td>
+    </tr>
+    <tr>
+      <td id="T_e1ed5_row7_col0" class="data row7 col0" >20</td>
+      <td id="T_e1ed5_row7_col1" class="data row7 col1" >/predict_text</td>
+      <td id="T_e1ed5_row7_col2" class="data row7 col2" >278</td>
+      <td id="T_e1ed5_row7_col3" class="data row7 col3" >0</td>
+      <td id="T_e1ed5_row7_col4" class="data row7 col4" >7.0</td>
+      <td id="T_e1ed5_row7_col5" class="data row7 col5" >2600.0</td>
+      <td id="T_e1ed5_row7_col6" class="data row7 col6" >3000.0</td>
+      <td id="T_e1ed5_row7_col7" class="data row7 col7" >4000.0</td>
+    </tr>
+    <tr>
+      <td id="T_e1ed5_row8_col0" class="data row8 col0" >40</td>
+      <td id="T_e1ed5_row8_col1" class="data row8 col1" >/health</td>
+      <td id="T_e1ed5_row8_col2" class="data row8 col2" >34</td>
+      <td id="T_e1ed5_row8_col3" class="data row8 col3" >0</td>
+      <td id="T_e1ed5_row8_col4" class="data row8 col4" >0.8</td>
+      <td id="T_e1ed5_row8_col5" class="data row8 col5" >11.0</td>
+      <td id="T_e1ed5_row8_col6" class="data row8 col6" >250.0</td>
+      <td id="T_e1ed5_row8_col7" class="data row8 col7" >380.0</td>
+    </tr>
+    <tr>
+      <td id="T_e1ed5_row9_col0" class="data row9 col0" >40</td>
+      <td id="T_e1ed5_row9_col1" class="data row9 col1" >/predict_text</td>
+      <td id="T_e1ed5_row9_col2" class="data row9 col2" >256</td>
+      <td id="T_e1ed5_row9_col3" class="data row9 col3" >0</td>
+      <td id="T_e1ed5_row9_col4" class="data row9 col4" >6.4</td>
+      <td id="T_e1ed5_row9_col5" class="data row9 col5" >5600.0</td>
+      <td id="T_e1ed5_row9_col6" class="data row9 col6" >5800.0</td>
+      <td id="T_e1ed5_row9_col7" class="data row9 col7" >6200.0</td>
+    </tr>
+  </tbody>
+</table>
+</div><p>La prueba de carga corrió antes de que el modelo de segmentación estuviera exportado, así que solo cubre la ruta de texto y <code class="docutils literal notranslate"><span class="pre">/health</span></code>; la ruta de imágenes no tiene medición bajo carga.</p>
+<p>Punto de saturación: 5 usuarios (6.8 peticiones/s).</p>
+<div class="output text_html"><style type="text/css">
+</style>
+<table id="T_217f7">
+  <thead>
+    <tr>
+      <th id="T_217f7_level0_col0" class="col_heading level0 col0" >modelo</th>
+      <th id="T_217f7_level0_col1" class="col_heading level0 col1" >modo</th>
+      <th id="T_217f7_level0_col2" class="col_heading level0 col2" >elementos/s</th>
+      <th id="T_217f7_level0_col3" class="col_heading level0 col3" >error</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <td id="T_217f7_row0_col0" class="data row0 col0" >texto</td>
+      <td id="T_217f7_row0_col1" class="data row0 col1" >lote 1</td>
+      <td id="T_217f7_row0_col2" class="data row0 col2" >5.3</td>
+      <td id="T_217f7_row0_col3" class="data row0 col3" >—</td>
+    </tr>
+    <tr>
+      <td id="T_217f7_row1_col0" class="data row1 col0" >texto</td>
+      <td id="T_217f7_row1_col1" class="data row1 col1" >lote 32</td>
+      <td id="T_217f7_row1_col2" class="data row1 col2" >5.3</td>
+      <td id="T_217f7_row1_col3" class="data row1 col3" >—</td>
+    </tr>
+    <tr>
+      <td id="T_217f7_row2_col0" class="data row2 col0" >segmentación</td>
+      <td id="T_217f7_row2_col1" class="data row2 col1" >error</td>
+      <td id="T_217f7_row2_col2" class="data row2 col2" >—</td>
+      <td id="T_217f7_row2_col3" class="data row2 col3" >[Errno 2] No such file or directory: 'C:\\Users\\User\\Documents\\GitHub\\proyecto-integrador-dl\\models\\serving\\seg\\meta.json'</td>
+    </tr>
+  </tbody>
+</table>
+</div></div>
+</div>
+<p>La API no agrupa peticiones en lotes: cada petición se atiende sola. La tabla de lotes, medida fuera de la API, muestra cuánto rendimiento se ganaría agrupando textos. Con un solo <em>worker</em>, la ruta de imágenes bloquea al resto durante su cálculo: en producción la separaríamos en un servicio propio.</p>
+</section>
+<section id="integracion-continua">
+<h2>Integración continua<a class="headerlink" href="#integracion-continua" title="Link to this heading">#</a></h2>
+<p>El flujo de GitHub Actions (<code class="docutils literal notranslate"><span class="pre">.github/workflows/ci.yml</span></code>) ejecuta, en orden:</p>
+<div class="pst-scrollable-table-container"><table class="table">
+<thead>
+<tr class="row-odd"><th class="head"><p>Etapa</p></th>
+<th class="head"><p>Herramienta</p></th>
+<th class="head"><p>Qué falla</p></th>
+</tr>
+</thead>
+<tbody>
+<tr class="row-even"><td><p>Estilo</p></td>
+<td><p><code class="docutils literal notranslate"><span class="pre">ruff</span></code></p></td>
+<td><p>errores de estilo o código muerto</p></td>
+</tr>
+<tr class="row-odd"><td><p>Tipos</p></td>
+<td><p><code class="docutils literal notranslate"><span class="pre">mypy</span></code> en los módulos de RLE, métricas, estadística, calibración y servicio</p></td>
+<td><p>inconsistencias de tipos</p></td>
+</tr>
+<tr class="row-even"><td><p>Pruebas unitarias</p></td>
+<td><p><code class="docutils literal notranslate"><span class="pre">pytest</span></code></p></td>
+<td><p>RLE ida y vuelta y fuera de rango, métricas con casos conocidos (Dice, IoU, AP, HD95, taxonomía de fusiones y divisiones), Holm, escalado de temperatura, cobertura conforme, PSI, escritura atómica, determinismo con semilla</p></td>
+</tr>
+<tr class="row-odd"><td><p>Esquema de la API</p></td>
+<td><p><code class="docutils literal notranslate"><span class="pre">pytest</span></code> + <code class="docutils literal notranslate"><span class="pre">TestClient</span></code></p></td>
+<td><p>esquema de respuesta, rechazo de entradas inválidas, latencia &lt; 5 s por petición</p></td>
+</tr>
+<tr class="row-even"><td><p>Datos</p></td>
+<td><p><code class="docutils literal notranslate"><span class="pre">pandera</span></code> y pruebas de fuga</p></td>
+<td><p>esquema de Sartorius; ningún <code class="docutils literal notranslate"><span class="pre">sample_id</span></code> ni grupo de casi duplicados cruza particiones (se omite sin datos)</p></td>
+</tr>
+<tr class="row-odd"><td><p>Regresión de modelo</p></td>
+<td><p>conjunto dorado</p></td>
+<td><p>AP o exactitud del modelo servido cae más de ε = 0.02 respecto del registrado</p></td>
+</tr>
+<tr class="row-even"><td><p>Vulnerabilidades de dependencias</p></td>
+<td><p><code class="docutils literal notranslate"><span class="pre">pip-audit</span></code></p></td>
+<td><p>dependencias de servicio con vulnerabilidades conocidas</p></td>
+</tr>
+<tr class="row-odd"><td><p>Imagen</p></td>
+<td><p><code class="docutils literal notranslate"><span class="pre">docker</span> <span class="pre">build</span></code></p></td>
+<td><p>construcción multi-etapa</p></td>
+</tr>
+<tr class="row-even"><td><p>Prueba de humo</p></td>
+<td><p>contenedor + <code class="docutils literal notranslate"><span class="pre">curl</span></code></p></td>
+<td><p><code class="docutils literal notranslate"><span class="pre">/health</span></code>, <code class="docutils literal notranslate"><span class="pre">/ready</span></code>, <code class="docutils literal notranslate"><span class="pre">/predict_text</span></code> y <code class="docutils literal notranslate"><span class="pre">/predict_image</span></code> responden</p></td>
+</tr>
+<tr class="row-odd"><td><p>Vulnerabilidades de la imagen</p></td>
+<td><p>Trivy</p></td>
+<td><p>CVE críticas o altas en la imagen</p></td>
+</tr>
+</tbody>
+</table>
+</div>
+<p>Los datos de Kaggle no están en el repositorio, así que en GitHub las pruebas de datos se omiten y la prueba de humo usa modelos mínimos generados por <code class="docutils literal notranslate"><span class="pre">scripts/make_smoke_models.py</span></code>; en local, <code class="docutils literal notranslate"><span class="pre">make</span> <span class="pre">test</span></code> las ejecuta todas.</p>
+</section>
+<section id="trazabilidad-mlflow-dvc-y-tarjetas-de-modelo">
+<h2>Trazabilidad: MLflow, DVC y tarjetas de modelo<a class="headerlink" href="#trazabilidad-mlflow-dvc-y-tarjetas-de-modelo" title="Link to this heading">#</a></h2>
+<ul class="simple">
+<li><p><strong>MLflow</strong> (<code class="docutils literal notranslate"><span class="pre">make</span> <span class="pre">track</span></code>): vuelca todos los resultados de <code class="docutils literal notranslate"><span class="pre">results/</span></code> a un almacén local en SQLite. Cada entrenamiento de segmentación es una corrida con su configuración y su curva de pérdida; cada búsqueda de hiperparámetros de NLP es una corrida madre con una corrida hija por <em>trial</em>. Los modelos servidos se registran como versiones con los alias <code class="docutils literal notranslate"><span class="pre">staging</span></code>, <code class="docutils literal notranslate"><span class="pre">production</span></code> y <code class="docutils literal notranslate"><span class="pre">previous</span></code>; <code class="docutils literal notranslate"><span class="pre">python</span> <span class="pre">scripts/track_mlflow.py</span> <span class="pre">rollback</span> <span class="pre">text</span></code> devuelve <code class="docutils literal notranslate"><span class="pre">production</span></code> a la versión anterior.</p></li>
+<li><p><strong>DVC</strong> (<code class="docutils literal notranslate"><span class="pre">dvc.yaml</span></code>): declara las seis etapas de <code class="docutils literal notranslate"><span class="pre">make</span> <span class="pre">reproduce</span></code> (datos → particiones → entrenamiento → evaluación → análisis → Book) con sus dependencias, de modo que <code class="docutils literal notranslate"><span class="pre">dvc</span> <span class="pre">repro</span></code> solo rehace lo que cambió. Los datos crudos se verifican por SHA-256 y los pesos no se duplican en la caché de DVC.</p></li>
+<li><p><strong>Versión de cada modelo servido</strong>: <code class="docutils literal notranslate"><span class="pre">meta.json</span></code> guarda el nombre, la semilla, el <em>commit</em> corto de git como versión, el SHA-256 de los datos y las métricas de validación, y <code class="docutils literal notranslate"><span class="pre">/model_info</span></code> lo expone.</p></li>
+</ul>
+<p>Las tarjetas de modelo se generan desde los pickles con <code class="docutils literal notranslate"><span class="pre">python</span> <span class="pre">scripts/model_cards.py</span></code>.</p>
+<section id="tarjeta-de-modelo-segmentacion-de-instancias-celulares">
+<h3>Tarjeta de modelo: segmentación de instancias celulares<a class="headerlink" href="#tarjeta-de-modelo-segmentacion-de-instancias-celulares" title="Link to this heading">#</a></h3>
+<section id="detalles-del-modelo">
+<h4>Detalles del modelo<a class="headerlink" href="#detalles-del-modelo" title="Link to this heading">#</a></h4>
+<ul class="simple">
+<li><p><strong>Arquitectura:</strong> U-Net++ (codificador-decodificador con conexiones densas anidadas y supervisión profunda) con tres clases por píxel (fondo, interior, borde) y posproceso por watershed con h-máximos.</p></li>
+<li><p><strong>Entrenamiento:</strong> desde cero, Keras 3 con <em>backend</em> PyTorch, pérdida CE + Dice, AdamW con 2 épocas de calentamiento y decaimiento coseno, recortes de 256 px, aumentos geométricos, fotométricos y elásticos, <em>early stopping</em> en validación.</p></li>
+<li><p><strong>Versión servida:</strong> unetpp_main semilla 2, versión <code class="docutils literal notranslate"><span class="pre">386f56f</span></code>, ONNX fp32.</p></li>
+<li><p><strong>Posproceso congelado en validación:</strong> <code class="docutils literal notranslate"><span class="pre">{'t_fg':</span> <span class="pre">0.6,</span> <span class="pre">'h':</span> <span class="pre">0.2,</span> <span class="pre">'min_size':</span> <span class="pre">30}</span></code>.</p></li>
+<li><p><strong>Autores:</strong> Anyely Sanjuan Benavides y Juan David Díaz Fernández (Universidad del Norte). Curso de <em>Deep Learning</em>, Dr. Lihki Rubio.</p></li>
+<li><p><strong>Licencia de los datos:</strong> reglas de la competencia Sartorius de Kaggle (uso no comercial y de investigación).</p></li>
+</ul>
+</section>
+<section id="uso-previsto">
+<h4>Uso previsto<a class="headerlink" href="#uso-previsto" title="Link to this heading">#</a></h4>
+<ul class="simple">
+<li><p>Segmentar células individuales en imágenes de contraste de fase de 520 × 704 px de las líneas SH-SY5Y, astrocitos y neuronas corticales, adquiridas con el mismo sistema que el conjunto de Sartorius, para conteo, morfometría o seguimiento en investigación.</p></li>
+<li><p><strong>Fuera de alcance:</strong> diagnóstico clínico; otras modalidades (fluorescencia, campo claro), otros microscopios o escalas sin validación local; tejidos; decisiones automáticas sin revisión de un experto.</p></li>
+</ul>
+</section>
+<section id="factores">
+<h4>Factores<a class="headerlink" href="#factores" title="Link to this heading">#</a></h4>
+<ul class="simple">
+<li><p>Tipo celular, densidad (número de instancias por imagen) y tamaño medio de las células. El desempeño se reporta por estrato.</p></li>
+<li><p>Condiciones de adquisición: ruido, desenfoque, contraste, brillo, iluminación y compresión (pruebas de robustez).</p></li>
+</ul>
+</section>
+<section id="metricas">
+<h4>Métricas<a class="headerlink" href="#metricas" title="Link to this heading">#</a></h4>
+<ul class="simple">
+<li><p>AP&#64;[.5:.95] en validación del modelo exportado: 0.230; paridad ONNX frente a Keras: diferencia máxima absoluta de probabilidad 2.21e-03.</p></li>
+<li><p>Tamaño del ONNX servido: 18.2 MB; latencia ONNX en CPU (p50): 1947 ms por imagen.</p></li>
+<li><p>Conjunto dorado (6 imágenes de validación, 2 por tipo): AP 0.125; la prueba de regresión falla si baja más de 0.02.</p></li>
+<li><p>Test (n = 93 imágenes, media de 3 semillas): AP&#64;[.5:.95] 0.214 [0.188, 0.240], PQ 0.439 [0.402, 0.476], Dice 0.746 [0.717, 0.771].</p></li>
+<li><p>AP por tipo celular: astrocitos 0.077 [0.060, 0.093]; neuronas corticales 0.298 [0.264, 0.330]; SH-SY5Y 0.166 [0.148, 0.184].</p></li>
+</ul>
+</section>
+<section id="datos-de-entrenamiento-y-evaluacion">
+<h4>Datos de entrenamiento y evaluación<a class="headerlink" href="#datos-de-entrenamiento-y-evaluacion" title="Link to this heading">#</a></h4>
+<ul class="simple">
+<li><p>606 imágenes anotadas de Sartorius, partición 70/15/15 agrupada por <code class="docutils literal notranslate"><span class="pre">sample_id</span></code> y estratificada por tipo celular (<code class="docutils literal notranslate"><span class="pre">data/processed</span></code>). Ficha de datos en <code class="docutils literal notranslate"><span class="pre">reports/datasheets/sartorius.md</span></code>.</p></li>
+</ul>
+</section>
+<section id="consideraciones-eticas-y-limitaciones">
+<h4>Consideraciones éticas y limitaciones<a class="headerlink" href="#consideraciones-eticas-y-limitaciones" title="Link to this heading">#</a></h4>
+<ul class="simple">
+<li><p>Las anotaciones de astrocitos son polígonos gruesos y contienen errores; el AP de ese tipo tiene un techo inferior a 1.</p></li>
+<li><p>El desempeño fuera del microscopio y del protocolo de Sartorius es desconocido (ver LOCTO y perturbaciones en el Book).</p></li>
+<li><p>Validez de las cifras: imágenes de test de la misma distribución que el entrenamiento; IC <em>bootstrap</em> sobre imágenes.</p></li>
+</ul>
+</section>
+<section id="monitoreo">
+<h4>Monitoreo<a class="headerlink" href="#monitoreo" title="Link to this heading">#</a></h4>
+<ul class="simple">
+<li><p>Con <code class="docutils literal notranslate"><span class="pre">PRED_LOG</span></code> activo, la API registra por imagen la intensidad media y su desviación estándar, el número de instancias y la fracción de primer plano (no guarda la imagen). Un cambio sostenido de esas distribuciones frente a validación dispara revisión (capítulo de monitoreo del Book).</p></li>
+</ul>
+</section>
+</section>
+<section id="tarjeta-de-modelo-clasificacion-de-curriculos-en-24-categorias">
+<h3>Tarjeta de modelo: clasificación de currículos en 24 categorías<a class="headerlink" href="#tarjeta-de-modelo-clasificacion-de-curriculos-en-24-categorias" title="Link to this heading">#</a></h3>
+<section id="id1">
+<h4>Detalles del modelo<a class="headerlink" href="#id1" title="Link to this heading">#</a></h4>
+<ul class="simple">
+<li><p><strong>Modelo servido:</strong> DistilBERT. Regla de elección fijada antes de ver test: DistilBERT si F1 val − F1 val(TF-IDF+RL) &gt; δ = 0.02 (F1 macro de validación, media de las semillas finales: TF-IDF + RL 0.659; DistilBERT 0.774).</p></li>
+<li><p><strong>Versión:</strong> <code class="docutils literal notranslate"><span class="pre">c689eed</span></code>.</p></li>
+<li><p><strong>Autores:</strong> Anyely Sanjuan Benavides y Juan David Díaz Fernández (Universidad del Norte). Curso de <em>Deep Learning</em>, Dr. Lihki Rubio.</p></li>
+</ul>
+</section>
+<section id="id2">
+<h4>Uso previsto<a class="headerlink" href="#id2" title="Link to this heading">#</a></h4>
+<ul class="simple">
+<li><p>Sugerir la categoría profesional de un currículo en inglés como <strong>apoyo a una persona</strong> que organiza candidaturas. La API devuelve las probabilidades de las 24 clases para mostrar una lista corta.</p></li>
+<li><p><strong>Fuera de alcance:</strong> decidir automáticamente sobre personas (descartar, ordenar o rechazar candidatos sin revisión humana); currículos en otros idiomas; inferir atributos personales. En la Unión Europea, un sistema de selección de personal es de alto riesgo (Reglamento (UE) 2024/1689, anexo III, punto 4) y exige supervisión humana y gestión de riesgos.</p></li>
+</ul>
+</section>
+<section id="id3">
+<h4>Métricas<a class="headerlink" href="#id3" title="Link to this heading">#</a></h4>
+<ul class="simple">
+<li><p>F1 macro en validación del modelo exportado (semilla 0): 0.776; latencia por documento en CPU p50 190.3 ms y p95 197.9 ms; exactitud en el conjunto dorado (40 textos de validación) 0.850.</p></li>
+<li><p>TF-IDF + RL en test (373 documentos, 5 semillas): F1 macro 0.660 ± 0.000, voto de semillas 0.660 [0.605, 0.700]; ECE 0.069.</p></li>
+<li><p>DistilBERT en test (373 documentos, 5 semillas): F1 macro 0.774 ± 0.012, voto de semillas 0.782 [0.746, 0.809]; ECE 0.088.</p></li>
+<li><p>Contrafactual de género (TF-IDF + RL): la predicción cambia en 0 de 373 currículos de test; solo pueden cambiar los que contienen pronombres o términos de género, y el contrafactual no cubre el género inferido por otras vías (nombres, aficiones).</p></li>
+<li><p>Contrafactual de género (DistilBERT): la predicción cambia en 0 de 373 currículos de test; solo pueden cambiar los que contienen pronombres o términos de género, y el contrafactual no cubre el género inferido por otras vías (nombres, aficiones).</p></li>
+<li><p>Clasificación selectiva (DistilBERT, modelo servido): 91 % de los currículos con exactitud ≥ 0.90 (medido en test; el umbral de producción se fija en validación); el resto se deriva a revisión.</p></li>
+</ul>
+</section>
+<section id="id4">
+<h4>Datos de entrenamiento y evaluación<a class="headerlink" href="#id4" title="Link to this heading">#</a></h4>
+<ul class="simple">
+<li><p>2482 currículos del concurso <em>Jarvis Calling Hiring</em> de Kaggle, en inglés y anonimizados con marcadores fijos de forma incompleta (al menos un documento conserva un nombre propio), 24 categorías, desbalance 5.45. Partición 70/15/15 agrupada por casi duplicados (MinHash). Ficha de datos en <code class="docutils literal notranslate"><span class="pre">reports/datasheets/jarvis.md</span></code>.</p></li>
+</ul>
+</section>
+<section id="id5">
+<h4>Consideraciones éticas y limitaciones<a class="headerlink" href="#id5" title="Link to this heading">#</a></h4>
+<ul class="simple">
+<li><p>La etiqueta es la categoría bajo la que el candidato publicó, no una profesión verificada; <em>confident learning</em> marca el 17.3 % de entrenamiento ∪ validación como posible error de etiqueta (cota superior del ruido real).</p></li>
+<li><p>Los currículos pueden nombrar su propia categoría; parte del desempeño depende de esa pista (prueba «sin categoría» en el Book).</p></li>
+<li><p>Las métricas de equidad usan términos de género del texto como indicio; no hay atributos protegidos declarados. Un resultado sin alertas no certifica equidad.</p></li>
+<li><p>Los currículos contienen datos personales (Ley 1581 de 2012 en Colombia): la API no guarda los textos recibidos; con <code class="docutils literal notranslate"><span class="pre">PRED_LOG</span></code> activo registra solo la longitud, la etiqueta y la confianza.</p></li>
+</ul>
+</section>
+<section id="id6">
+<h4>Monitoreo<a class="headerlink" href="#id6" title="Link to this heading">#</a></h4>
+<ul class="simple">
+<li><p>Detectores de deriva (PSI de la confianza, PSI de la longitud, χ² de las clases predichas) con umbral en el percentil 95 de ventanas sin deriva; ver <code class="docutils literal notranslate"><span class="pre">results/mlops/drift/drift.pkl</span></code> y el capítulo de monitoreo del Book. Sin calcular con el modelo servido: MMD sobre SVD-50 del TF-IDF (requiere el TF-IDF de un modelo lineal).</p></li>
+</ul>
+</section>
+</section>
+</section>
+</section>
+
+    <script type="text/x-thebe-config">
+    {
+        requestKernel: true,
+        binderOptions: {
+            repo: "binder-examples/jupyter-stacks-datascience",
+            ref: "master",
+        },
+        codeMirrorConfig: {
+            theme: "abcdef",
+            mode: "python"
+        },
+        kernelOptions: {
+            name: "python3",
+            path: "./."
+        },
+        predefinedOutput: true
+    }
+    </script>
+    <script>kernelName = 'python3'</script>
+
+                </article>
+              
+
+              
+              
+              
+              
+                <footer class="prev-next-footer d-print-none">
+                  
+<div class="prev-next-area">
+    <a class="left-prev"
+       href="25_nlp_analisis_critico.html"
+       title="página anterior">
+      <i class="fa-solid fa-angle-left"></i>
+      <div class="prev-next-info">
+        <p class="prev-next-subtitle">anterior</p>
+        <p class="prev-next-title">Eficiencia, riesgo en reclutamiento y análisis crítico del clasificador de texto</p>
+      </div>
+    </a>
+    <a class="right-next"
+       href="31_monitoreo_deriva.html"
+       title="siguiente página">
+      <div class="prev-next-info">
+        <p class="prev-next-subtitle">siguiente</p>
+        <p class="prev-next-title">Monitoreo y experimento de deriva</p>
+      </div>
+      <i class="fa-solid fa-angle-right"></i>
+    </a>
+</div>
+                </footer>
+              
+            </div>
+            
+            
+              
+                <dialog id="pst-secondary-sidebar-modal"></dialog>
+                <div id="pst-secondary-sidebar" class="bd-sidebar-secondary bd-toc"><div class="sidebar-secondary-items sidebar-secondary__inner">
+
+
+  <div class="sidebar-secondary-item"><div
+    id="pst-page-navigation-heading-2"
+    class="page-toc tocsection onthispage">
+    <i class="fa-solid fa-list"></i> Contenido
+  </div>
+  <nav id="pst-page-toc-nav" class="page-toc" aria-labelledby="pst-page-navigation-heading-2">
+    <ul class="pst-show_toc_level nav section-nav flex-column">
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#arquitectura">Arquitectura</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#exportacion-paridad-y-cuantizacion">Exportación, paridad y cuantización</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#prueba-de-carga">Prueba de carga</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#integracion-continua">Integración continua</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#trazabilidad-mlflow-dvc-y-tarjetas-de-modelo">Trazabilidad: MLflow, DVC y tarjetas de modelo</a><ul class="nav section-nav flex-column">
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#tarjeta-de-modelo-segmentacion-de-instancias-celulares">Tarjeta de modelo: segmentación de instancias celulares</a><ul class="nav section-nav flex-column">
+<li class="toc-h4 nav-item toc-entry"><a class="reference internal nav-link" href="#detalles-del-modelo">Detalles del modelo</a></li>
+<li class="toc-h4 nav-item toc-entry"><a class="reference internal nav-link" href="#uso-previsto">Uso previsto</a></li>
+<li class="toc-h4 nav-item toc-entry"><a class="reference internal nav-link" href="#factores">Factores</a></li>
+<li class="toc-h4 nav-item toc-entry"><a class="reference internal nav-link" href="#metricas">Métricas</a></li>
+<li class="toc-h4 nav-item toc-entry"><a class="reference internal nav-link" href="#datos-de-entrenamiento-y-evaluacion">Datos de entrenamiento y evaluación</a></li>
+<li class="toc-h4 nav-item toc-entry"><a class="reference internal nav-link" href="#consideraciones-eticas-y-limitaciones">Consideraciones éticas y limitaciones</a></li>
+<li class="toc-h4 nav-item toc-entry"><a class="reference internal nav-link" href="#monitoreo">Monitoreo</a></li>
+</ul>
+</li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#tarjeta-de-modelo-clasificacion-de-curriculos-en-24-categorias">Tarjeta de modelo: clasificación de currículos en 24 categorías</a><ul class="nav section-nav flex-column">
+<li class="toc-h4 nav-item toc-entry"><a class="reference internal nav-link" href="#id1">Detalles del modelo</a></li>
+<li class="toc-h4 nav-item toc-entry"><a class="reference internal nav-link" href="#id2">Uso previsto</a></li>
+<li class="toc-h4 nav-item toc-entry"><a class="reference internal nav-link" href="#id3">Métricas</a></li>
+<li class="toc-h4 nav-item toc-entry"><a class="reference internal nav-link" href="#id4">Datos de entrenamiento y evaluación</a></li>
+<li class="toc-h4 nav-item toc-entry"><a class="reference internal nav-link" href="#id5">Consideraciones éticas y limitaciones</a></li>
+<li class="toc-h4 nav-item toc-entry"><a class="reference internal nav-link" href="#id6">Monitoreo</a></li>
+</ul>
+</li>
+</ul>
+</li>
+</ul>
+  </nav></div>
+
+</div></div>
+              
+            
+          </div>
+          <footer class="bd-footer-content">
+            
+<div class="bd-footer-content__inner container">
+  
+  <div class="footer-item">
+    
+<p class="component-author">
+Por Anyely Sanjuan Benavides y Juan David Díaz Fernández
+</p>
+
+  </div>
+  
+  <div class="footer-item">
+    
+
+  <p class="copyright">
+    
+      © Copyright 2026.
+      <br/>
+    
+  </p>
+
+  </div>
+  
+  <div class="footer-item">
+    
+  </div>
+  
+  <div class="footer-item">
+    
+  </div>
+  
+</div>
+          </footer>
+        
+
+      </main>
+    </div>
+  </div>
+  
+  <!-- Scripts loaded after <body> so the DOM is not blocked -->
+  <script defer src="_static/scripts/bootstrap.js?digest=55c26ed414f5f8a31ebb"></script>
+<script defer src="_static/scripts/pydata-sphinx-theme.js?digest=55c26ed414f5f8a31ebb"></script>
+
+  <footer class="bd-footer">
+  </footer>
+  </body>
+</html>

@@ -1,0 +1,764 @@
+
+<!DOCTYPE html>
+
+
+<html lang="es" data-content_root="./" >
+
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" /><meta name="viewport" content="width=device-width, initial-scale=1" />
+
+    <title>Declaración a priori &#8212; Segmentación de células y clasificación de hojas de vida</title>
+  
+  
+  
+  <script data-cfasync="false">
+    document.documentElement.dataset.mode = localStorage.getItem("mode") || "";
+    document.documentElement.dataset.theme = localStorage.getItem("theme") || "";
+  </script>
+  <!--
+    this give us a css class that will be invisible only if js is disabled
+  -->
+  <noscript>
+    <style>
+      .pst-js-only { display: none !important; }
+
+    </style>
+  </noscript>
+  
+  <!-- Loaded before other Sphinx assets -->
+  <link href="_static/styles/theme.css?digest=55c26ed414f5f8a31ebb" rel="stylesheet" />
+<link href="_static/styles/pydata-sphinx-theme.css?digest=55c26ed414f5f8a31ebb" rel="stylesheet" />
+
+    <link rel="stylesheet" type="text/css" href="_static/pygments.css?v=03e43079" />
+    <link rel="stylesheet" type="text/css" href="_static/styles/sphinx-book-theme.css?v=3c74b3bc" />
+    <link rel="stylesheet" type="text/css" href="_static/togglebutton.css?v=9c3e77be" />
+    <link rel="stylesheet" type="text/css" href="_static/copybutton.css?v=76b2166b" />
+    <link rel="stylesheet" type="text/css" href="_static/mystnb.11b39860a7a0cbfd473a3ad8a317855267ff0bd372690045ca344a6b62be495e.css?v=8cd3d715" />
+    <link rel="stylesheet" type="text/css" href="_static/sphinx-thebe.css?v=4fa983c6" />
+    <link rel="stylesheet" type="text/css" href="_static/sphinx-design.min.css?v=6a604523" />
+    <link rel="stylesheet" type="text/css" href="_static/autores.css?v=fc0dcfce" />
+  
+  <!-- So that users can add custom icons -->
+  <script defer src="_static/scripts/fontawesome.js?digest=55c26ed414f5f8a31ebb"></script>
+  <!-- Pre-loaded scripts that we'll load fully later -->
+  <link rel="preload" as="script" href="_static/scripts/bootstrap.js?digest=55c26ed414f5f8a31ebb" />
+<link rel="preload" as="script" href="_static/scripts/pydata-sphinx-theme.js?digest=55c26ed414f5f8a31ebb" />
+
+    <script src="_static/documentation_options.js?v=78d55cf8"></script>
+    <script src="_static/doctools.js?v=9a2dae69"></script>
+    <script src="_static/sphinx_highlight.js?v=dc90522c"></script>
+    <script src="_static/clipboard.min.js?v=a7894cd8"></script>
+    <script src="_static/copybutton.js?v=f281be69"></script>
+    <script src="_static/scripts/sphinx-book-theme.js?v=fab101a9"></script>
+    <script>let toggleHintShow = 'Haz clic para mostrar';</script>
+    <script>let toggleHintHide = 'Haz clic para ocultar';</script>
+    <script>let toggleOpenOnPrint = 'true';</script>
+    <script src="_static/togglebutton.js?v=b8b12719"></script>
+    <script src="_static/translations.js?v=d190bf04"></script>
+    <script>var togglebuttonSelector = '.toggle, .admonition.dropdown';</script>
+    <script data-sd-tabs-storage-prefix="sphinx-design-tab-id-" src="_static/design-tabs.js?v=fcb327ea"></script>
+    <script>const THEBE_JS_URL = "https://unpkg.com/thebe@0.8.2/lib/index.js"; const thebe_selector = ".thebe,.cell"; const thebe_selector_input = "pre"; const thebe_selector_output = ".output, .cell_output"</script>
+    <script async="async" src="_static/sphinx-thebe.js?v=c100c467"></script>
+    <script>var togglebuttonSelector = '.toggle, .admonition.dropdown';</script>
+    <script>const THEBE_JS_URL = "https://unpkg.com/thebe@0.8.2/lib/index.js"; const thebe_selector = ".thebe,.cell"; const thebe_selector_input = "pre"; const thebe_selector_output = ".output, .cell_output"</script>
+    <script>window.MathJax = {"options": {"processHtmlClass": "tex2jax_process|mathjax_process|math|output_area"}}</script>
+    <script defer="defer" src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-mml-chtml.js"></script>
+    <script>DOCUMENTATION_OPTIONS.pagename = '03_declaracion_apriori';</script>
+    <script>DOCUMENTATION_OPTIONS.search_as_you_type = false;</script>
+    <link rel="index" title="Índice" href="genindex.html" />
+    <link rel="search" title="Búsqueda" href="search.html" />
+    <link rel="next" title="Fundamentos teóricos" href="04_fundamentos_teoricos.html" />
+    <link rel="prev" title="Datos y fichas de datos" href="02_datos_fichas.html" />
+  <meta name="viewport" content="width=device-width, initial-scale=1"/>
+  <meta name="docsearch:language" content="es"/>
+  <meta name="docsearch:version" content="" />
+  
+    
+    <script src="_static/searchtools.js"></script>
+    <script src="_static/language_data.js"></script>
+    <script src="searchindex.js"></script>
+  
+  </head>
+  <body data-default-mode="">
+  
+  
+  <div id="pst-skip-link" class="skip-link d-print-none"><a href="#main-content">Saltar al contenido principal</a></div>
+
+  
+  <div id="pst-scroll-pixel-helper"></div>
+  
+  <button type="button" class="btn rounded-pill" id="pst-back-to-top">
+    <i class="fa-solid fa-arrow-up"></i>Volver arriba</button>
+  
+  
+  
+  
+  <dialog id="pst-search-dialog">
+    
+<form class="bd-search d-flex align-items-center"
+      action="search.html"
+      method="get">
+  <i class="fa-solid fa-magnifying-glass"></i>
+  <input type="search"
+         class="form-control"
+         name="q"
+         placeholder="Search this book..."
+         aria-label="Search this book..."
+         autocomplete="off"
+         autocorrect="off"
+         autocapitalize="off"
+         spellcheck="false"/>
+  <span class="search-button__kbd-shortcut"><kbd class="kbd-shortcut__modifier">Ctrl</kbd>+<kbd>K</kbd></span>
+</form>
+  </dialog>
+
+  <div class="pst-async-banner-revealer d-none">
+  <aside id="bd-header-version-warning" class="d-none d-print-none" aria-label="Advertencia de versión"></aside>
+</div>
+
+  
+    <header id="pst-header" class="bd-header navbar navbar-expand-lg bd-navbar d-print-none">
+<div class="bd-header__inner bd-page-width">
+  <button class="pst-navbar-icon sidebar-toggle primary-toggle" aria-label="Navegación del sitio">
+    <span class="fa-solid fa-bars"></span>
+  </button>
+  
+  
+  <div class="col-lg-9 navbar-header-items">
+    
+    
+    <div class="navbar-header-items__end">
+      
+        <div class="navbar-item navbar-persistent--container">
+          
+
+<button class="btn search-button-field search-button__button pst-js-only" title="Búsqueda" aria-label="Búsqueda" data-bs-placement="bottom" data-bs-toggle="tooltip">
+ <i class="fa-solid fa-magnifying-glass"></i>
+ <span class="search-button__default-text">Búsqueda</span>
+ <span class="search-button__kbd-shortcut"><kbd class="kbd-shortcut__modifier">Ctrl</kbd>+<kbd class="kbd-shortcut__modifier">K</kbd></span>
+</button>
+        </div>
+      
+      
+    </div>
+    
+  </div>
+  
+  
+    <div class="navbar-persistent--mobile">
+
+<button class="btn search-button-field search-button__button pst-js-only" title="Búsqueda" aria-label="Búsqueda" data-bs-placement="bottom" data-bs-toggle="tooltip">
+ <i class="fa-solid fa-magnifying-glass"></i>
+ <span class="search-button__default-text">Búsqueda</span>
+ <span class="search-button__kbd-shortcut"><kbd class="kbd-shortcut__modifier">Ctrl</kbd>+<kbd class="kbd-shortcut__modifier">K</kbd></span>
+</button>
+    </div>
+  
+
+  
+    <button class="pst-navbar-icon sidebar-toggle secondary-toggle" aria-label="En esta página">
+      <span class="fa-solid fa-outdent"></span>
+    </button>
+  
+</div>
+
+    </header>
+  
+
+  <div class="bd-container">
+    <div class="bd-container__inner bd-page-width">
+      
+      
+      
+      <dialog id="pst-primary-sidebar-modal"></dialog>
+      <div id="pst-primary-sidebar" class="bd-sidebar-primary bd-sidebar">
+        
+
+  
+  <div class="sidebar-header-items sidebar-primary__section">
+    
+    
+    
+    
+  </div>
+  
+    <div class="sidebar-primary-items__start sidebar-primary__section">
+        <div class="sidebar-primary-item">
+
+  
+    
+  
+
+<a class="navbar-brand logo" href="intro.html">
+  
+  
+  
+  
+  
+  
+    <p class="title logo__title">Segmentación de células y clasificación de hojas de vida</p>
+  
+</a></div>
+        <div class="sidebar-primary-item"><div class="sidebar-autores">
+  <div class="autor">
+    <img src="_static/autores/anyely.jpg" alt="Anyely Sanjuan Benavides">
+    <p class="autor-nombre">Anyely Sanjuan Benavides</p>
+    <p class="autor-detalle">Msc. Analítica de Datos<br>Universidad del Norte</p>
+  </div>
+  <div class="autor">
+    <img src="_static/autores/juan.jpg" alt="Juan David Díaz Fernández">
+    <p class="autor-nombre">Juan David Díaz Fernández</p>
+    <p class="autor-detalle">Msc. Ingeniería Mecánica<br>Universidad del Norte</p>
+  </div>
+</div></div>
+        <div class="sidebar-primary-item">
+
+<button class="btn search-button-field search-button__button pst-js-only" title="Búsqueda" aria-label="Búsqueda" data-bs-placement="bottom" data-bs-toggle="tooltip">
+ <i class="fa-solid fa-magnifying-glass"></i>
+ <span class="search-button__default-text">Búsqueda</span>
+ <span class="search-button__kbd-shortcut"><kbd class="kbd-shortcut__modifier">Ctrl</kbd>+<kbd class="kbd-shortcut__modifier">K</kbd></span>
+</button></div>
+        <div class="sidebar-primary-item"><nav class="bd-links bd-docs-nav" aria-label="Main">
+    <div class="bd-toc-item navbar-nav active">
+        
+        <ul class="nav bd-sidenav bd-sidenav__home-link">
+            <li class="toctree-l1">
+                <a class="reference internal" href="intro.html">
+                    Segmentación de células y clasificación de hojas de vida
+                </a>
+            </li>
+        </ul>
+        <p aria-level="2" class="caption" role="heading"><span class="caption-text">Planteamiento</span></p>
+<ul class="current nav bd-sidenav">
+<li class="toctree-l1"><a class="reference internal" href="01_problema_objetivos.html">Problema, objetivos y preguntas de investigación</a></li>
+<li class="toctree-l1"><a class="reference internal" href="02_datos_fichas.html">Datos y fichas de datos</a></li>
+<li class="toctree-l1 current active"><a class="current reference internal" href="#">Declaración a priori</a></li>
+<li class="toctree-l1"><a class="reference internal" href="04_fundamentos_teoricos.html">Fundamentos teóricos</a></li>
+</ul>
+<p aria-level="2" class="caption" role="heading"><span class="caption-text">Bloque 1: segmentación de instancias celulares</span></p>
+<ul class="nav bd-sidenav">
+<li class="toctree-l1"><a class="reference internal" href="10_seg_eda.html">Análisis exploratorio y auditoría de Sartorius</a></li>
+<li class="toctree-l1"><a class="reference internal" href="11_seg_preprocesamiento.html">Preprocesamiento y aumento de datos</a></li>
+<li class="toctree-l1"><a class="reference internal" href="12_seg_modelos.html">Modelos de segmentación</a></li>
+<li class="toctree-l1"><a class="reference internal" href="13_seg_resultados.html">Resultados de segmentación</a></li>
+<li class="toctree-l1"><a class="reference internal" href="14_seg_ablaciones_robustez.html">Ablaciones, robustez, calibración y eficiencia en segmentación</a></li>
+<li class="toctree-l1"><a class="reference internal" href="15_seg_analisis_critico.html">Análisis crítico de la segmentación</a></li>
+</ul>
+<p aria-level="2" class="caption" role="heading"><span class="caption-text">Bloque 2: clasificación de texto</span></p>
+<ul class="nav bd-sidenav">
+<li class="toctree-l1"><a class="reference internal" href="20_nlp_eda.html">Análisis exploratorio y auditoría de las hojas de vida</a></li>
+<li class="toctree-l1"><a class="reference internal" href="21_nlp_representaciones.html">Preprocesamiento y representaciones de texto</a></li>
+<li class="toctree-l1"><a class="reference internal" href="22_nlp_modelos.html">Modelos de clasificación de texto y búsqueda de hiperparámetros</a></li>
+<li class="toctree-l1"><a class="reference internal" href="23_nlp_resultados.html">Resultados de clasificación de texto</a></li>
+<li class="toctree-l1"><a class="reference internal" href="24_nlp_robustez_equidad.html">Calibración, robustez, equidad y explicabilidad del clasificador de texto</a></li>
+<li class="toctree-l1"><a class="reference internal" href="25_nlp_analisis_critico.html">Eficiencia, riesgo en reclutamiento y análisis crítico del clasificador de texto</a></li>
+</ul>
+<p aria-level="2" class="caption" role="heading"><span class="caption-text">Despliegue y cierre</span></p>
+<ul class="nav bd-sidenav">
+<li class="toctree-l1"><a class="reference internal" href="30_mlops.html">Despliegue: API, contenedor, integración continua y registro de modelos</a></li>
+<li class="toctree-l1"><a class="reference internal" href="31_monitoreo_deriva.html">Monitoreo y experimento de deriva</a></li>
+<li class="toctree-l1"><a class="reference internal" href="40_comparacion_final.html">Comparación final y decisión</a></li>
+<li class="toctree-l1"><a class="reference internal" href="41_conclusiones.html">Conclusiones, limitaciones y trabajo futuro</a></li>
+<li class="toctree-l1"><a class="reference internal" href="42_reproducibilidad.html">Reproducibilidad, autoría y uso de herramientas</a></li>
+<li class="toctree-l1"><a class="reference internal" href="43_referencias.html">Referencias</a></li>
+</ul>
+
+    </div>
+</nav></div>
+    </div>
+  
+  
+  <div class="sidebar-primary-items__end sidebar-primary__section">
+      <div class="sidebar-primary-item">
+<div id="ethical-ad-placement"
+      class="flat"
+      data-ea-publisher="readthedocs"
+      data-ea-type="readthedocs-sidebar"
+      data-ea-manual="true">
+</div></div>
+  </div>
+
+
+      </div>
+      
+      <main id="main-content" class="bd-main" role="main">
+        
+        
+
+<div class="sbt-scroll-pixel-helper"></div>
+
+          <div class="bd-content">
+            <div class="bd-article-container">
+              
+              <div class="bd-header-article d-print-none">
+<div class="header-article-items header-article__inner">
+  
+    <div class="header-article-items__start">
+      
+        <div class="header-article-item"><button class="sidebar-toggle primary-toggle btn btn-sm" title="Toggle primary sidebar" data-bs-placement="bottom" data-bs-toggle="tooltip">
+  <span class="fa-solid fa-bars"></span>
+</button></div>
+      
+    </div>
+  
+  
+    <div class="header-article-items__end">
+      
+        <div class="header-article-item">
+
+<div class="article-header-buttons">
+
+
+<a href="https://github.com/Anyita-12/proyecto-integrador-dl" target="_blank"
+   class="btn btn-sm btn-source-repository-button"
+   title="Repositorio de origen"
+   data-bs-placement="bottom" data-bs-toggle="tooltip"
+>
+  
+
+<span class="btn__icon-container">
+  <i class="fab fa-github"></i>
+  </span>
+
+</a>
+
+
+
+
+
+
+<div class="dropdown dropdown-download-buttons">
+  <button class="btn dropdown-toggle" type="button" data-bs-toggle="dropdown" aria-expanded="false" aria-label="Descarga esta pagina">
+    <i class="fas fa-download"></i>
+  </button>
+  <ul class="dropdown-menu">
+      
+      
+      
+      <li><a href="_sources/03_declaracion_apriori.md" target="_blank"
+   class="btn btn-sm btn-download-source-button dropdown-item"
+   title="Descargar archivo fuente"
+   data-bs-placement="left" data-bs-toggle="tooltip"
+>
+  
+
+<span class="btn__icon-container">
+  <i class="fas fa-file"></i>
+  </span>
+<span class="btn__text-container">.md</span>
+</a>
+</li>
+      
+      
+      
+      
+      <li>
+<button onclick="window.print()"
+  class="btn btn-sm btn-download-pdf-button dropdown-item"
+  title="Imprimir en PDF"
+  data-bs-placement="left" data-bs-toggle="tooltip"
+>
+  
+
+<span class="btn__icon-container">
+  <i class="fas fa-file-pdf"></i>
+  </span>
+<span class="btn__text-container">.pdf</span>
+</button>
+</li>
+      
+  </ul>
+</div>
+
+
+
+
+<button onclick="toggleFullScreen()"
+  class="btn btn-sm btn-fullscreen-button pst-navbar-icon"
+  title="Modo de pantalla completa"
+  data-bs-placement="bottom" data-bs-toggle="tooltip"
+>
+  
+
+<span class="btn__icon-container">
+  <i class="fas fa-expand"></i>
+  </span>
+
+</button>
+
+
+
+<button class="btn btn-sm nav-link pst-navbar-icon theme-switch-button pst-js-only" aria-label="Tema" data-bs-title="Tema"  data-bs-placement="bottom" data-bs-toggle="tooltip">
+  <i class="theme-switch fa-solid fa-sun                fa-lg" data-mode="light" title="Claro"></i>
+  <i class="theme-switch fa-solid fa-moon               fa-lg" data-mode="dark"  title="Oscuro"></i>
+  <i class="theme-switch fa-solid fa-circle-half-stroke fa-lg" data-mode="auto"  title="Sistema"></i>
+</button>
+
+
+<button class="btn btn-sm pst-navbar-icon search-button search-button__button pst-js-only" title="Búsqueda" aria-label="Búsqueda" data-bs-placement="bottom" data-bs-toggle="tooltip">
+    <i class="fa-solid fa-magnifying-glass fa-lg"></i>
+</button>
+<button class="sidebar-toggle secondary-toggle btn btn-sm pst-navbar-icon" title="Toggle secondary sidebar" data-bs-placement="bottom" data-bs-toggle="tooltip">
+    <span class="fa-solid fa-list"></span>
+</button>
+</div></div>
+      
+    </div>
+  
+</div>
+</div>
+              
+              
+
+<div id="jb-print-docs-body" class="onlyprint">
+    <h1>Declaración a priori</h1>
+    <!-- Table of contents -->
+    <div id="print-main-content">
+        <div id="jb-print-toc">
+            
+            <div>
+                <h2> Contenido </h2>
+            </div>
+            <nav aria-label="Page">
+                <ul class="pst-show_toc_level nav section-nav flex-column">
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#tabla-de-pre-registro">Tabla de pre-registro</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#hipotesis">Hipótesis</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#plan-estadistico">Plan estadístico</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#reglas-de-reporte">Reglas de reporte</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#recortes-declarados-frente-al-enunciado">Recortes declarados frente al enunciado</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#desviaciones-y-analisis-anadidos-despues-de-la-congelacion">Desviaciones y análisis añadidos después de la congelación</a></li>
+</ul>
+            </nav>
+        </div>
+    </div>
+</div>
+
+              
+                
+<div id="searchbox"></div>
+                <article class="bd-article">
+                  
+  <section class="tex2jax_ignore mathjax_ignore" id="declaracion-a-priori">
+<h1>Declaración a priori<a class="headerlink" href="#declaracion-a-priori" title="Link to this heading">#</a></h1>
+<p>En este capítulo reunimos las decisiones que fijamos antes de entrenar cualquier modelo final: hipótesis, métricas, particiones, semillas, presupuesto, criterios de parada y plan estadístico. Las congelamos el 25 de noviembre de 2026 en <code class="docutils literal notranslate"><span class="pre">results/common/preregistro_2026-11-25.md</span></code>, con la etiqueta Git <code class="docutils literal notranslate"><span class="pre">prereg</span></code> (commit <code class="docutils literal notranslate"><span class="pre">4405406</span></code>). El archivo no se modifica después de la congelación. Toda decisión posterior aparece en la tabla de desviaciones al final del capítulo y en <code class="docutils literal notranslate"><span class="pre">reports/bitacora.md</span></code>, con fecha, hora y motivo.</p>
+<section id="tabla-de-pre-registro">
+<h2>Tabla de pre-registro<a class="headerlink" href="#tabla-de-pre-registro" title="Link to this heading">#</a></h2>
+<div class="pst-scrollable-table-container"><table class="table">
+<thead>
+<tr class="row-odd"><th class="head"><p>Elemento</p></th>
+<th class="head"><p>Segmentación (Sartorius)</p></th>
+<th class="head"><p>Clasificación de texto (Jarvis)</p></th>
+</tr>
+</thead>
+<tbody>
+<tr class="row-even"><td><p>Unidad de análisis</p></td>
+<td><p>Imagen</p></td>
+<td><p>Documento (test) y pliegue (validación cruzada)</p></td>
+</tr>
+<tr class="row-odd"><td><p>Métrica primaria</p></td>
+<td><p>AP&#64;[0.5:0.95] por imagen, como en la competencia</p></td>
+<td><p>F1 macro</p></td>
+</tr>
+<tr class="row-even"><td><p>Métricas secundarias</p></td>
+<td><p>AP50, AP75, PQ (SQ, RQ), AJI, precisión, <em>recall</em> y F1 de instancia, error de conteo, Dice, IoU, precisión y <em>recall</em> de píxel, HD95, F1 de borde, AUC-ROC y AUC-PR de píxel, <em>balanced accuracy</em> de píxel, taxonomía de errores, latencia, parámetros, VRAM, CO₂</p></td>
+<td><p><em>Accuracy</em>, <em>balanced accuracy</em>, precisión, <em>recall</em> y F1 (macro, micro y ponderado), MCC, ROC-AUC y PR-AUC uno contra resto, <em>log-loss</em>, Brier, ECE (15 intervalos), F1 por clase, latencia, parámetros, CO₂</p></td>
+</tr>
+<tr class="row-odd"><td><p>Partición</p></td>
+<td><p><code class="docutils literal notranslate"><span class="pre">StratifiedGroupKFold</span></code> agrupado por <code class="docutils literal notranslate"><span class="pre">sample_id</span></code>, estratificado por tipo celular: 421 / 92 / 93</p></td>
+<td><p>Sin duplicados exactos, casi duplicados agrupados (MinHash/LSH), estratificada por categoría: 1736 / 373 / 373</p></td>
+</tr>
+<tr class="row-even"><td><p>Efecto mínimo relevante δ</p></td>
+<td><p>0.02 de AP</p></td>
+<td><p>0.02 de F1 macro (unos 7 documentos de test)</p></td>
+</tr>
+<tr class="row-odd"><td><p>Semillas</p></td>
+<td><p>3 en modelos con entrenamiento (U-Net++, Mask R-CNN); 1 en los exploratorios</p></td>
+<td><p>5 en todos los modelos</p></td>
+</tr>
+<tr class="row-even"><td><p>Búsqueda de hiperparámetros</p></td>
+<td><p>Solo post-proceso, en validación</p></td>
+<td><p>Optuna TPE con <em>MedianPruner</em>, 30 <em>trials</em> por modelo ligero <span class="bibtex-citation" id="id1">[<a class="reference internal" href="43_referencias.html#id30" title="Takuya Akiba, Shotaro Sano, Toshihiko Yanase, Takeru Ohta, and Masanori Koyama. Optuna: a next-generation hyperparameter optimization framework. In Proceedings of the 25th ACM SIGKDD International Conference on Knowledge Discovery &amp; Data Mining, 2623–2631. 2019.">Akiba <em>et al.</em>, 2019</a>, <a class="reference internal" href="43_referencias.html#id31" title="James Bergstra, Rémi Bardenet, Yoshua Bengio, and Balázs Kégl. Algorithms for hyper-parameter optimization. In Advances in Neural Information Processing Systems, volume 24. 2011.">Bergstra <em>et al.</em>, 2011</a>]</span>; DistilBERT con rejilla de 3 tasas de aprendizaje</p></td>
+</tr>
+<tr class="row-odd"><td><p>Parada</p></td>
+<td><p>U-Net++ y Hover: ≤ 35 épocas de 100 pasos, paciencia 8; Mask R-CNN: ≤ 24 épocas, paciencia 5</p></td>
+<td><p>Redes ligeras: paciencia 3; DistilBERT: ≤ 6 épocas, paciencia 2</p></td>
+</tr>
+<tr class="row-even"><td><p>Presupuesto</p></td>
+<td><p>Unas 29 h de GPU en total (RTX 4060 Laptop, 8 GB), con 20 % de holgura</p></td>
+<td><p>(compartido)</p></td>
+</tr>
+</tbody>
+</table>
+</div>
+<p>Elegimos δ = 0.02 en los dos dominios. En segmentación, por debajo de esa diferencia de AP la elección entre modelos la deciden el costo, la latencia y la robustez. En texto, con 24 clases y 373 documentos de test, una diferencia menor cambia la clase de menos de 7 currículos.</p>
+</section>
+<section id="hipotesis">
+<h2>Hipótesis<a class="headerlink" href="#hipotesis" title="Link to this heading">#</a></h2>
+<div class="pst-scrollable-table-container"><table class="table">
+<thead>
+<tr class="row-odd"><th class="head"><p>ID</p></th>
+<th class="head"><p>Hipótesis</p></th>
+<th class="head"><p>Criterio de refutación</p></th>
+</tr>
+</thead>
+<tbody>
+<tr class="row-even"><td><p>H1</p></td>
+<td><p>Mask R-CNN preentrenado en COCO supera en AP a la U-Net++ entrenada desde cero cuando ambos usan el 25 % del entrenamiento, y la brecha se reduce con el 100 %.</p></td>
+<td><p>El IC 95 % <em>bootstrap</em> de la diferencia media pareada por imagen al 25 % incluye 0; o la diferencia al 100 % no es menor que al 25 %.</p></td>
+</tr>
+<tr class="row-odd"><td><p>H2</p></td>
+<td><p>El AUC-ROC y la <em>balanced accuracy</em> de píxel superan 0.95 en todos los modelos con mapa de probabilidad y no los discriminan; AP&#64;[0.5:0.95] sí.</p></td>
+<td><p>La correlación de Spearman entre el orden por AUC-ROC de píxel y el orden por AP es mayor que 0.9.</p></td>
+</tr>
+<tr class="row-even"><td><p>H3</p></td>
+<td><p>El orden de los modelos por AP cambia al estratificar por tipo celular.</p></td>
+<td><p>El orden es idéntico en astrocitos, corticales y SH-SY5Y.</p></td>
+</tr>
+<tr class="row-odd"><td><p>H4</p></td>
+<td><p>La diferencia de F1 macro entre DistilBERT y TF-IDF + XGBoost <strong>no</strong> es significativa tras la corrección de Holm.</p></td>
+<td><p>McNemar exacto en test o <em>t</em> de Nadeau–Bengio sobre 5 pliegues con <span class="math notranslate nohighlight">\(p_\text{Holm} &lt; 0.05\)</span>. Además, comprobamos si el IC de la diferencia cae entero en <span class="math notranslate nohighlight">\([-\delta, \delta]\)</span>: no significativo no implica equivalente.</p></td>
+</tr>
+<tr class="row-even"><td><p>H5</p></td>
+<td><p>El <em>fine-tuning</em> de DistilBERT produce una ECE de test mayor que 0.05 y mayor que la de TF-IDF + regresión logística; el escalado de temperatura ajustado en validación la reduce sin cambiar la exactitud.</p></td>
+<td><p>La ECE antes del escalado es ≤ 0.05, o el IC <em>bootstrap</em> de la reducción de ECE incluye 0. La exactitud idéntica se cumple por construcción (capítulo <a class="reference internal" href="04_fundamentos_teoricos.html"><span class="doc">Fundamentos teóricos</span></a>).</p></td>
+</tr>
+</tbody>
+</table>
+</div>
+<p>La H2 compara órdenes de 4 a 5 modelos, y con tan pocos elementos la correlación de Spearman tiene poca potencia. Lo tenemos en cuenta al interpretar el resultado.</p>
+</section>
+<section id="plan-estadistico">
+<h2>Plan estadístico<a class="headerlink" href="#plan-estadistico" title="Link to this heading">#</a></h2>
+<p>Usamos α = 0.05 y corrección de Holm en toda familia de comparaciones.</p>
+<ul class="simple">
+<li><p><strong>Intervalos de confianza:</strong> <em>bootstrap</em> percentil con 10 000 remuestreos sobre la unidad de análisis (imágenes o documentos).</p></li>
+<li><p><strong>Dos modelos de segmentación:</strong> Wilcoxon de rangos con signo, pareado por imagen.</p></li>
+<li><p><strong>Tres o más modelos de segmentación:</strong> Friedman, Wilcoxon–Holm por pares y diagrama de diferencia crítica (Nemenyi) <span class="bibtex-citation" id="id2">[<a class="reference internal" href="43_referencias.html#id25" title="Janez Demšar. Statistical comparisons of classifiers over multiple data sets. Journal of Machine Learning Research, 7:1–30, 2006.">Demšar, 2006</a>]</span>.</p></li>
+<li><p><strong>Tamaños de efecto:</strong> <em>d</em> de Cohen pareado y delta de Cliff, interpretados respecto a δ.</p></li>
+<li><p><strong>Estructura jerárquica:</strong> modelo mixto <code class="docutils literal notranslate"><span class="pre">AP</span> <span class="pre">~</span> <span class="pre">modelo</span> <span class="pre">+</span> <span class="pre">(1</span> <span class="pre">|</span> <span class="pre">sample_id)</span></code>.</p></li>
+<li><p><strong>Dos modelos de texto:</strong> McNemar exacto en test, con la predicción por voto de las 5 semillas, y <em>t</em> remuestreada corregida de Nadeau–Bengio sobre los pliegues <span class="bibtex-citation" id="id3">[<a class="reference internal" href="43_referencias.html#id24" title="Thomas G. Dietterich. Approximate statistical tests for comparing supervised classification learning algorithms. Neural Computation, 10(7):1895–1923, 1998.">Dietterich, 1998</a>, <a class="reference internal" href="43_referencias.html#id23" title="Claude Nadeau and Yoshua Bengio. Inference for the generalization error. Machine Learning, 52:239–281, 2003. doi:10.1023/A:1024068626366.">Nadeau and Bengio, 2003</a>]</span>.</p></li>
+<li><p><strong>Ablaciones:</strong> modelo mixto <code class="docutils literal notranslate"><span class="pre">AP</span> <span class="pre">~</span> <span class="pre">variante</span> <span class="pre">+</span> <span class="pre">(1</span> <span class="pre">|</span> <span class="pre">imagen)</span></code> sobre la media entre semillas por imagen, y Wilcoxon–Holm contra la variante de referencia.</p></li>
+<li><p><strong>Varianza:</strong> media ± DE entre semillas, separada de la varianza entre imágenes y entre pliegues <span class="bibtex-citation" id="id4">[<a class="reference internal" href="43_referencias.html#id27" title="Xavier Bouthillier, Pierre Delaunay, Mirko Bronzi, Assya Trofimov, Brennan Nichyporuk, Justin Szeto, Nazanin Mohammadi Sepahvand, Edward Raff, Kanika Madan, Vikram Voleti, Samira Ebrahimi Kahou, Vincent Michalski, Tal Arbel, Chris Pal, Gaël Varoquaux, and Pascal Vincent. Accounting for variance in machine learning benchmarks. In Proceedings of Machine Learning and Systems (MLSys), volume 3. 2021.">Bouthillier <em>et al.</em>, 2021</a>]</span>.</p></li>
+</ul>
+</section>
+<section id="reglas-de-reporte">
+<h2>Reglas de reporte<a class="headerlink" href="#reglas-de-reporte" title="Link to this heading">#</a></h2>
+<ul class="simple">
+<li><p>Toda cifra va como media [IC 95 %].</p></li>
+<li><p>Las figuras cualitativas muestran una muestra aleatoria con semilla fija y los 5 mejores y 5 peores casos por métrica.</p></li>
+<li><p>Cada métrica tiene su definición y su implementación: <code class="docutils literal notranslate"><span class="pre">src/project/metrics_seg.py</span></code> y <code class="docutils literal notranslate"><span class="pre">src/project/metrics_nlp.py</span></code>.</p></li>
+<li><p>El test se evalúa una sola vez por modelo final. Los entrenamientos guardan las probabilidades de test con la configuración congelada, pero las métricas de test solo se calculan en la evaluación final, después de cerrar todas las decisiones en validación.</p></li>
+<li><p>Todo resultado con menos semillas de las exigidas (5 en modelos ligeros, 3 en pesados) se rotula como <em>exploratorio</em>.</p></li>
+</ul>
+</section>
+<section id="recortes-declarados-frente-al-enunciado">
+<h2>Recortes declarados frente al enunciado<a class="headerlink" href="#recortes-declarados-frente-al-enunciado" title="Link to this heading">#</a></h2>
+<p>Los recortes se aplican por igual a todos los modelos comparados. Los fijamos antes de entrenar, a partir de un <em>benchmark</em> de la U-Net++ (0.43 s por paso de 8 recortes de 256 × 256 y 7.0 GB de VRAM pico):</p>
+<ol class="arabic simple">
+<li><p>Sin búsqueda bayesiana de los hiperparámetros de entrenamiento en segmentación. Solo optimizamos el post-proceso en validación.</p></li>
+<li><p>Sin validación anidada completa en CNN-1D y BiLSTM: TPE sobre un único <em>split</em> y validación cruzada de 5 pliegues con la configuración elegida.</p></li>
+<li><p>Mask R-CNN con <em>backbone</em> ResNet-50 en lugar de Swin; variante propia tipo Hover-Net en lugar de la implementación oficial; sin RoBERTa; SAM sin <em>fine-tuning</em>.</p></li>
+<li><p>Sin ablaciones de resolución, <em>augmentation</em> ni preentrenamiento en segmentación. La ablación de preentrenamiento queda cubierta en parte por H1 (Mask R-CNN preentrenado frente a U-Net++ desde cero).</p></li>
+<li><p>Sin validación cruzada de 5 pliegues en segmentación. Estimamos la varianza entre semillas y entre imágenes.</p></li>
+</ol>
+</section>
+<section id="desviaciones-y-analisis-anadidos-despues-de-la-congelacion">
+<h2>Desviaciones y análisis añadidos después de la congelación<a class="headerlink" href="#desviaciones-y-analisis-anadidos-despues-de-la-congelacion" title="Link to this heading">#</a></h2>
+<div class="pst-scrollable-table-container"><table class="table">
+<thead>
+<tr class="row-odd"><th class="head"><p>Fecha y hora</p></th>
+<th class="head"><p>Cambio</p></th>
+<th class="head"><p>Motivo</p></th>
+<th class="head"><p>Efecto en la comparación</p></th>
+</tr>
+</thead>
+<tbody>
+<tr class="row-even"><td><p>11-25 07:36</p></td>
+<td><p>Tope de tiempo en la búsqueda de hiperparámetros: 60 min para CNN-1D y 90 min para BiLSTM</p></td>
+<td><p>Presupuesto de GPU</p></td>
+<td><p>Si el tope corta antes de 30 <em>trials</em>, el número real queda en <code class="docutils literal notranslate"><span class="pre">hpo.pkl</span></code> y lo reportamos en el capítulo de modelos de texto</p></td>
+</tr>
+<tr class="row-odd"><td><p>11-25 07:47</p></td>
+<td><p>Validación anidada completa también en TF-IDF + XGBoost y FastText</p></td>
+<td><p>El enunciado la exige para los modelos ligeros y en CPU es barata</p></td>
+<td><p>Reduce el recorte 2</p></td>
+</tr>
+<tr class="row-even"><td><p>11-25 07:48</p></td>
+<td><p>Ablaciones de segmentación intercaladas por semilla</p></td>
+<td><p>Si falta GPU, cada variante tiene al menos una semilla</p></td>
+<td><p>Las variantes con menos de 3 semillas se rotulan como exploratorias</p></td>
+</tr>
+<tr class="row-odd"><td><p>11-25 08:00</p></td>
+<td><p>Robustez de texto con 11 perturbaciones de test predichas por el mismo modelo final</p></td>
+<td><p>Ahorra un reentrenamiento por modelo</p></td>
+<td><p>Análisis añadido</p></td>
+</tr>
+<tr class="row-even"><td><p>11-25 08:00</p></td>
+<td><p>Curvas de aprendizaje de texto (10, 25, 50 y 100 %) y ablación de <em>embeddings</em> de la BiLSTM</p></td>
+<td><p>Exigidas por el enunciado y ausentes del pre-registro</p></td>
+<td><p>Análisis añadidos</p></td>
+</tr>
+<tr class="row-odd"><td><p>11-25 08:04</p></td>
+<td><p><em>Benchmark</em> de complejidad (U-Net++, BiLSTM y auto-atención)</p></td>
+<td><p>Verificación empírica del punto 6 de los fundamentos teóricos</p></td>
+<td><p>Análisis añadido</p></td>
+</tr>
+<tr class="row-even"><td><p>11-25 14:33</p></td>
+<td><p>La validación anidada de TF-IDF + XGBoost y FastText pasa al final de la cola, después de las ablaciones de segmentación (corrige la fila de las 07:47)</p></td>
+<td><p>Medimos el costo en la búsqueda simple: XGBoost tardó 117 min en 30 <em>trials</em> y FastText unos 6 min por <em>trial</em> (ambos en CPU), de modo que cada validación anidada (5 × 31 ajustes) requiere de 10 a 15 h, más que el presupuesto disponible</p></td>
+<td><p>Si el corte del jueves llega antes, esos dos modelos quedan sin corrección del sesgo optimista, igual que CNN-1D, BiLSTM y DistilBERT; el capítulo de modelos de texto lo indica</p></td>
+</tr>
+<tr class="row-odd"><td><p>11-25 14:35</p></td>
+<td><p>Orden de la cola por prioridad: (1) trabajos de texto que deciden H4 y H5 y los entregables de texto; (2) trabajos de segmentación que deciden H1 (U-Net++ y Mask R-CNN al 25 %), segunda y tercera semilla de Mask R-CNN, HoVer-Net, Cellpose ajustado, SAM automático, selección, robustez, exportación y prueba de carga; (3) análisis secundarios baratos de texto; (4) ablaciones de segmentación con la semilla 0; (5) análisis secundarios caros de texto; (6) semillas 1 y 2 de las ablaciones; (7) validaciones anidadas de XGBoost y FastText</p></td>
+<td><p>Con las duraciones medidas hasta las 14:40, el trabajo pendiente supera el tiempo hasta el corte del jueves a las 12:00; en el orden anterior, el par que decide H1 quedaba después del corte</p></td>
+<td><p>Lo que no se ejecute antes del corte aparece en el Book como no disponible y en el capítulo de uso de IA como desviación</p></td>
+</tr>
+<tr class="row-even"><td><p>11-25 18:06</p></td>
+<td><p>Ablaciones de segmentación con semilla 0 en el orden pérdidas → LOCTO → fracciones 10 y 50 %</p></td>
+<td><p>Con las duraciones medidas, el trabajo pendiente termina el viernes y el corte del jueves deja fuera unas 2 de las 8 ablaciones s0; la curva de aprendizaje ya tiene los puntos de 25 % y 100 %</p></td>
+<td><p>Las fracciones 10 y 50 % y las semillas 1–2 de todas las ablaciones probablemente quedan sin ejecutar; las ablaciones que sí corren tienen una semilla y se rotulan como exploratorias</p></td>
+</tr>
+<tr class="row-odd"><td><p>11-25 18:17</p></td>
+<td><p>Corte de entrenamientos movido al jueves a las 17:00. Orden nuevo después de la segmentación prioritaria: (1) las 8 ablaciones con la semilla 0; (2) semilla 1 de las ablaciones de pérdida y de LOCTO; (3) análisis secundarios caros de texto; (4) semilla 2. Las validaciones anidadas de XGBoost y FastText quedan fuera de la cola (corrige las filas de las 07:47 y 14:33). Regla de evidencia por semillas: con 1 semilla la ablación es exploratoria; con 2 informamos la diferencia de cada semilla y si su signo coincide, sin DE; con 3 o más, también la DE entre semillas (corrige la fila de las 07:48)</p></td>
+<td><p>Cambio del plazo de entrega; con las duraciones medidas, las 8 ablaciones s0 y 6 ablaciones s1 caben antes del corte</p></td>
+<td><p>Las fracciones 10 y 50 % quedan con una semilla; pérdidas y LOCTO, con dos si la cola cumple la estimación. XGBoost y FastText quedan sin corrección del sesgo optimista</p></td>
+</tr>
+<tr class="row-even"><td><p>11-26 05:50</p></td>
+<td><p>Implementación del criterio de H1: la primera parte se refuta si el IC 95 % de Mask R-CNN − U-Net++ al 25 % no queda entero por encima de 0 (el código anterior solo comprobaba si incluía 0)</p></td>
+<td><p>H1 es direccional: un IC entero por debajo de 0 es evidencia en contra de «Mask R-CNN supera», no a favor</p></td>
+<td><p>Aclara el criterio sin cambiarlo; detectado al leer el resultado y corregido antes de redactar el capítulo de resultados</p></td>
+</tr>
+</tbody>
+</table>
+</div>
+</section>
+</section>
+
+    <script type="text/x-thebe-config">
+    {
+        requestKernel: true,
+        binderOptions: {
+            repo: "binder-examples/jupyter-stacks-datascience",
+            ref: "master",
+        },
+        codeMirrorConfig: {
+            theme: "abcdef",
+            mode: "python"
+        },
+        kernelOptions: {
+            name: "python3",
+            path: "./."
+        },
+        predefinedOutput: true
+    }
+    </script>
+    <script>kernelName = 'python3'</script>
+
+                </article>
+              
+
+              
+              
+              
+              
+                <footer class="prev-next-footer d-print-none">
+                  
+<div class="prev-next-area">
+    <a class="left-prev"
+       href="02_datos_fichas.html"
+       title="página anterior">
+      <i class="fa-solid fa-angle-left"></i>
+      <div class="prev-next-info">
+        <p class="prev-next-subtitle">anterior</p>
+        <p class="prev-next-title">Datos y fichas de datos</p>
+      </div>
+    </a>
+    <a class="right-next"
+       href="04_fundamentos_teoricos.html"
+       title="siguiente página">
+      <div class="prev-next-info">
+        <p class="prev-next-subtitle">siguiente</p>
+        <p class="prev-next-title">Fundamentos teóricos</p>
+      </div>
+      <i class="fa-solid fa-angle-right"></i>
+    </a>
+</div>
+                </footer>
+              
+            </div>
+            
+            
+              
+                <dialog id="pst-secondary-sidebar-modal"></dialog>
+                <div id="pst-secondary-sidebar" class="bd-sidebar-secondary bd-toc"><div class="sidebar-secondary-items sidebar-secondary__inner">
+
+
+  <div class="sidebar-secondary-item"><div
+    id="pst-page-navigation-heading-2"
+    class="page-toc tocsection onthispage">
+    <i class="fa-solid fa-list"></i> Contenido
+  </div>
+  <nav id="pst-page-toc-nav" class="page-toc" aria-labelledby="pst-page-navigation-heading-2">
+    <ul class="pst-show_toc_level nav section-nav flex-column">
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#tabla-de-pre-registro">Tabla de pre-registro</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#hipotesis">Hipótesis</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#plan-estadistico">Plan estadístico</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#reglas-de-reporte">Reglas de reporte</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#recortes-declarados-frente-al-enunciado">Recortes declarados frente al enunciado</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#desviaciones-y-analisis-anadidos-despues-de-la-congelacion">Desviaciones y análisis añadidos después de la congelación</a></li>
+</ul>
+  </nav></div>
+
+</div></div>
+              
+            
+          </div>
+          <footer class="bd-footer-content">
+            
+<div class="bd-footer-content__inner container">
+  
+  <div class="footer-item">
+    
+<p class="component-author">
+Por Anyely Sanjuan Benavides y Juan David Díaz Fernández
+</p>
+
+  </div>
+  
+  <div class="footer-item">
+    
+
+  <p class="copyright">
+    
+      © Copyright 2026.
+      <br/>
+    
+  </p>
+
+  </div>
+  
+  <div class="footer-item">
+    
+  </div>
+  
+  <div class="footer-item">
+    
+  </div>
+  
+</div>
+          </footer>
+        
+
+      </main>
+    </div>
+  </div>
+  
+  <!-- Scripts loaded after <body> so the DOM is not blocked -->
+  <script defer src="_static/scripts/bootstrap.js?digest=55c26ed414f5f8a31ebb"></script>
+<script defer src="_static/scripts/pydata-sphinx-theme.js?digest=55c26ed414f5f8a31ebb"></script>
+
+  <footer class="bd-footer">
+  </footer>
+  </body>
+</html>

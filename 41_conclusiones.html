@@ -1,0 +1,852 @@
+
+<!DOCTYPE html>
+
+
+<html lang="es" data-content_root="./" >
+
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" /><meta name="viewport" content="width=device-width, initial-scale=1" />
+
+    <title>Conclusiones, limitaciones y trabajo futuro &#8212; Segmentación de células y clasificación de hojas de vida</title>
+  
+  
+  
+  <script data-cfasync="false">
+    document.documentElement.dataset.mode = localStorage.getItem("mode") || "";
+    document.documentElement.dataset.theme = localStorage.getItem("theme") || "";
+  </script>
+  <!--
+    this give us a css class that will be invisible only if js is disabled
+  -->
+  <noscript>
+    <style>
+      .pst-js-only { display: none !important; }
+
+    </style>
+  </noscript>
+  
+  <!-- Loaded before other Sphinx assets -->
+  <link href="_static/styles/theme.css?digest=55c26ed414f5f8a31ebb" rel="stylesheet" />
+<link href="_static/styles/pydata-sphinx-theme.css?digest=55c26ed414f5f8a31ebb" rel="stylesheet" />
+
+    <link rel="stylesheet" type="text/css" href="_static/pygments.css?v=03e43079" />
+    <link rel="stylesheet" type="text/css" href="_static/styles/sphinx-book-theme.css?v=3c74b3bc" />
+    <link rel="stylesheet" type="text/css" href="_static/togglebutton.css?v=9c3e77be" />
+    <link rel="stylesheet" type="text/css" href="_static/copybutton.css?v=76b2166b" />
+    <link rel="stylesheet" type="text/css" href="_static/mystnb.11b39860a7a0cbfd473a3ad8a317855267ff0bd372690045ca344a6b62be495e.css?v=8cd3d715" />
+    <link rel="stylesheet" type="text/css" href="_static/sphinx-thebe.css?v=4fa983c6" />
+    <link rel="stylesheet" type="text/css" href="_static/sphinx-design.min.css?v=6a604523" />
+    <link rel="stylesheet" type="text/css" href="_static/autores.css?v=fc0dcfce" />
+  
+  <!-- So that users can add custom icons -->
+  <script defer src="_static/scripts/fontawesome.js?digest=55c26ed414f5f8a31ebb"></script>
+  <!-- Pre-loaded scripts that we'll load fully later -->
+  <link rel="preload" as="script" href="_static/scripts/bootstrap.js?digest=55c26ed414f5f8a31ebb" />
+<link rel="preload" as="script" href="_static/scripts/pydata-sphinx-theme.js?digest=55c26ed414f5f8a31ebb" />
+
+    <script src="_static/documentation_options.js?v=78d55cf8"></script>
+    <script src="_static/doctools.js?v=9a2dae69"></script>
+    <script src="_static/sphinx_highlight.js?v=dc90522c"></script>
+    <script src="_static/clipboard.min.js?v=a7894cd8"></script>
+    <script src="_static/copybutton.js?v=f281be69"></script>
+    <script src="_static/scripts/sphinx-book-theme.js?v=fab101a9"></script>
+    <script>let toggleHintShow = 'Haz clic para mostrar';</script>
+    <script>let toggleHintHide = 'Haz clic para ocultar';</script>
+    <script>let toggleOpenOnPrint = 'true';</script>
+    <script src="_static/togglebutton.js?v=b8b12719"></script>
+    <script src="_static/translations.js?v=d190bf04"></script>
+    <script>var togglebuttonSelector = '.toggle, .admonition.dropdown';</script>
+    <script data-sd-tabs-storage-prefix="sphinx-design-tab-id-" src="_static/design-tabs.js?v=fcb327ea"></script>
+    <script>const THEBE_JS_URL = "https://unpkg.com/thebe@0.8.2/lib/index.js"; const thebe_selector = ".thebe,.cell"; const thebe_selector_input = "pre"; const thebe_selector_output = ".output, .cell_output"</script>
+    <script async="async" src="_static/sphinx-thebe.js?v=c100c467"></script>
+    <script>var togglebuttonSelector = '.toggle, .admonition.dropdown';</script>
+    <script>const THEBE_JS_URL = "https://unpkg.com/thebe@0.8.2/lib/index.js"; const thebe_selector = ".thebe,.cell"; const thebe_selector_input = "pre"; const thebe_selector_output = ".output, .cell_output"</script>
+    <script>DOCUMENTATION_OPTIONS.pagename = '41_conclusiones';</script>
+    <script>DOCUMENTATION_OPTIONS.search_as_you_type = false;</script>
+    <link rel="index" title="Índice" href="genindex.html" />
+    <link rel="search" title="Búsqueda" href="search.html" />
+    <link rel="next" title="Reproducibilidad, autoría y uso de herramientas" href="42_reproducibilidad.html" />
+    <link rel="prev" title="Comparación final y decisión" href="40_comparacion_final.html" />
+  <meta name="viewport" content="width=device-width, initial-scale=1"/>
+  <meta name="docsearch:language" content="es"/>
+  <meta name="docsearch:version" content="" />
+  
+    
+    <script src="_static/searchtools.js"></script>
+    <script src="_static/language_data.js"></script>
+    <script src="searchindex.js"></script>
+  
+  </head>
+  <body data-default-mode="">
+  
+  
+  <div id="pst-skip-link" class="skip-link d-print-none"><a href="#main-content">Saltar al contenido principal</a></div>
+
+  
+  <div id="pst-scroll-pixel-helper"></div>
+  
+  <button type="button" class="btn rounded-pill" id="pst-back-to-top">
+    <i class="fa-solid fa-arrow-up"></i>Volver arriba</button>
+  
+  
+  
+  
+  <dialog id="pst-search-dialog">
+    
+<form class="bd-search d-flex align-items-center"
+      action="search.html"
+      method="get">
+  <i class="fa-solid fa-magnifying-glass"></i>
+  <input type="search"
+         class="form-control"
+         name="q"
+         placeholder="Search this book..."
+         aria-label="Search this book..."
+         autocomplete="off"
+         autocorrect="off"
+         autocapitalize="off"
+         spellcheck="false"/>
+  <span class="search-button__kbd-shortcut"><kbd class="kbd-shortcut__modifier">Ctrl</kbd>+<kbd>K</kbd></span>
+</form>
+  </dialog>
+
+  <div class="pst-async-banner-revealer d-none">
+  <aside id="bd-header-version-warning" class="d-none d-print-none" aria-label="Advertencia de versión"></aside>
+</div>
+
+  
+    <header id="pst-header" class="bd-header navbar navbar-expand-lg bd-navbar d-print-none">
+<div class="bd-header__inner bd-page-width">
+  <button class="pst-navbar-icon sidebar-toggle primary-toggle" aria-label="Navegación del sitio">
+    <span class="fa-solid fa-bars"></span>
+  </button>
+  
+  
+  <div class="col-lg-9 navbar-header-items">
+    
+    
+    <div class="navbar-header-items__end">
+      
+        <div class="navbar-item navbar-persistent--container">
+          
+
+<button class="btn search-button-field search-button__button pst-js-only" title="Búsqueda" aria-label="Búsqueda" data-bs-placement="bottom" data-bs-toggle="tooltip">
+ <i class="fa-solid fa-magnifying-glass"></i>
+ <span class="search-button__default-text">Búsqueda</span>
+ <span class="search-button__kbd-shortcut"><kbd class="kbd-shortcut__modifier">Ctrl</kbd>+<kbd class="kbd-shortcut__modifier">K</kbd></span>
+</button>
+        </div>
+      
+      
+    </div>
+    
+  </div>
+  
+  
+    <div class="navbar-persistent--mobile">
+
+<button class="btn search-button-field search-button__button pst-js-only" title="Búsqueda" aria-label="Búsqueda" data-bs-placement="bottom" data-bs-toggle="tooltip">
+ <i class="fa-solid fa-magnifying-glass"></i>
+ <span class="search-button__default-text">Búsqueda</span>
+ <span class="search-button__kbd-shortcut"><kbd class="kbd-shortcut__modifier">Ctrl</kbd>+<kbd class="kbd-shortcut__modifier">K</kbd></span>
+</button>
+    </div>
+  
+
+  
+    <button class="pst-navbar-icon sidebar-toggle secondary-toggle" aria-label="En esta página">
+      <span class="fa-solid fa-outdent"></span>
+    </button>
+  
+</div>
+
+    </header>
+  
+
+  <div class="bd-container">
+    <div class="bd-container__inner bd-page-width">
+      
+      
+      
+      <dialog id="pst-primary-sidebar-modal"></dialog>
+      <div id="pst-primary-sidebar" class="bd-sidebar-primary bd-sidebar">
+        
+
+  
+  <div class="sidebar-header-items sidebar-primary__section">
+    
+    
+    
+    
+  </div>
+  
+    <div class="sidebar-primary-items__start sidebar-primary__section">
+        <div class="sidebar-primary-item">
+
+  
+    
+  
+
+<a class="navbar-brand logo" href="intro.html">
+  
+  
+  
+  
+  
+  
+    <p class="title logo__title">Segmentación de células y clasificación de hojas de vida</p>
+  
+</a></div>
+        <div class="sidebar-primary-item"><div class="sidebar-autores">
+  <div class="autor">
+    <img src="_static/autores/anyely.jpg" alt="Anyely Sanjuan Benavides">
+    <p class="autor-nombre">Anyely Sanjuan Benavides</p>
+    <p class="autor-detalle">Msc. Analítica de Datos<br>Universidad del Norte</p>
+  </div>
+  <div class="autor">
+    <img src="_static/autores/juan.jpg" alt="Juan David Díaz Fernández">
+    <p class="autor-nombre">Juan David Díaz Fernández</p>
+    <p class="autor-detalle">Msc. Ingeniería Mecánica<br>Universidad del Norte</p>
+  </div>
+</div></div>
+        <div class="sidebar-primary-item">
+
+<button class="btn search-button-field search-button__button pst-js-only" title="Búsqueda" aria-label="Búsqueda" data-bs-placement="bottom" data-bs-toggle="tooltip">
+ <i class="fa-solid fa-magnifying-glass"></i>
+ <span class="search-button__default-text">Búsqueda</span>
+ <span class="search-button__kbd-shortcut"><kbd class="kbd-shortcut__modifier">Ctrl</kbd>+<kbd class="kbd-shortcut__modifier">K</kbd></span>
+</button></div>
+        <div class="sidebar-primary-item"><nav class="bd-links bd-docs-nav" aria-label="Main">
+    <div class="bd-toc-item navbar-nav active">
+        
+        <ul class="nav bd-sidenav bd-sidenav__home-link">
+            <li class="toctree-l1">
+                <a class="reference internal" href="intro.html">
+                    Segmentación de células y clasificación de hojas de vida
+                </a>
+            </li>
+        </ul>
+        <p aria-level="2" class="caption" role="heading"><span class="caption-text">Planteamiento</span></p>
+<ul class="nav bd-sidenav">
+<li class="toctree-l1"><a class="reference internal" href="01_problema_objetivos.html">Problema, objetivos y preguntas de investigación</a></li>
+<li class="toctree-l1"><a class="reference internal" href="02_datos_fichas.html">Datos y fichas de datos</a></li>
+<li class="toctree-l1"><a class="reference internal" href="03_declaracion_apriori.html">Declaración a priori</a></li>
+<li class="toctree-l1"><a class="reference internal" href="04_fundamentos_teoricos.html">Fundamentos teóricos</a></li>
+</ul>
+<p aria-level="2" class="caption" role="heading"><span class="caption-text">Bloque 1: segmentación de instancias celulares</span></p>
+<ul class="nav bd-sidenav">
+<li class="toctree-l1"><a class="reference internal" href="10_seg_eda.html">Análisis exploratorio y auditoría de Sartorius</a></li>
+<li class="toctree-l1"><a class="reference internal" href="11_seg_preprocesamiento.html">Preprocesamiento y aumento de datos</a></li>
+<li class="toctree-l1"><a class="reference internal" href="12_seg_modelos.html">Modelos de segmentación</a></li>
+<li class="toctree-l1"><a class="reference internal" href="13_seg_resultados.html">Resultados de segmentación</a></li>
+<li class="toctree-l1"><a class="reference internal" href="14_seg_ablaciones_robustez.html">Ablaciones, robustez, calibración y eficiencia en segmentación</a></li>
+<li class="toctree-l1"><a class="reference internal" href="15_seg_analisis_critico.html">Análisis crítico de la segmentación</a></li>
+</ul>
+<p aria-level="2" class="caption" role="heading"><span class="caption-text">Bloque 2: clasificación de texto</span></p>
+<ul class="nav bd-sidenav">
+<li class="toctree-l1"><a class="reference internal" href="20_nlp_eda.html">Análisis exploratorio y auditoría de las hojas de vida</a></li>
+<li class="toctree-l1"><a class="reference internal" href="21_nlp_representaciones.html">Preprocesamiento y representaciones de texto</a></li>
+<li class="toctree-l1"><a class="reference internal" href="22_nlp_modelos.html">Modelos de clasificación de texto y búsqueda de hiperparámetros</a></li>
+<li class="toctree-l1"><a class="reference internal" href="23_nlp_resultados.html">Resultados de clasificación de texto</a></li>
+<li class="toctree-l1"><a class="reference internal" href="24_nlp_robustez_equidad.html">Calibración, robustez, equidad y explicabilidad del clasificador de texto</a></li>
+<li class="toctree-l1"><a class="reference internal" href="25_nlp_analisis_critico.html">Eficiencia, riesgo en reclutamiento y análisis crítico del clasificador de texto</a></li>
+</ul>
+<p aria-level="2" class="caption" role="heading"><span class="caption-text">Despliegue y cierre</span></p>
+<ul class="current nav bd-sidenav">
+<li class="toctree-l1"><a class="reference internal" href="30_mlops.html">Despliegue: API, contenedor, integración continua y registro de modelos</a></li>
+<li class="toctree-l1"><a class="reference internal" href="31_monitoreo_deriva.html">Monitoreo y experimento de deriva</a></li>
+<li class="toctree-l1"><a class="reference internal" href="40_comparacion_final.html">Comparación final y decisión</a></li>
+<li class="toctree-l1 current active"><a class="current reference internal" href="#">Conclusiones, limitaciones y trabajo futuro</a></li>
+<li class="toctree-l1"><a class="reference internal" href="42_reproducibilidad.html">Reproducibilidad, autoría y uso de herramientas</a></li>
+<li class="toctree-l1"><a class="reference internal" href="43_referencias.html">Referencias</a></li>
+</ul>
+
+    </div>
+</nav></div>
+    </div>
+  
+  
+  <div class="sidebar-primary-items__end sidebar-primary__section">
+      <div class="sidebar-primary-item">
+<div id="ethical-ad-placement"
+      class="flat"
+      data-ea-publisher="readthedocs"
+      data-ea-type="readthedocs-sidebar"
+      data-ea-manual="true">
+</div></div>
+  </div>
+
+
+      </div>
+      
+      <main id="main-content" class="bd-main" role="main">
+        
+        
+
+<div class="sbt-scroll-pixel-helper"></div>
+
+          <div class="bd-content">
+            <div class="bd-article-container">
+              
+              <div class="bd-header-article d-print-none">
+<div class="header-article-items header-article__inner">
+  
+    <div class="header-article-items__start">
+      
+        <div class="header-article-item"><button class="sidebar-toggle primary-toggle btn btn-sm" title="Toggle primary sidebar" data-bs-placement="bottom" data-bs-toggle="tooltip">
+  <span class="fa-solid fa-bars"></span>
+</button></div>
+      
+    </div>
+  
+  
+    <div class="header-article-items__end">
+      
+        <div class="header-article-item">
+
+<div class="article-header-buttons">
+
+
+<a href="https://github.com/Anyita-12/proyecto-integrador-dl" target="_blank"
+   class="btn btn-sm btn-source-repository-button"
+   title="Repositorio de origen"
+   data-bs-placement="bottom" data-bs-toggle="tooltip"
+>
+  
+
+<span class="btn__icon-container">
+  <i class="fab fa-github"></i>
+  </span>
+
+</a>
+
+
+
+
+
+
+<div class="dropdown dropdown-download-buttons">
+  <button class="btn dropdown-toggle" type="button" data-bs-toggle="dropdown" aria-expanded="false" aria-label="Descarga esta pagina">
+    <i class="fas fa-download"></i>
+  </button>
+  <ul class="dropdown-menu">
+      
+      
+      
+      <li><a href="_sources/41_conclusiones.ipynb" target="_blank"
+   class="btn btn-sm btn-download-source-button dropdown-item"
+   title="Descargar archivo fuente"
+   data-bs-placement="left" data-bs-toggle="tooltip"
+>
+  
+
+<span class="btn__icon-container">
+  <i class="fas fa-file"></i>
+  </span>
+<span class="btn__text-container">.ipynb</span>
+</a>
+</li>
+      
+      
+      
+      
+      <li>
+<button onclick="window.print()"
+  class="btn btn-sm btn-download-pdf-button dropdown-item"
+  title="Imprimir en PDF"
+  data-bs-placement="left" data-bs-toggle="tooltip"
+>
+  
+
+<span class="btn__icon-container">
+  <i class="fas fa-file-pdf"></i>
+  </span>
+<span class="btn__text-container">.pdf</span>
+</button>
+</li>
+      
+  </ul>
+</div>
+
+
+
+
+<button onclick="toggleFullScreen()"
+  class="btn btn-sm btn-fullscreen-button pst-navbar-icon"
+  title="Modo de pantalla completa"
+  data-bs-placement="bottom" data-bs-toggle="tooltip"
+>
+  
+
+<span class="btn__icon-container">
+  <i class="fas fa-expand"></i>
+  </span>
+
+</button>
+
+
+
+<button class="btn btn-sm nav-link pst-navbar-icon theme-switch-button pst-js-only" aria-label="Tema" data-bs-title="Tema"  data-bs-placement="bottom" data-bs-toggle="tooltip">
+  <i class="theme-switch fa-solid fa-sun                fa-lg" data-mode="light" title="Claro"></i>
+  <i class="theme-switch fa-solid fa-moon               fa-lg" data-mode="dark"  title="Oscuro"></i>
+  <i class="theme-switch fa-solid fa-circle-half-stroke fa-lg" data-mode="auto"  title="Sistema"></i>
+</button>
+
+
+<button class="btn btn-sm pst-navbar-icon search-button search-button__button pst-js-only" title="Búsqueda" aria-label="Búsqueda" data-bs-placement="bottom" data-bs-toggle="tooltip">
+    <i class="fa-solid fa-magnifying-glass fa-lg"></i>
+</button>
+<button class="sidebar-toggle secondary-toggle btn btn-sm pst-navbar-icon" title="Toggle secondary sidebar" data-bs-placement="bottom" data-bs-toggle="tooltip">
+    <span class="fa-solid fa-list"></span>
+</button>
+</div></div>
+      
+    </div>
+  
+</div>
+</div>
+              
+              
+
+<div id="jb-print-docs-body" class="onlyprint">
+    <h1>Conclusiones, limitaciones y trabajo futuro</h1>
+    <!-- Table of contents -->
+    <div id="print-main-content">
+        <div id="jb-print-toc">
+            
+            <div>
+                <h2> Contenido </h2>
+            </div>
+            <nav aria-label="Page">
+                <ul class="pst-show_toc_level nav section-nav flex-column">
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#hipotesis">Hipótesis</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#el-resultado-mas-inesperado">El resultado más inesperado</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#que-pondriamos-en-produccion-y-cuando-dejaria-de-valer-la-decision">¿Qué pondríamos en producción y cuándo dejaría de valer la decisión?</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#amenazas-a-la-validez-y-experimentos-que-las-reducirian">Amenazas a la validez y experimentos que las reducirían</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#que-cambiaria-con-el-doble-o-con-la-mitad-del-presupuesto">¿Qué cambiaría con el doble o con la mitad del presupuesto?</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#reflexion-etica-y-de-impacto">Reflexión ética y de impacto</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#autoevaluacion-las-cinco-objeciones-mas-serias-de-un-revisor-externo">Autoevaluación: las cinco objeciones más serias de un revisor externo</a></li>
+</ul>
+            </nav>
+        </div>
+    </div>
+</div>
+
+              
+                
+<div id="searchbox"></div>
+                <article class="bd-article">
+                  
+  <section class="tex2jax_ignore mathjax_ignore" id="conclusiones-limitaciones-y-trabajo-futuro">
+<h1>Conclusiones, limitaciones y trabajo futuro<a class="headerlink" href="#conclusiones-limitaciones-y-trabajo-futuro" title="Link to this heading">#</a></h1>
+<p>En este capítulo cerramos el estudio: qué pondríamos en producción y bajo qué supuestos, qué hipótesis se sostienen, qué amenazas quedan abiertas y qué experimento las reduciría, y qué objeciones haría un revisor externo.</p>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="kn">import</span><span class="w"> </span><span class="nn">pandas</span><span class="w"> </span><span class="k">as</span><span class="w"> </span><span class="nn">pd</span>
+<span class="kn">from</span><span class="w"> </span><span class="nn">IPython.display</span><span class="w"> </span><span class="kn">import</span> <span class="n">Markdown</span><span class="p">,</span> <span class="n">display</span>
+
+<span class="kn">from</span><span class="w"> </span><span class="nn">project.book_utils</span><span class="w"> </span><span class="kn">import</span> <span class="n">ci</span><span class="p">,</span> <span class="n">exists</span><span class="p">,</span> <span class="n">need</span><span class="p">,</span> <span class="n">style</span>
+
+<span class="n">style</span><span class="p">()</span>
+<span class="n">pd</span><span class="o">.</span><span class="n">set_option</span><span class="p">(</span><span class="s2">"display.precision"</span><span class="p">,</span> <span class="mi">3</span><span class="p">)</span>
+<span class="n">md</span> <span class="o">=</span> <span class="k">lambda</span> <span class="n">t</span><span class="p">:</span> <span class="n">display</span><span class="p">(</span><span class="n">Markdown</span><span class="p">(</span><span class="n">t</span><span class="p">))</span>  <span class="c1"># noqa: E731</span>
+<span class="n">SG</span> <span class="o">=</span> <span class="n">need</span><span class="p">(</span><span class="s2">"analysis/seg_stats/stats.pkl"</span><span class="p">)</span>
+<span class="n">NL</span> <span class="o">=</span> <span class="n">need</span><span class="p">(</span><span class="s2">"analysis/nlp_stats/stats.pkl"</span><span class="p">)</span>
+<span class="n">LS</span><span class="p">,</span> <span class="n">LN</span> <span class="o">=</span> <span class="n">SG</span><span class="p">[</span><span class="s2">"labels"</span><span class="p">],</span> <span class="n">NL</span><span class="p">[</span><span class="s2">"labels"</span><span class="p">]</span>
+</pre></div>
+</div>
+</div>
+</div>
+<section id="hipotesis">
+<h2>Hipótesis<a class="headerlink" href="#hipotesis" title="Link to this heading">#</a></h2>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">rows</span> <span class="o">=</span> <span class="p">[]</span>
+<span class="n">h1</span> <span class="o">=</span> <span class="n">SG</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="s2">"h1"</span><span class="p">,</span> <span class="p">{})</span>
+<span class="k">if</span> <span class="s2">"25 %"</span> <span class="ow">in</span> <span class="n">h1</span><span class="p">:</span>
+    <span class="n">a</span><span class="p">,</span> <span class="n">b</span> <span class="o">=</span> <span class="n">h1</span><span class="p">[</span><span class="s2">"25 %"</span><span class="p">],</span> <span class="n">h1</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="s2">"100 %"</span><span class="p">)</span>
+    <span class="n">ref</span> <span class="o">=</span> <span class="n">h1</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="s2">"parte1_refutada"</span><span class="p">,</span> <span class="kc">False</span><span class="p">)</span> <span class="ow">or</span> <span class="n">h1</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="s2">"parte2_refutada"</span><span class="p">,</span> <span class="kc">False</span><span class="p">)</span>
+    <span class="n">rows</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="nb">dict</span><span class="p">(</span><span class="n">hipótesis</span><span class="o">=</span><span class="s2">"H1: el preentrenamiento COCO ayuda más con pocos datos"</span><span class="p">,</span>
+                     <span class="n">evidencia</span><span class="o">=</span><span class="sa">f</span><span class="s2">"Mask R-CNN − U-Net++ al 25 %: </span><span class="si">{</span><span class="n">ci</span><span class="p">(</span><span class="n">a</span><span class="p">[</span><span class="s1">'diff'</span><span class="p">],</span><span class="w"> </span><span class="n">a</span><span class="p">[</span><span class="s1">'lo'</span><span class="p">],</span><span class="w"> </span><span class="n">a</span><span class="p">[</span><span class="s1">'hi'</span><span class="p">])</span><span class="si">}</span><span class="s2">"</span>
+                     <span class="o">+</span> <span class="p">(</span><span class="sa">f</span><span class="s2">"; al 100 %: </span><span class="si">{</span><span class="n">ci</span><span class="p">(</span><span class="n">b</span><span class="p">[</span><span class="s1">'diff'</span><span class="p">],</span><span class="w"> </span><span class="n">b</span><span class="p">[</span><span class="s1">'lo'</span><span class="p">],</span><span class="w"> </span><span class="n">b</span><span class="p">[</span><span class="s1">'hi'</span><span class="p">])</span><span class="si">}</span><span class="s2">"</span> <span class="k">if</span> <span class="n">b</span> <span class="k">else</span> <span class="s2">""</span><span class="p">),</span>
+                     <span class="n">veredicto</span><span class="o">=</span><span class="s2">"refutada"</span> <span class="k">if</span> <span class="n">ref</span> <span class="k">else</span> <span class="s2">"no refutada"</span><span class="p">))</span>
+<span class="k">else</span><span class="p">:</span>
+    <span class="n">rows</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="nb">dict</span><span class="p">(</span><span class="n">hipótesis</span><span class="o">=</span><span class="s2">"H1: el preentrenamiento COCO ayuda más con pocos datos"</span><span class="p">,</span> <span class="n">evidencia</span><span class="o">=</span><span class="s2">"faltan los entrenamientos al 25 %"</span><span class="p">,</span>
+                     <span class="n">veredicto</span><span class="o">=</span><span class="s2">"sin contrastar"</span><span class="p">))</span>
+<span class="n">h2</span> <span class="o">=</span> <span class="n">SG</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="s2">"h2"</span><span class="p">,</span> <span class="p">{})</span>
+<span class="k">if</span> <span class="n">h2</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="s2">"spearman_auc"</span><span class="p">):</span>
+    <span class="n">rows</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="nb">dict</span><span class="p">(</span><span class="n">hipótesis</span><span class="o">=</span><span class="s2">"H2: las métricas de píxel saturan y no ordenan como AP"</span><span class="p">,</span>
+                     <span class="n">evidencia</span><span class="o">=</span><span class="sa">f</span><span class="s2">"ρ de Spearman (AUC-ROC de píxel, AP) = </span><span class="si">{</span><span class="n">h2</span><span class="p">[</span><span class="s1">'spearman_auc'</span><span class="p">][</span><span class="mi">0</span><span class="p">]</span><span class="si">:</span><span class="s2">.2f</span><span class="si">}</span><span class="s2"> con </span><span class="si">{</span><span class="n">h2</span><span class="p">[</span><span class="s1">'n_models'</span><span class="p">]</span><span class="si">}</span><span class="s2"> modelos"</span><span class="p">,</span>
+                     <span class="n">veredicto</span><span class="o">=</span><span class="s2">"refutada"</span> <span class="k">if</span> <span class="n">h2</span><span class="p">[</span><span class="s2">"refuted"</span><span class="p">]</span> <span class="k">else</span> <span class="s2">"no refutada"</span><span class="p">))</span>
+<span class="n">h3</span> <span class="o">=</span> <span class="n">SG</span><span class="p">[</span><span class="s2">"stratified"</span><span class="p">][</span><span class="s2">"h3"</span><span class="p">]</span>
+<span class="n">rows</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="nb">dict</span><span class="p">(</span><span class="n">hipótesis</span><span class="o">=</span><span class="s2">"H3: el orden de modelos cambia por tipo celular"</span><span class="p">,</span> <span class="n">evidencia</span><span class="o">=</span><span class="sa">f</span><span class="s2">"W de Kendall = </span><span class="si">{</span><span class="n">h3</span><span class="p">[</span><span class="s1">'kendall_w'</span><span class="p">]</span><span class="si">:</span><span class="s2">.2f</span><span class="si">}</span><span class="s2">"</span><span class="p">,</span>
+                 <span class="n">veredicto</span><span class="o">=</span><span class="s2">"refutada"</span> <span class="k">if</span> <span class="n">h3</span><span class="p">[</span><span class="s2">"identical"</span><span class="p">]</span> <span class="k">else</span> <span class="s2">"no refutada"</span><span class="p">))</span>
+<span class="n">h4</span> <span class="o">=</span> <span class="n">NL</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="s2">"h4"</span><span class="p">,</span> <span class="p">{})</span>
+<span class="k">if</span> <span class="n">h4</span><span class="p">:</span>
+    <span class="n">rows</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="nb">dict</span><span class="p">(</span><span class="n">hipótesis</span><span class="o">=</span><span class="s2">"H4: DistilBERT y TF-IDF + XGBoost no difieren significativamente"</span><span class="p">,</span>
+                     <span class="n">evidencia</span><span class="o">=</span><span class="sa">f</span><span class="s2">"ΔF1 = </span><span class="si">{</span><span class="n">ci</span><span class="p">(</span><span class="n">h4</span><span class="p">[</span><span class="s1">'diff_bert_minus_xgb'</span><span class="p">],</span><span class="w"> </span><span class="n">h4</span><span class="p">[</span><span class="s1">'lo'</span><span class="p">],</span><span class="w"> </span><span class="n">h4</span><span class="p">[</span><span class="s1">'hi'</span><span class="p">])</span><span class="si">}</span><span class="s2">; p Holm McNemar </span><span class="si">{</span><span class="n">h4</span><span class="p">[</span><span class="s1">'p_mcnemar_holm'</span><span class="p">]</span><span class="si">:</span><span class="s2">.3g</span><span class="si">}</span><span class="s2">"</span><span class="p">,</span>
+                     <span class="n">veredicto</span><span class="o">=</span><span class="p">(</span><span class="s2">"refutada"</span> <span class="k">if</span> <span class="n">h4</span><span class="p">[</span><span class="s2">"refuted"</span><span class="p">]</span> <span class="k">else</span> <span class="s2">"no refutada"</span><span class="p">)</span> <span class="o">+</span> <span class="p">(</span><span class="s2">"; equivalencia práctica"</span> <span class="k">if</span> <span class="n">h4</span><span class="p">[</span><span class="s2">"equivalent"</span><span class="p">]</span> <span class="k">else</span> <span class="s2">""</span><span class="p">)))</span>
+<span class="n">h5</span> <span class="o">=</span> <span class="n">NL</span><span class="p">[</span><span class="s2">"calibration"</span><span class="p">][</span><span class="s2">"h5"</span><span class="p">]</span>
+<span class="k">if</span> <span class="n">h5</span><span class="p">:</span>
+    <span class="n">rows</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="nb">dict</span><span class="p">(</span><span class="n">hipótesis</span><span class="o">=</span><span class="s2">"H5: DistilBERT está mal calibrado y el escalado de temperatura lo corrige"</span><span class="p">,</span>
+                     <span class="n">evidencia</span><span class="o">=</span><span class="sa">f</span><span class="s2">"ECE </span><span class="si">{</span><span class="n">h5</span><span class="p">[</span><span class="s1">'ece_bert'</span><span class="p">]</span><span class="si">:</span><span class="s2">.3f</span><span class="si">}</span><span class="s2"> → </span><span class="si">{</span><span class="n">h5</span><span class="p">[</span><span class="s1">'ece_bert_ts'</span><span class="p">]</span><span class="si">:</span><span class="s2">.3f</span><span class="si">}</span><span class="s2">; reducción </span><span class="si">{</span><span class="n">ci</span><span class="p">(</span><span class="n">h5</span><span class="p">[</span><span class="s1">'reduction'</span><span class="p">],</span><span class="w"> </span><span class="n">h5</span><span class="p">[</span><span class="s1">'red_lo'</span><span class="p">],</span><span class="w"> </span><span class="n">h5</span><span class="p">[</span><span class="s1">'red_hi'</span><span class="p">])</span><span class="si">}</span><span class="s2">"</span><span class="p">,</span>
+                     <span class="n">veredicto</span><span class="o">=</span><span class="s2">"refutada"</span> <span class="k">if</span> <span class="n">h5</span><span class="p">[</span><span class="s2">"refuted"</span><span class="p">]</span> <span class="k">else</span> <span class="s2">"no refutada"</span><span class="p">))</span>
+<span class="n">display</span><span class="p">(</span><span class="n">pd</span><span class="o">.</span><span class="n">DataFrame</span><span class="p">(</span><span class="n">rows</span><span class="p">)</span><span class="o">.</span><span class="n">style</span><span class="o">.</span><span class="n">hide</span><span class="p">(</span><span class="n">axis</span><span class="o">=</span><span class="s2">"index"</span><span class="p">))</span>
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<div class="output text_html"><style type="text/css">
+</style>
+<table id="T_e680d">
+  <thead>
+    <tr>
+      <th id="T_e680d_level0_col0" class="col_heading level0 col0" >hipótesis</th>
+      <th id="T_e680d_level0_col1" class="col_heading level0 col1" >evidencia</th>
+      <th id="T_e680d_level0_col2" class="col_heading level0 col2" >veredicto</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <td id="T_e680d_row0_col0" class="data row0 col0" >H1: el preentrenamiento COCO ayuda más con pocos datos</td>
+      <td id="T_e680d_row0_col1" class="data row0 col1" >Mask R-CNN − U-Net++ al 25 %: -0.091 [-0.105, -0.078]; al 100 %: 0.014 [0.007, 0.021]</td>
+      <td id="T_e680d_row0_col2" class="data row0 col2" >refutada</td>
+    </tr>
+    <tr>
+      <td id="T_e680d_row1_col0" class="data row1 col0" >H2: las métricas de píxel saturan y no ordenan como AP</td>
+      <td id="T_e680d_row1_col1" class="data row1 col1" >ρ de Spearman (AUC-ROC de píxel, AP) = 0.75 con 7 modelos</td>
+      <td id="T_e680d_row1_col2" class="data row1 col2" >no refutada</td>
+    </tr>
+    <tr>
+      <td id="T_e680d_row2_col0" class="data row2 col0" >H3: el orden de modelos cambia por tipo celular</td>
+      <td id="T_e680d_row2_col1" class="data row2 col1" >W de Kendall = 0.82</td>
+      <td id="T_e680d_row2_col2" class="data row2 col2" >no refutada</td>
+    </tr>
+    <tr>
+      <td id="T_e680d_row3_col0" class="data row3 col0" >H4: DistilBERT y TF-IDF + XGBoost no difieren significativamente</td>
+      <td id="T_e680d_row3_col1" class="data row3 col1" >ΔF1 = 0.039 [-0.002, 0.086]; p Holm McNemar 0.02</td>
+      <td id="T_e680d_row3_col2" class="data row3 col2" >refutada</td>
+    </tr>
+    <tr>
+      <td id="T_e680d_row4_col0" class="data row4 col0" >H5: DistilBERT está mal calibrado y el escalado de temperatura lo corrige</td>
+      <td id="T_e680d_row4_col1" class="data row4 col1" >ECE 0.088 → 0.070; reducción 0.032 [0.000, 0.057]</td>
+      <td id="T_e680d_row4_col2" class="data row4 col2" >no refutada</td>
+    </tr>
+  </tbody>
+</table>
+</div></div>
+</div>
+<p>«No refutada» significa que el criterio de refutación fijado antes de entrenar no se cumplió; no equivale a una prueba de la hipótesis. Las hipótesis refutadas son resultados tan informativos como las otras: indican dónde la intuición de partida no se sostiene con estos datos.</p>
+</section>
+<section id="el-resultado-mas-inesperado">
+<h2>El resultado más inesperado<a class="headerlink" href="#el-resultado-mas-inesperado" title="Link to this heading">#</a></h2>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">_fr</span> <span class="o">=</span> <span class="n">SG</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="s2">"ablations"</span><span class="p">,</span> <span class="p">{})</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="s2">"fracción"</span><span class="p">)</span>
+<span class="n">_r25</span> <span class="o">=</span> <span class="n">_fr</span><span class="p">[</span><span class="s2">"table"</span><span class="p">]</span><span class="o">.</span><span class="n">set_index</span><span class="p">(</span><span class="s2">"variante"</span><span class="p">)</span><span class="o">.</span><span class="n">loc</span><span class="p">[</span><span class="s2">"25 %"</span><span class="p">]</span> <span class="k">if</span> <span class="n">_fr</span> <span class="ow">is</span> <span class="ow">not</span> <span class="kc">None</span> <span class="ow">and</span> <span class="s2">"25 %"</span> <span class="ow">in</span> <span class="nb">set</span><span class="p">(</span><span class="n">_fr</span><span class="p">[</span><span class="s2">"table"</span><span class="p">]</span><span class="o">.</span><span class="n">variante</span><span class="p">)</span> <span class="k">else</span> <span class="kc">None</span>
+<span class="k">if</span> <span class="n">h1</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="s2">"parte1_sentido_contrario"</span><span class="p">)</span> <span class="ow">and</span> <span class="n">_r25</span> <span class="ow">is</span> <span class="ow">not</span> <span class="kc">None</span><span class="p">:</span>
+    <span class="n">a</span><span class="p">,</span> <span class="n">b</span> <span class="o">=</span> <span class="n">h1</span><span class="p">[</span><span class="s2">"25 %"</span><span class="p">],</span> <span class="n">h1</span><span class="p">[</span><span class="s2">"100 %"</span><span class="p">]</span>
+    <span class="n">md</span><span class="p">(</span><span class="sa">f</span><span class="s2">"Esperábamos que el preentrenamiento en COCO pesara más cuanto menos datos hubiera. Ocurrió lo contrario: con el 25 % del "</span>
+       <span class="sa">f</span><span class="s2">"entrenamiento, Mask R-CNN preentrenado queda </span><span class="si">{</span><span class="nb">abs</span><span class="p">(</span><span class="n">a</span><span class="p">[</span><span class="s1">'diff'</span><span class="p">])</span><span class="si">:</span><span class="s2">.3f</span><span class="si">}</span><span class="s2"> de AP por debajo de la U-Net++ entrenada desde cero "</span>
+       <span class="sa">f</span><span class="s2">"(</span><span class="si">{</span><span class="n">ci</span><span class="p">(</span><span class="n">a</span><span class="p">[</span><span class="s1">'diff'</span><span class="p">],</span><span class="w"> </span><span class="n">a</span><span class="p">[</span><span class="s1">'lo'</span><span class="p">],</span><span class="w"> </span><span class="n">a</span><span class="p">[</span><span class="s1">'hi'</span><span class="p">])</span><span class="si">}</span><span class="s2">), y solo con el 100 % lo supera (</span><span class="si">{</span><span class="n">ci</span><span class="p">(</span><span class="n">b</span><span class="p">[</span><span class="s1">'diff'</span><span class="p">],</span><span class="w"> </span><span class="n">b</span><span class="p">[</span><span class="s1">'lo'</span><span class="p">],</span><span class="w"> </span><span class="n">b</span><span class="p">[</span><span class="s1">'hi'</span><span class="p">])</span><span class="si">}</span><span class="s2">). La U-Net++, además, "</span>
+       <span class="sa">f</span><span class="s2">"apenas nota la reducción de datos: la diferencia de AP entre el 25 % y el 100 % es </span><span class="si">{</span><span class="n">ci</span><span class="p">(</span><span class="nb">round</span><span class="p">(</span><span class="n">_r25</span><span class="p">[</span><span class="s1">'diff'</span><span class="p">],</span><span class="w"> </span><span class="mi">3</span><span class="p">)</span><span class="w"> </span><span class="o">+</span><span class="w"> </span><span class="mf">0.0</span><span class="p">,</span><span class="w"> </span><span class="n">_r25</span><span class="p">[</span><span class="s1">'lo'</span><span class="p">],</span><span class="w"> </span><span class="n">_r25</span><span class="p">[</span><span class="s1">'hi'</span><span class="p">])</span><span class="si">}</span><span class="s2">"</span>
+       <span class="s2">".</span><span class="se">\n\n</span><span class="s2">"</span>
+       <span class="s2">"Dos mecanismos pueden explicarlo, y el experimento no los separa. El primero es el presupuesto de optimización: la U-Net++ "</span>
+       <span class="s2">"hace el mismo número de pasos por época con cualquier fracción, mientras que la época de Mask R-CNN se acorta con los datos y "</span>
+       <span class="s2">"su parada temprana actúa antes (tabla de pasos del capítulo </span><span class="si">{doc}</span><span class="s2">`13_seg_resultados`). El segundo es la naturaleza de la "</span>
+       <span class="s2">"tarea: una red que clasifica píxeles en recortes de 256 × 256 obtiene miles de ejemplos de borde e interior de cada imagen, "</span>
+       <span class="s2">"mientras que un detector necesita ver muchas instancias completas para ajustar anclas, cajas y máscaras. Las dos cifras "</span>
+       <span class="s2">"salen de una semilla por modelo, así que son exploratorias; el experimento que las separaría es repetir el 25 </span><span class="si">% c</span><span class="s2">on el "</span>
+       <span class="s2">"mismo número de pasos de gradiente en las dos familias y con tres semillas."</span><span class="p">)</span>
+<span class="k">else</span><span class="p">:</span>
+    <span class="n">md</span><span class="p">(</span><span class="s2">"La sección se completa cuando están las corridas al 25 % y la evaluación de test (`python scripts/analysis.py seg`)."</span><span class="p">)</span>
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<p>Esperábamos que el preentrenamiento en COCO pesara más cuanto menos datos hubiera. Ocurrió lo contrario: con el 25 % del entrenamiento, Mask R-CNN preentrenado queda 0.091 de AP por debajo de la U-Net++ entrenada desde cero (-0.091 [-0.105, -0.078]), y solo con el 100 % lo supera (0.014 [0.007, 0.021]). La U-Net++, además, apenas nota la reducción de datos: la diferencia de AP entre el 25 % y el 100 % es 0.000 [-0.005, 0.005].</p>
+<p>Dos mecanismos pueden explicarlo, y el experimento no los separa. El primero es el presupuesto de optimización: la U-Net++ hace el mismo número de pasos por época con cualquier fracción, mientras que la época de Mask R-CNN se acorta con los datos y su parada temprana actúa antes (tabla de pasos del capítulo <a class="reference internal" href="13_seg_resultados.html"><span class="doc">Resultados de segmentación</span></a>). El segundo es la naturaleza de la tarea: una red que clasifica píxeles en recortes de 256 × 256 obtiene miles de ejemplos de borde e interior de cada imagen, mientras que un detector necesita ver muchas instancias completas para ajustar anclas, cajas y máscaras. Las dos cifras salen de una semilla por modelo, así que son exploratorias; el experimento que las separaría es repetir el 25 % con el mismo número de pasos de gradiente en las dos familias y con tres semillas.</p>
+</div>
+</div>
+</section>
+<section id="que-pondriamos-en-produccion-y-cuando-dejaria-de-valer-la-decision">
+<h2>¿Qué pondríamos en producción y cuándo dejaría de valer la decisión?<a class="headerlink" href="#que-pondriamos-en-produccion-y-cuando-dejaria-de-valer-la-decision" title="Link to this heading">#</a></h2>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">SUM</span> <span class="o">=</span> <span class="n">SG</span><span class="p">[</span><span class="s2">"summary"</span><span class="p">]</span>
+<span class="n">DEC</span> <span class="o">=</span> <span class="n">need</span><span class="p">(</span><span class="s2">"analysis/decision/decision.pkl"</span><span class="p">)</span>
+<span class="n">best_seg</span> <span class="o">=</span> <span class="n">DEC</span><span class="p">[</span><span class="s2">"seg"</span><span class="p">][</span><span class="s2">"winner"</span><span class="p">]</span> <span class="ow">or</span> <span class="n">SUM</span><span class="o">.</span><span class="n">ap</span><span class="o">.</span><span class="n">idxmax</span><span class="p">()</span>
+<span class="n">T</span> <span class="o">=</span> <span class="n">NL</span><span class="p">[</span><span class="s2">"results"</span><span class="p">]</span><span class="o">.</span><span class="n">drop</span><span class="p">(</span><span class="s2">"majority"</span><span class="p">,</span> <span class="n">errors</span><span class="o">=</span><span class="s2">"ignore"</span><span class="p">)</span>
+<span class="n">served</span> <span class="o">=</span> <span class="n">need</span><span class="p">(</span><span class="s2">"mlops/export_text/export_text.pkl"</span><span class="p">)[</span><span class="s2">"choice"</span><span class="p">]</span> <span class="k">if</span> <span class="n">exists</span><span class="p">(</span><span class="s2">"mlops/export_text/export_text.pkl"</span><span class="p">)</span> <span class="k">else</span> <span class="n">T</span><span class="o">.</span><span class="n">f1_macro</span><span class="o">.</span><span class="n">idxmax</span><span class="p">()</span>
+<span class="n">md</span><span class="p">(</span><span class="sa">f</span><span class="s2">"**Segmentación: </span><span class="si">{</span><span class="n">LS</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="n">best_seg</span><span class="p">,</span><span class="w"> </span><span class="n">best_seg</span><span class="p">)</span><span class="si">}</span><span class="s2">** (AP en test </span><span class="si">{</span><span class="n">ci</span><span class="p">(</span><span class="n">SUM</span><span class="o">.</span><span class="n">ap</span><span class="p">[</span><span class="n">best_seg</span><span class="p">],</span><span class="w"> </span><span class="n">SUM</span><span class="o">.</span><span class="n">ap_lo</span><span class="p">[</span><span class="n">best_seg</span><span class="p">],</span><span class="w"> </span><span class="n">SUM</span><span class="o">.</span><span class="n">ap_hi</span><span class="p">[</span><span class="n">best_seg</span><span class="p">])</span><span class="si">}</span><span class="s2">), "</span>
+   <span class="sa">f</span><span class="s2">"para conteo y morfometría con revisión de un experto en las imágenes de baja confianza. "</span>
+   <span class="sa">f</span><span class="s2">"**Texto: </span><span class="si">{</span><span class="n">LN</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="n">served</span><span class="p">,</span><span class="w"> </span><span class="n">served</span><span class="p">)</span><span class="si">}</span><span class="s2">** (F1 macro en test </span><span class="si">{</span><span class="n">T</span><span class="o">.</span><span class="n">f1_macro</span><span class="p">[</span><span class="n">served</span><span class="p">]</span><span class="si">:</span><span class="s2">.3f</span><span class="si">}</span><span class="s2"> ± </span><span class="si">{</span><span class="n">T</span><span class="o">.</span><span class="n">f1_macro_sd</span><span class="p">[</span><span class="n">served</span><span class="p">]</span><span class="si">:</span><span class="s2">.3f</span><span class="si">}</span><span class="s2">), solo como sugerencia a una "</span>
+   <span class="sa">f</span><span class="s2">"persona, nunca para decidir sobre candidatos (capítulo </span><span class="se">{{</span><span class="s2">doc</span><span class="se">}}</span><span class="s2">`25_nlp_analisis_critico`)."</span><span class="p">)</span>
+<span class="k">if</span> <span class="n">DEC</span><span class="p">[</span><span class="s2">"seg"</span><span class="p">][</span><span class="s2">"winner"</span><span class="p">]</span> <span class="ow">is</span> <span class="ow">not</span> <span class="kc">None</span><span class="p">:</span>
+    <span class="n">md</span><span class="p">(</span><span class="sa">f</span><span class="s2">"La elección de segmentación es la del análisis multicriterio del capítulo </span><span class="se">{{</span><span class="s2">doc</span><span class="se">}}</span><span class="s2">`40_comparacion_final`, que gana en el "</span>
+       <span class="sa">f</span><span class="s2">"</span><span class="si">{</span><span class="mi">100</span><span class="w"> </span><span class="o">*</span><span class="w"> </span><span class="n">DEC</span><span class="p">[</span><span class="s1">'seg'</span><span class="p">][</span><span class="s1">'dirichlet'</span><span class="p">]</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="n">best_seg</span><span class="p">,</span><span class="w"> </span><span class="mi">0</span><span class="p">)</span><span class="si">:</span><span class="s2">.0f</span><span class="si">}</span><span class="s2"> % de los vectores de pesos muestreados; la de texto es la de la regla de servicio "</span>
+       <span class="sa">f</span><span class="s2">"pre-registrada."</span><span class="p">)</span>
+<span class="k">if</span> <span class="n">exists</span><span class="p">(</span><span class="s2">"mlops/export_seg/export_seg.pkl"</span><span class="p">)</span> <span class="ow">and</span> <span class="n">need</span><span class="p">(</span><span class="s2">"mlops/export_seg/export_seg.pkl"</span><span class="p">)[</span><span class="s2">"model"</span><span class="p">]</span> <span class="o">!=</span> <span class="n">best_seg</span><span class="p">:</span>
+    <span class="n">_srv</span> <span class="o">=</span> <span class="n">need</span><span class="p">(</span><span class="s2">"mlops/export_seg/export_seg.pkl"</span><span class="p">)[</span><span class="s2">"model"</span><span class="p">]</span>
+    <span class="n">md</span><span class="p">(</span><span class="sa">f</span><span class="s2">"El servicio actual sirve </span><span class="si">{</span><span class="n">LS</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="n">_srv</span><span class="p">,</span><span class="w"> </span><span class="n">_srv</span><span class="p">)</span><span class="si">}</span><span class="s2"> en segmentación; recomendamos sustituirlo por </span><span class="si">{</span><span class="n">LS</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="n">best_seg</span><span class="p">,</span><span class="w"> </span><span class="n">best_seg</span><span class="p">)</span><span class="si">}</span><span class="s2"> cuando "</span>
+       <span class="s2">"pase la misma batería de paridad, conjunto dorado y despliegue en sombra (capítulo </span><span class="si">{doc}</span><span class="s2">`40_comparacion_final`)."</span><span class="p">)</span>
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<p><strong>Segmentación: Cellpose ajustado</strong> (AP en test 0.253 [0.226, 0.281]), para conteo y morfometría con revisión de un experto en las imágenes de baja confianza. <strong>Texto: DistilBERT</strong> (F1 macro en test 0.774 ± 0.012), solo como sugerencia a una persona, nunca para decidir sobre candidatos (capítulo <a class="reference internal" href="25_nlp_analisis_critico.html"><span class="doc">Eficiencia, riesgo en reclutamiento y análisis crítico del clasificador de texto</span></a>).</p>
+<p>La elección de segmentación es la del análisis multicriterio del capítulo <a class="reference internal" href="40_comparacion_final.html"><span class="doc">Comparación final y decisión</span></a>, que gana en el 100 % de los vectores de pesos muestreados; la de texto es la de la regla de servicio pre-registrada.</p>
+<p>El servicio actual sirve U-Net++ en segmentación; recomendamos sustituirlo por Cellpose ajustado cuando pase la misma batería de paridad, conjunto dorado y despliegue en sombra (capítulo <a class="reference internal" href="40_comparacion_final.html"><span class="doc">Comparación final y decisión</span></a>).</p>
+</div>
+</div>
+<p>La decisión deja de valer si cambia alguno de estos supuestos:</p>
+<ul class="simple">
+<li><p><strong>Segmentación.</strong> Mismo microscopio, modalidad (contraste de fase), resolución y protocolo de cultivo que Sartorius; mismas tres líneas celulares o una nueva evaluada con su propio conjunto etiquetado; densidades dentro del rango del entrenamiento. Una alarma sostenida de los detectores de imagen del capítulo <a class="reference internal" href="31_monitoreo_deriva.html"><span class="doc">Monitoreo y experimento de deriva</span></a> es la señal operativa de que alguno cambió.</p></li>
+<li><p><strong>Texto.</strong> Currículos en inglés, con una estructura similar (encabezado, experiencia, educación, habilidades) y las mismas 24 categorías; una persona revisa cada sugerencia. Si el uso pasa a filtrar o descartar candidatos de forma automática, la decisión deja de valer por completo, con independencia de la métrica.</p></li>
+</ul>
+</section>
+<section id="amenazas-a-la-validez-y-experimentos-que-las-reducirian">
+<h2>Amenazas a la validez y experimentos que las reducirían<a class="headerlink" href="#amenazas-a-la-validez-y-experimentos-que-las-reducirian" title="Link to this heading">#</a></h2>
+<div class="pst-scrollable-table-container"><table class="table">
+<thead>
+<tr class="row-odd"><th class="head"><p>Amenaza</p></th>
+<th class="head"><p>Experimento que la reduciría</p></th>
+</tr>
+</thead>
+<tbody>
+<tr class="row-even"><td><p>Un solo microscopio y laboratorio en segmentación</p></td>
+<td><p>Evaluar sin reentrenar en otro conjunto de contraste de fase, como LIVECell <span class="bibtex-citation" id="id1">[<a class="reference internal" href="43_referencias.html#id5" title="Christoffer Edlund, Timothy R. Jackson, Nabeel Khalid, Nicola Bevan, Timothy Dale, Andreas Dengel, Sheraz Ahmed, Johan Trygg, and Rickard Sjögren. LIVECell—a large-scale dataset for label-free live cell segmentation. Nature Methods, 18:1038–1045, 2021. doi:10.1038/s41592-021-01249-6.">Edlund <em>et al.</em>, 2021</a>]</span>, y medir la caída</p></td>
+</tr>
+<tr class="row-odd"><td><p>Anotaciones con errores en astrocitos</p></td>
+<td><p>Reanotar una muestra de test por dos expertos y recalcular el AP con la anotación corregida</p></td>
+</tr>
+<tr class="row-even"><td><p>Etiquetas de Jarvis = categoría de publicación</p></td>
+<td><p>Etiquetar una muestra con la profesión verificada y medir el acuerdo con la etiqueta original</p></td>
+</tr>
+<tr class="row-odd"><td><p>Equidad medida con un indicio débil</p></td>
+<td><p>Auditar con atributos declarados voluntariamente por candidatos reales</p></td>
+</tr>
+<tr class="row-even"><td><p>Búsqueda de hiperparámetros desigual para DistilBERT</p></td>
+<td><p>Darle el mismo presupuesto de 30 <em>trials</em> y validación anidada</p></td>
+</tr>
+<tr class="row-odd"><td><p>Réplicas de ablaciones recortadas por presupuesto</p></td>
+<td><p>Completar 3 semillas por variante y repetir el modelo mixto</p></td>
+</tr>
+<tr class="row-even"><td><p>H1 al 25 % mezcla preentrenamiento y presupuesto de optimización</p></td>
+<td><p>Repetir el contraste con el mismo número de pasos de gradiente en las dos familias y tres semillas</p></td>
+</tr>
+<tr class="row-odd"><td><p>Sesgo optimista de validación sin corregir en XGBoost, FastText y las redes de texto</p></td>
+<td><p>Ejecutar la validación anidada que quedó fuera de la cola (10 a 15 h por modelo en CPU)</p></td>
+</tr>
+<tr class="row-even"><td><p>Anonimización incompleta del corpus de texto</p></td>
+<td><p>Pasar un detector de entidades nombradas por todo el corpus y medir cuántos nombres propios quedan</p></td>
+</tr>
+<tr class="row-odd"><td><p>Deriva de covariables del texto vigilada solo por la longitud con DistilBERT servido</p></td>
+<td><p>Añadir un MMD sobre los <em>embeddings</em> del propio modelo servido y repetir el experimento de deriva</p></td>
+</tr>
+</tbody>
+</table>
+</div>
+</section>
+<section id="que-cambiaria-con-el-doble-o-con-la-mitad-del-presupuesto">
+<h2>¿Qué cambiaría con el doble o con la mitad del presupuesto?<a class="headerlink" href="#que-cambiaria-con-el-doble-o-con-la-mitad-del-presupuesto" title="Link to this heading">#</a></h2>
+<p><strong>Con el doble.</strong> Completaríamos las tres semillas de todas las ablaciones de segmentación, igualaríamos la búsqueda de DistilBERT con la de los modelos ligeros (30 <em>trials</em> con validación anidada), añadiríamos un modelo de texto con ventana larga para no truncar los currículos y evaluaríamos la segmentación en un conjunto externo.</p>
+<p><strong>Con la mitad.</strong> El presupuesto real ya obligó a recortar la validación anidada de XGBoost y FastText y parte de las semillas de las ablaciones (enmiendas del capítulo <a class="reference internal" href="03_declaracion_apriori.html"><span class="doc">Declaración a priori</span></a>). Con la mitad mantendríamos las tres semillas de los modelos principales y el análisis estadístico, que son lo que sostiene las conclusiones, y recortaríamos además las ablaciones de fracción de datos, la variante Hover y, en texto, la CNN-1D. Las conclusiones sobre H1 y RQ2 quedarían como exploratorias.</p>
+</section>
+<section id="reflexion-etica-y-de-impacto">
+<h2>Reflexión ética y de impacto<a class="headerlink" href="#reflexion-etica-y-de-impacto" title="Link to this heading">#</a></h2>
+<p><strong>Usos indebidos posibles.</strong> El clasificador de currículos puede usarse para filtrar candidatos sin revisión, o para inferir la profesión o el perfil de una persona a partir de un texto que no envió con ese fin. El segmentador puede usarse fuera de su dominio (por ejemplo, en imágenes clínicas) y producir medidas con apariencia de precisión que no la tienen.</p>
+<p><strong>Poblaciones afectadas.</strong> En texto, los candidatos cuyos currículos no siguen el formato mayoritario del conjunto (otro idioma, trayectorias mixtas, profesiones con pocos ejemplos como BPO) son los que más errores reciben. En segmentación, los usuarios afectados son los investigadores cuyas conclusiones dependen de conteos sesgados en las líneas celulares más difíciles.</p>
+<p><strong>Salvaguardas.</strong> Las del capítulo <a class="reference internal" href="25_nlp_analisis_critico.html"><span class="doc">Eficiencia, riesgo en reclutamiento y análisis crítico del clasificador de texto</span></a> (decisión humana, derivación por confianza, auditoría de equidad con atributos declarados, monitoreo de deriva y transparencia), las tarjetas de modelo del capítulo <a class="reference internal" href="30_mlops.html"><span class="doc">Despliegue: API, contenedor, integración continua y registro de modelos</span></a> con usos fuera de alcance explícitos, y la regla de no servir un modelo cuya regresión sobre el conjunto dorado empeore.</p>
+</section>
+<section id="autoevaluacion-las-cinco-objeciones-mas-serias-de-un-revisor-externo">
+<h2>Autoevaluación: las cinco objeciones más serias de un revisor externo<a class="headerlink" href="#autoevaluacion-las-cinco-objeciones-mas-serias-de-un-revisor-externo" title="Link to this heading">#</a></h2>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">obj</span> <span class="o">=</span> <span class="p">[]</span>
+<span class="c1"># 1. tamaño de test</span>
+<span class="n">n_img</span> <span class="o">=</span> <span class="nb">int</span><span class="p">(</span><span class="n">SUM</span><span class="o">.</span><span class="n">n_images</span><span class="o">.</span><span class="n">max</span><span class="p">())</span>
+<span class="n">obj</span><span class="o">.</span><span class="n">append</span><span class="p">((</span><span class="s2">"El test es pequeño: las diferencias entre modelos podrían ser ruido de muestreo."</span><span class="p">,</span>
+            <span class="sa">f</span><span class="s2">"Es una limitación real. Segmentación usa </span><span class="si">{</span><span class="n">n_img</span><span class="si">}</span><span class="s2"> imágenes de test y texto 373 documentos (≈ 15 por clase). Por eso reportamos IC "</span>
+            <span class="sa">f</span><span class="s2">"*bootstrap* en todas las cifras, corrección de Holm en todas las familias de comparaciones y, en texto, la *t* de Nadeau–Bengio "</span>
+            <span class="sa">f</span><span class="s2">"sobre 5 pliegues además de McNemar. Solo afirmamos diferencias con IC que excluye 0 tras la corrección; el resto lo declaramos sin decidir."</span><span class="p">))</span>
+<span class="c1"># 2. HPO desigual</span>
+<span class="n">obj</span><span class="o">.</span><span class="n">append</span><span class="p">((</span><span class="s2">"DistilBERT tuvo una búsqueda de hiperparámetros mucho menor que los modelos ligeros: la comparación de H4 no es justa."</span><span class="p">,</span>
+            <span class="s2">"Es cierto y lo declaramos en el pre-registro: 3 configuraciones con una semilla frente a 30 *trials* en la mayoría de los modelos "</span>
+            <span class="s2">"ligeros (la BiLSTM agotó su tope de tiempo antes; el capítulo </span><span class="si">{doc}</span><span class="s2">`22_nlp_modelos` da el número real). El sesgo va en contra de DistilBERT, "</span>
+            <span class="s2">"de modo que una ventaja suya sería conservadora; una desventaja podría reducirse con más búsqueda. No podemos descartar esa segunda "</span>
+            <span class="s2">"posibilidad con los datos actuales."</span><span class="p">))</span>
+<span class="c1"># 3. atajo de categoría</span>
+<span class="n">pt</span> <span class="o">=</span> <span class="n">NL</span><span class="p">[</span><span class="s2">"perturbations"</span><span class="p">]</span>
+<span class="n">d</span> <span class="o">=</span> <span class="n">pt</span><span class="p">[(</span><span class="n">pt</span><span class="o">.</span><span class="n">perturbation</span> <span class="o">==</span> <span class="s2">"sin_categoria"</span><span class="p">)</span> <span class="o">&amp;</span> <span class="p">(</span><span class="n">pt</span><span class="o">.</span><span class="n">model</span> <span class="o">==</span> <span class="n">served</span><span class="p">)]</span>
+<span class="n">obj</span><span class="o">.</span><span class="n">append</span><span class="p">((</span><span class="s2">"El clasificador de texto puede estar leyendo el nombre de la categoría en el propio currículo, no entendiendo el documento."</span><span class="p">,</span>
+            <span class="p">(</span><span class="sa">f</span><span class="s2">"Lo medimos: al borrar las palabras de la categoría, la F1 macro de </span><span class="si">{</span><span class="n">LN</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="n">served</span><span class="p">,</span><span class="w"> </span><span class="n">served</span><span class="p">)</span><span class="si">}</span><span class="s2"> cae </span><span class="si">{</span><span class="n">d</span><span class="p">[</span><span class="s2">"drop"</span><span class="p">]</span><span class="o">.</span><span class="n">iloc</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span><span class="si">:</span><span class="s2">.3f</span><span class="si">}</span><span class="s2"> "</span>
+             <span class="sa">f</span><span class="s2">"[</span><span class="si">{</span><span class="n">d</span><span class="o">.</span><span class="n">drop_lo</span><span class="o">.</span><span class="n">iloc</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span><span class="si">:</span><span class="s2">.3f</span><span class="si">}</span><span class="s2">, </span><span class="si">{</span><span class="n">d</span><span class="o">.</span><span class="n">drop_hi</span><span class="o">.</span><span class="n">iloc</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span><span class="si">:</span><span class="s2">.3f</span><span class="si">}</span><span class="s2">]. "</span> <span class="k">if</span> <span class="nb">len</span><span class="p">(</span><span class="n">d</span><span class="p">)</span> <span class="k">else</span> <span class="s2">""</span><span class="p">)</span> <span class="o">+</span>
+            <span class="s2">"La cifra de la tabla principal incluye esa pista y sobreestima el desempeño en currículos que no nombran su categoría; lo declaramos en la "</span>
+            <span class="s2">"tarjeta del modelo."</span><span class="p">))</span>
+<span class="c1"># 4. anotaciones de segmentación</span>
+<span class="n">obj</span><span class="o">.</span><span class="n">append</span><span class="p">((</span><span class="s2">"Las anotaciones de Sartorius tienen errores: el AP mide acuerdo con anotaciones imperfectas, no calidad de segmentación."</span><span class="p">,</span>
+            <span class="s2">"Es una amenaza de constructo que confirmamos en la inspección visual del capítulo de EDA de segmentación. No reanotamos; la taxonomía de "</span>
+            <span class="s2">"errores aísla las detecciones sin célula de referencia («falsas»), que es donde se concentra el efecto de las células sin anotar. "</span>
+            <span class="s2">"Las comparaciones entre modelos son válidas porque todos se miden contra las mismas anotaciones; el valor absoluto del AP no lo es."</span><span class="p">))</span>
+<span class="c1"># 5. equidad</span>
+<span class="n">cf</span> <span class="o">=</span> <span class="n">NL</span><span class="p">[</span><span class="s2">"fairness"</span><span class="p">][</span><span class="s2">"counterfactual"</span><span class="p">]</span>
+<span class="n">r</span> <span class="o">=</span> <span class="n">cf</span><span class="p">[</span><span class="n">cf</span><span class="o">.</span><span class="n">model</span> <span class="o">==</span> <span class="n">served</span><span class="p">]</span>
+<span class="n">_sgn</span> <span class="o">=</span> <span class="n">NL</span><span class="p">[</span><span class="s2">"fairness"</span><span class="p">][</span><span class="s2">"subgroups"</span><span class="p">]</span><span class="o">.</span><span class="n">groupby</span><span class="p">(</span><span class="s2">"group"</span><span class="p">)</span><span class="o">.</span><span class="n">n</span><span class="o">.</span><span class="n">first</span><span class="p">()</span>
+<span class="n">_n_g</span> <span class="o">=</span> <span class="mi">373</span> <span class="o">-</span> <span class="nb">int</span><span class="p">(</span><span class="n">_sgn</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="s2">"sin términos de género"</span><span class="p">,</span> <span class="mi">0</span><span class="p">))</span>
+<span class="n">obj</span><span class="o">.</span><span class="n">append</span><span class="p">((</span><span class="s2">"El análisis de equidad usa términos de género del texto como indicio; eso no mide discriminación real."</span><span class="p">,</span>
+            <span class="p">(</span><span class="sa">f</span><span class="s2">"De acuerdo. El contrafactual mide algo más limitado pero bien definido: si la predicción cambia al cambiar el género gramatical "</span>
+             <span class="sa">f</span><span class="s2">"(con </span><span class="si">{</span><span class="n">LN</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="n">served</span><span class="p">,</span><span class="w"> </span><span class="n">served</span><span class="p">)</span><span class="si">}</span><span class="s2"> cambia en </span><span class="si">{</span><span class="nb">int</span><span class="p">(</span><span class="n">r</span><span class="o">.</span><span class="n">n_flips</span><span class="o">.</span><span class="n">iloc</span><span class="p">[</span><span class="mi">0</span><span class="p">])</span><span class="si">}</span><span class="s2"> de los </span><span class="si">{</span><span class="n">_n_g</span><span class="si">}</span><span class="s2"> currículos de test que contienen algún "</span>
+             <span class="s2">"término de género; los demás no cambian al reescribirlos). "</span> <span class="k">if</span> <span class="nb">len</span><span class="p">(</span><span class="n">r</span><span class="p">)</span> <span class="k">else</span> <span class="s2">""</span><span class="p">)</span> <span class="o">+</span>
+            <span class="s2">"Las métricas por grupo usan grupos pequeños e intervalos anchos. Por eso concluimos que el modelo no debe usarse para decidir sobre "</span>
+            <span class="s2">"personas, y que una auditoría real requiere atributos declarados voluntariamente."</span><span class="p">))</span>
+<span class="k">for</span> <span class="n">k</span><span class="p">,</span> <span class="p">(</span><span class="n">o</span><span class="p">,</span> <span class="n">resp</span><span class="p">)</span> <span class="ow">in</span> <span class="nb">enumerate</span><span class="p">(</span><span class="n">obj</span><span class="p">,</span> <span class="mi">1</span><span class="p">):</span>
+    <span class="n">md</span><span class="p">(</span><span class="sa">f</span><span class="s2">"**Objeción </span><span class="si">{</span><span class="n">k</span><span class="si">}</span><span class="s2">.** </span><span class="si">{</span><span class="n">o</span><span class="si">}</span><span class="se">\n\n</span><span class="s2">*Respuesta.* </span><span class="si">{</span><span class="n">resp</span><span class="si">}</span><span class="s2">"</span><span class="p">)</span>
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<p><strong>Objeción 1.</strong> El test es pequeño: las diferencias entre modelos podrían ser ruido de muestreo.</p>
+<p><em>Respuesta.</em> Es una limitación real. Segmentación usa 93 imágenes de test y texto 373 documentos (≈ 15 por clase). Por eso reportamos IC <em>bootstrap</em> en todas las cifras, corrección de Holm en todas las familias de comparaciones y, en texto, la <em>t</em> de Nadeau–Bengio sobre 5 pliegues además de McNemar. Solo afirmamos diferencias con IC que excluye 0 tras la corrección; el resto lo declaramos sin decidir.</p>
+<p><strong>Objeción 2.</strong> DistilBERT tuvo una búsqueda de hiperparámetros mucho menor que los modelos ligeros: la comparación de H4 no es justa.</p>
+<p><em>Respuesta.</em> Es cierto y lo declaramos en el pre-registro: 3 configuraciones con una semilla frente a 30 <em>trials</em> en la mayoría de los modelos ligeros (la BiLSTM agotó su tope de tiempo antes; el capítulo <a class="reference internal" href="22_nlp_modelos.html"><span class="doc">Modelos de clasificación de texto y búsqueda de hiperparámetros</span></a> da el número real). El sesgo va en contra de DistilBERT, de modo que una ventaja suya sería conservadora; una desventaja podría reducirse con más búsqueda. No podemos descartar esa segunda posibilidad con los datos actuales.</p>
+<p><strong>Objeción 3.</strong> El clasificador de texto puede estar leyendo el nombre de la categoría en el propio currículo, no entendiendo el documento.</p>
+<p><em>Respuesta.</em> Lo medimos: al borrar las palabras de la categoría, la F1 macro de DistilBERT cae 0.604 [0.569, 0.641]. La cifra de la tabla principal incluye esa pista y sobreestima el desempeño en currículos que no nombran su categoría; lo declaramos en la tarjeta del modelo.</p>
+<p><strong>Objeción 4.</strong> Las anotaciones de Sartorius tienen errores: el AP mide acuerdo con anotaciones imperfectas, no calidad de segmentación.</p>
+<p><em>Respuesta.</em> Es una amenaza de constructo que confirmamos en la inspección visual del capítulo de EDA de segmentación. No reanotamos; la taxonomía de errores aísla las detecciones sin célula de referencia («falsas»), que es donde se concentra el efecto de las células sin anotar. Las comparaciones entre modelos son válidas porque todos se miden contra las mismas anotaciones; el valor absoluto del AP no lo es.</p>
+<p><strong>Objeción 5.</strong> El análisis de equidad usa términos de género del texto como indicio; eso no mide discriminación real.</p>
+<p><em>Respuesta.</em> De acuerdo. El contrafactual mide algo más limitado pero bien definido: si la predicción cambia al cambiar el género gramatical (con DistilBERT cambia en 0 de los 95 currículos de test que contienen algún término de género; los demás no cambian al reescribirlos). Las métricas por grupo usan grupos pequeños e intervalos anchos. Por eso concluimos que el modelo no debe usarse para decidir sobre personas, y que una auditoría real requiere atributos declarados voluntariamente.</p>
+</div>
+</div>
+</section>
+</section>
+
+    <script type="text/x-thebe-config">
+    {
+        requestKernel: true,
+        binderOptions: {
+            repo: "binder-examples/jupyter-stacks-datascience",
+            ref: "master",
+        },
+        codeMirrorConfig: {
+            theme: "abcdef",
+            mode: "python"
+        },
+        kernelOptions: {
+            name: "python3",
+            path: "./."
+        },
+        predefinedOutput: true
+    }
+    </script>
+    <script>kernelName = 'python3'</script>
+
+                </article>
+              
+
+              
+              
+              
+              
+                <footer class="prev-next-footer d-print-none">
+                  
+<div class="prev-next-area">
+    <a class="left-prev"
+       href="40_comparacion_final.html"
+       title="página anterior">
+      <i class="fa-solid fa-angle-left"></i>
+      <div class="prev-next-info">
+        <p class="prev-next-subtitle">anterior</p>
+        <p class="prev-next-title">Comparación final y decisión</p>
+      </div>
+    </a>
+    <a class="right-next"
+       href="42_reproducibilidad.html"
+       title="siguiente página">
+      <div class="prev-next-info">
+        <p class="prev-next-subtitle">siguiente</p>
+        <p class="prev-next-title">Reproducibilidad, autoría y uso de herramientas</p>
+      </div>
+      <i class="fa-solid fa-angle-right"></i>
+    </a>
+</div>
+                </footer>
+              
+            </div>
+            
+            
+              
+                <dialog id="pst-secondary-sidebar-modal"></dialog>
+                <div id="pst-secondary-sidebar" class="bd-sidebar-secondary bd-toc"><div class="sidebar-secondary-items sidebar-secondary__inner">
+
+
+  <div class="sidebar-secondary-item"><div
+    id="pst-page-navigation-heading-2"
+    class="page-toc tocsection onthispage">
+    <i class="fa-solid fa-list"></i> Contenido
+  </div>
+  <nav id="pst-page-toc-nav" class="page-toc" aria-labelledby="pst-page-navigation-heading-2">
+    <ul class="pst-show_toc_level nav section-nav flex-column">
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#hipotesis">Hipótesis</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#el-resultado-mas-inesperado">El resultado más inesperado</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#que-pondriamos-en-produccion-y-cuando-dejaria-de-valer-la-decision">¿Qué pondríamos en producción y cuándo dejaría de valer la decisión?</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#amenazas-a-la-validez-y-experimentos-que-las-reducirian">Amenazas a la validez y experimentos que las reducirían</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#que-cambiaria-con-el-doble-o-con-la-mitad-del-presupuesto">¿Qué cambiaría con el doble o con la mitad del presupuesto?</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#reflexion-etica-y-de-impacto">Reflexión ética y de impacto</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#autoevaluacion-las-cinco-objeciones-mas-serias-de-un-revisor-externo">Autoevaluación: las cinco objeciones más serias de un revisor externo</a></li>
+</ul>
+  </nav></div>
+
+</div></div>
+              
+            
+          </div>
+          <footer class="bd-footer-content">
+            
+<div class="bd-footer-content__inner container">
+  
+  <div class="footer-item">
+    
+<p class="component-author">
+Por Anyely Sanjuan Benavides y Juan David Díaz Fernández
+</p>
+
+  </div>
+  
+  <div class="footer-item">
+    
+
+  <p class="copyright">
+    
+      © Copyright 2026.
+      <br/>
+    
+  </p>
+
+  </div>
+  
+  <div class="footer-item">
+    
+  </div>
+  
+  <div class="footer-item">
+    
+  </div>
+  
+</div>
+          </footer>
+        
+
+      </main>
+    </div>
+  </div>
+  
+  <!-- Scripts loaded after <body> so the DOM is not blocked -->
+  <script defer src="_static/scripts/bootstrap.js?digest=55c26ed414f5f8a31ebb"></script>
+<script defer src="_static/scripts/pydata-sphinx-theme.js?digest=55c26ed414f5f8a31ebb"></script>
+
+  <footer class="bd-footer">
+  </footer>
+  </body>
+</html>

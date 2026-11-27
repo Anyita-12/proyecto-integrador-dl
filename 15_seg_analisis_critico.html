@@ -1,0 +1,1005 @@
+
+<!DOCTYPE html>
+
+
+<html lang="es" data-content_root="./" >
+
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" /><meta name="viewport" content="width=device-width, initial-scale=1" />
+
+    <title>Análisis crítico de la segmentación &#8212; Segmentación de células y clasificación de hojas de vida</title>
+  
+  
+  
+  <script data-cfasync="false">
+    document.documentElement.dataset.mode = localStorage.getItem("mode") || "";
+    document.documentElement.dataset.theme = localStorage.getItem("theme") || "";
+  </script>
+  <!--
+    this give us a css class that will be invisible only if js is disabled
+  -->
+  <noscript>
+    <style>
+      .pst-js-only { display: none !important; }
+
+    </style>
+  </noscript>
+  
+  <!-- Loaded before other Sphinx assets -->
+  <link href="_static/styles/theme.css?digest=55c26ed414f5f8a31ebb" rel="stylesheet" />
+<link href="_static/styles/pydata-sphinx-theme.css?digest=55c26ed414f5f8a31ebb" rel="stylesheet" />
+
+    <link rel="stylesheet" type="text/css" href="_static/pygments.css?v=03e43079" />
+    <link rel="stylesheet" type="text/css" href="_static/styles/sphinx-book-theme.css?v=3c74b3bc" />
+    <link rel="stylesheet" type="text/css" href="_static/togglebutton.css?v=9c3e77be" />
+    <link rel="stylesheet" type="text/css" href="_static/copybutton.css?v=76b2166b" />
+    <link rel="stylesheet" type="text/css" href="_static/mystnb.11b39860a7a0cbfd473a3ad8a317855267ff0bd372690045ca344a6b62be495e.css?v=8cd3d715" />
+    <link rel="stylesheet" type="text/css" href="_static/sphinx-thebe.css?v=4fa983c6" />
+    <link rel="stylesheet" type="text/css" href="_static/sphinx-design.min.css?v=6a604523" />
+    <link rel="stylesheet" type="text/css" href="_static/autores.css?v=fc0dcfce" />
+  
+  <!-- So that users can add custom icons -->
+  <script defer src="_static/scripts/fontawesome.js?digest=55c26ed414f5f8a31ebb"></script>
+  <!-- Pre-loaded scripts that we'll load fully later -->
+  <link rel="preload" as="script" href="_static/scripts/bootstrap.js?digest=55c26ed414f5f8a31ebb" />
+<link rel="preload" as="script" href="_static/scripts/pydata-sphinx-theme.js?digest=55c26ed414f5f8a31ebb" />
+
+    <script src="_static/documentation_options.js?v=78d55cf8"></script>
+    <script src="_static/doctools.js?v=9a2dae69"></script>
+    <script src="_static/sphinx_highlight.js?v=dc90522c"></script>
+    <script src="_static/clipboard.min.js?v=a7894cd8"></script>
+    <script src="_static/copybutton.js?v=f281be69"></script>
+    <script src="_static/scripts/sphinx-book-theme.js?v=fab101a9"></script>
+    <script>let toggleHintShow = 'Haz clic para mostrar';</script>
+    <script>let toggleHintHide = 'Haz clic para ocultar';</script>
+    <script>let toggleOpenOnPrint = 'true';</script>
+    <script src="_static/togglebutton.js?v=b8b12719"></script>
+    <script src="_static/translations.js?v=d190bf04"></script>
+    <script>var togglebuttonSelector = '.toggle, .admonition.dropdown';</script>
+    <script data-sd-tabs-storage-prefix="sphinx-design-tab-id-" src="_static/design-tabs.js?v=fcb327ea"></script>
+    <script>const THEBE_JS_URL = "https://unpkg.com/thebe@0.8.2/lib/index.js"; const thebe_selector = ".thebe,.cell"; const thebe_selector_input = "pre"; const thebe_selector_output = ".output, .cell_output"</script>
+    <script async="async" src="_static/sphinx-thebe.js?v=c100c467"></script>
+    <script>var togglebuttonSelector = '.toggle, .admonition.dropdown';</script>
+    <script>const THEBE_JS_URL = "https://unpkg.com/thebe@0.8.2/lib/index.js"; const thebe_selector = ".thebe,.cell"; const thebe_selector_input = "pre"; const thebe_selector_output = ".output, .cell_output"</script>
+    <script>DOCUMENTATION_OPTIONS.pagename = '15_seg_analisis_critico';</script>
+    <script>DOCUMENTATION_OPTIONS.search_as_you_type = false;</script>
+    <link rel="index" title="Índice" href="genindex.html" />
+    <link rel="search" title="Búsqueda" href="search.html" />
+    <link rel="next" title="Análisis exploratorio y auditoría de las hojas de vida" href="20_nlp_eda.html" />
+    <link rel="prev" title="Ablaciones, robustez, calibración y eficiencia en segmentación" href="14_seg_ablaciones_robustez.html" />
+  <meta name="viewport" content="width=device-width, initial-scale=1"/>
+  <meta name="docsearch:language" content="es"/>
+  <meta name="docsearch:version" content="" />
+  
+    
+    <script src="_static/searchtools.js"></script>
+    <script src="_static/language_data.js"></script>
+    <script src="searchindex.js"></script>
+  
+  </head>
+  <body data-default-mode="">
+  
+  
+  <div id="pst-skip-link" class="skip-link d-print-none"><a href="#main-content">Saltar al contenido principal</a></div>
+
+  
+  <div id="pst-scroll-pixel-helper"></div>
+  
+  <button type="button" class="btn rounded-pill" id="pst-back-to-top">
+    <i class="fa-solid fa-arrow-up"></i>Volver arriba</button>
+  
+  
+  
+  
+  <dialog id="pst-search-dialog">
+    
+<form class="bd-search d-flex align-items-center"
+      action="search.html"
+      method="get">
+  <i class="fa-solid fa-magnifying-glass"></i>
+  <input type="search"
+         class="form-control"
+         name="q"
+         placeholder="Search this book..."
+         aria-label="Search this book..."
+         autocomplete="off"
+         autocorrect="off"
+         autocapitalize="off"
+         spellcheck="false"/>
+  <span class="search-button__kbd-shortcut"><kbd class="kbd-shortcut__modifier">Ctrl</kbd>+<kbd>K</kbd></span>
+</form>
+  </dialog>
+
+  <div class="pst-async-banner-revealer d-none">
+  <aside id="bd-header-version-warning" class="d-none d-print-none" aria-label="Advertencia de versión"></aside>
+</div>
+
+  
+    <header id="pst-header" class="bd-header navbar navbar-expand-lg bd-navbar d-print-none">
+<div class="bd-header__inner bd-page-width">
+  <button class="pst-navbar-icon sidebar-toggle primary-toggle" aria-label="Navegación del sitio">
+    <span class="fa-solid fa-bars"></span>
+  </button>
+  
+  
+  <div class="col-lg-9 navbar-header-items">
+    
+    
+    <div class="navbar-header-items__end">
+      
+        <div class="navbar-item navbar-persistent--container">
+          
+
+<button class="btn search-button-field search-button__button pst-js-only" title="Búsqueda" aria-label="Búsqueda" data-bs-placement="bottom" data-bs-toggle="tooltip">
+ <i class="fa-solid fa-magnifying-glass"></i>
+ <span class="search-button__default-text">Búsqueda</span>
+ <span class="search-button__kbd-shortcut"><kbd class="kbd-shortcut__modifier">Ctrl</kbd>+<kbd class="kbd-shortcut__modifier">K</kbd></span>
+</button>
+        </div>
+      
+      
+    </div>
+    
+  </div>
+  
+  
+    <div class="navbar-persistent--mobile">
+
+<button class="btn search-button-field search-button__button pst-js-only" title="Búsqueda" aria-label="Búsqueda" data-bs-placement="bottom" data-bs-toggle="tooltip">
+ <i class="fa-solid fa-magnifying-glass"></i>
+ <span class="search-button__default-text">Búsqueda</span>
+ <span class="search-button__kbd-shortcut"><kbd class="kbd-shortcut__modifier">Ctrl</kbd>+<kbd class="kbd-shortcut__modifier">K</kbd></span>
+</button>
+    </div>
+  
+
+  
+    <button class="pst-navbar-icon sidebar-toggle secondary-toggle" aria-label="En esta página">
+      <span class="fa-solid fa-outdent"></span>
+    </button>
+  
+</div>
+
+    </header>
+  
+
+  <div class="bd-container">
+    <div class="bd-container__inner bd-page-width">
+      
+      
+      
+      <dialog id="pst-primary-sidebar-modal"></dialog>
+      <div id="pst-primary-sidebar" class="bd-sidebar-primary bd-sidebar">
+        
+
+  
+  <div class="sidebar-header-items sidebar-primary__section">
+    
+    
+    
+    
+  </div>
+  
+    <div class="sidebar-primary-items__start sidebar-primary__section">
+        <div class="sidebar-primary-item">
+
+  
+    
+  
+
+<a class="navbar-brand logo" href="intro.html">
+  
+  
+  
+  
+  
+  
+    <p class="title logo__title">Segmentación de células y clasificación de hojas de vida</p>
+  
+</a></div>
+        <div class="sidebar-primary-item"><div class="sidebar-autores">
+  <div class="autor">
+    <img src="_static/autores/anyely.jpg" alt="Anyely Sanjuan Benavides">
+    <p class="autor-nombre">Anyely Sanjuan Benavides</p>
+    <p class="autor-detalle">Msc. Analítica de Datos<br>Universidad del Norte</p>
+  </div>
+  <div class="autor">
+    <img src="_static/autores/juan.jpg" alt="Juan David Díaz Fernández">
+    <p class="autor-nombre">Juan David Díaz Fernández</p>
+    <p class="autor-detalle">Msc. Ingeniería Mecánica<br>Universidad del Norte</p>
+  </div>
+</div></div>
+        <div class="sidebar-primary-item">
+
+<button class="btn search-button-field search-button__button pst-js-only" title="Búsqueda" aria-label="Búsqueda" data-bs-placement="bottom" data-bs-toggle="tooltip">
+ <i class="fa-solid fa-magnifying-glass"></i>
+ <span class="search-button__default-text">Búsqueda</span>
+ <span class="search-button__kbd-shortcut"><kbd class="kbd-shortcut__modifier">Ctrl</kbd>+<kbd class="kbd-shortcut__modifier">K</kbd></span>
+</button></div>
+        <div class="sidebar-primary-item"><nav class="bd-links bd-docs-nav" aria-label="Main">
+    <div class="bd-toc-item navbar-nav active">
+        
+        <ul class="nav bd-sidenav bd-sidenav__home-link">
+            <li class="toctree-l1">
+                <a class="reference internal" href="intro.html">
+                    Segmentación de células y clasificación de hojas de vida
+                </a>
+            </li>
+        </ul>
+        <p aria-level="2" class="caption" role="heading"><span class="caption-text">Planteamiento</span></p>
+<ul class="nav bd-sidenav">
+<li class="toctree-l1"><a class="reference internal" href="01_problema_objetivos.html">Problema, objetivos y preguntas de investigación</a></li>
+<li class="toctree-l1"><a class="reference internal" href="02_datos_fichas.html">Datos y fichas de datos</a></li>
+<li class="toctree-l1"><a class="reference internal" href="03_declaracion_apriori.html">Declaración a priori</a></li>
+<li class="toctree-l1"><a class="reference internal" href="04_fundamentos_teoricos.html">Fundamentos teóricos</a></li>
+</ul>
+<p aria-level="2" class="caption" role="heading"><span class="caption-text">Bloque 1: segmentación de instancias celulares</span></p>
+<ul class="current nav bd-sidenav">
+<li class="toctree-l1"><a class="reference internal" href="10_seg_eda.html">Análisis exploratorio y auditoría de Sartorius</a></li>
+<li class="toctree-l1"><a class="reference internal" href="11_seg_preprocesamiento.html">Preprocesamiento y aumento de datos</a></li>
+<li class="toctree-l1"><a class="reference internal" href="12_seg_modelos.html">Modelos de segmentación</a></li>
+<li class="toctree-l1"><a class="reference internal" href="13_seg_resultados.html">Resultados de segmentación</a></li>
+<li class="toctree-l1"><a class="reference internal" href="14_seg_ablaciones_robustez.html">Ablaciones, robustez, calibración y eficiencia en segmentación</a></li>
+<li class="toctree-l1 current active"><a class="current reference internal" href="#">Análisis crítico de la segmentación</a></li>
+</ul>
+<p aria-level="2" class="caption" role="heading"><span class="caption-text">Bloque 2: clasificación de texto</span></p>
+<ul class="nav bd-sidenav">
+<li class="toctree-l1"><a class="reference internal" href="20_nlp_eda.html">Análisis exploratorio y auditoría de las hojas de vida</a></li>
+<li class="toctree-l1"><a class="reference internal" href="21_nlp_representaciones.html">Preprocesamiento y representaciones de texto</a></li>
+<li class="toctree-l1"><a class="reference internal" href="22_nlp_modelos.html">Modelos de clasificación de texto y búsqueda de hiperparámetros</a></li>
+<li class="toctree-l1"><a class="reference internal" href="23_nlp_resultados.html">Resultados de clasificación de texto</a></li>
+<li class="toctree-l1"><a class="reference internal" href="24_nlp_robustez_equidad.html">Calibración, robustez, equidad y explicabilidad del clasificador de texto</a></li>
+<li class="toctree-l1"><a class="reference internal" href="25_nlp_analisis_critico.html">Eficiencia, riesgo en reclutamiento y análisis crítico del clasificador de texto</a></li>
+</ul>
+<p aria-level="2" class="caption" role="heading"><span class="caption-text">Despliegue y cierre</span></p>
+<ul class="nav bd-sidenav">
+<li class="toctree-l1"><a class="reference internal" href="30_mlops.html">Despliegue: API, contenedor, integración continua y registro de modelos</a></li>
+<li class="toctree-l1"><a class="reference internal" href="31_monitoreo_deriva.html">Monitoreo y experimento de deriva</a></li>
+<li class="toctree-l1"><a class="reference internal" href="40_comparacion_final.html">Comparación final y decisión</a></li>
+<li class="toctree-l1"><a class="reference internal" href="41_conclusiones.html">Conclusiones, limitaciones y trabajo futuro</a></li>
+<li class="toctree-l1"><a class="reference internal" href="42_reproducibilidad.html">Reproducibilidad, autoría y uso de herramientas</a></li>
+<li class="toctree-l1"><a class="reference internal" href="43_referencias.html">Referencias</a></li>
+</ul>
+
+    </div>
+</nav></div>
+    </div>
+  
+  
+  <div class="sidebar-primary-items__end sidebar-primary__section">
+      <div class="sidebar-primary-item">
+<div id="ethical-ad-placement"
+      class="flat"
+      data-ea-publisher="readthedocs"
+      data-ea-type="readthedocs-sidebar"
+      data-ea-manual="true">
+</div></div>
+  </div>
+
+
+      </div>
+      
+      <main id="main-content" class="bd-main" role="main">
+        
+        
+
+<div class="sbt-scroll-pixel-helper"></div>
+
+          <div class="bd-content">
+            <div class="bd-article-container">
+              
+              <div class="bd-header-article d-print-none">
+<div class="header-article-items header-article__inner">
+  
+    <div class="header-article-items__start">
+      
+        <div class="header-article-item"><button class="sidebar-toggle primary-toggle btn btn-sm" title="Toggle primary sidebar" data-bs-placement="bottom" data-bs-toggle="tooltip">
+  <span class="fa-solid fa-bars"></span>
+</button></div>
+      
+    </div>
+  
+  
+    <div class="header-article-items__end">
+      
+        <div class="header-article-item">
+
+<div class="article-header-buttons">
+
+
+<a href="https://github.com/Anyita-12/proyecto-integrador-dl" target="_blank"
+   class="btn btn-sm btn-source-repository-button"
+   title="Repositorio de origen"
+   data-bs-placement="bottom" data-bs-toggle="tooltip"
+>
+  
+
+<span class="btn__icon-container">
+  <i class="fab fa-github"></i>
+  </span>
+
+</a>
+
+
+
+
+
+
+<div class="dropdown dropdown-download-buttons">
+  <button class="btn dropdown-toggle" type="button" data-bs-toggle="dropdown" aria-expanded="false" aria-label="Descarga esta pagina">
+    <i class="fas fa-download"></i>
+  </button>
+  <ul class="dropdown-menu">
+      
+      
+      
+      <li><a href="_sources/15_seg_analisis_critico.ipynb" target="_blank"
+   class="btn btn-sm btn-download-source-button dropdown-item"
+   title="Descargar archivo fuente"
+   data-bs-placement="left" data-bs-toggle="tooltip"
+>
+  
+
+<span class="btn__icon-container">
+  <i class="fas fa-file"></i>
+  </span>
+<span class="btn__text-container">.ipynb</span>
+</a>
+</li>
+      
+      
+      
+      
+      <li>
+<button onclick="window.print()"
+  class="btn btn-sm btn-download-pdf-button dropdown-item"
+  title="Imprimir en PDF"
+  data-bs-placement="left" data-bs-toggle="tooltip"
+>
+  
+
+<span class="btn__icon-container">
+  <i class="fas fa-file-pdf"></i>
+  </span>
+<span class="btn__text-container">.pdf</span>
+</button>
+</li>
+      
+  </ul>
+</div>
+
+
+
+
+<button onclick="toggleFullScreen()"
+  class="btn btn-sm btn-fullscreen-button pst-navbar-icon"
+  title="Modo de pantalla completa"
+  data-bs-placement="bottom" data-bs-toggle="tooltip"
+>
+  
+
+<span class="btn__icon-container">
+  <i class="fas fa-expand"></i>
+  </span>
+
+</button>
+
+
+
+<button class="btn btn-sm nav-link pst-navbar-icon theme-switch-button pst-js-only" aria-label="Tema" data-bs-title="Tema"  data-bs-placement="bottom" data-bs-toggle="tooltip">
+  <i class="theme-switch fa-solid fa-sun                fa-lg" data-mode="light" title="Claro"></i>
+  <i class="theme-switch fa-solid fa-moon               fa-lg" data-mode="dark"  title="Oscuro"></i>
+  <i class="theme-switch fa-solid fa-circle-half-stroke fa-lg" data-mode="auto"  title="Sistema"></i>
+</button>
+
+
+<button class="btn btn-sm pst-navbar-icon search-button search-button__button pst-js-only" title="Búsqueda" aria-label="Búsqueda" data-bs-placement="bottom" data-bs-toggle="tooltip">
+    <i class="fa-solid fa-magnifying-glass fa-lg"></i>
+</button>
+<button class="sidebar-toggle secondary-toggle btn btn-sm pst-navbar-icon" title="Toggle secondary sidebar" data-bs-placement="bottom" data-bs-toggle="tooltip">
+    <span class="fa-solid fa-list"></span>
+</button>
+</div></div>
+      
+    </div>
+  
+</div>
+</div>
+              
+              
+
+<div id="jb-print-docs-body" class="onlyprint">
+    <h1>Análisis crítico de la segmentación</h1>
+    <!-- Table of contents -->
+    <div id="print-main-content">
+        <div id="jb-print-toc">
+            
+            <div>
+                <h2> Contenido </h2>
+            </div>
+            <nav aria-label="Page">
+                <ul class="pst-show_toc_level nav section-nav flex-column">
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#que-modelo-funciona-mejor-para-que-tipo-celular-y-regimen-y-por-que">1. ¿Qué modelo funciona mejor, para qué tipo celular y régimen, y por qué?</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#coinciden-los-rankings-en-pixeles-e-instancias">2. ¿Coinciden los <em>rankings</em> en píxeles e instancias?</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#que-errores-dominan-y-como-se-relacionan-con-los-datos">3. ¿Qué errores dominan y cómo se relacionan con los datos?</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#limitaciones-sesgos-del-conjunto-de-datos-y-amenazas-a-la-validez">4. Limitaciones, sesgos del conjunto de datos y amenazas a la validez</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#como-afecto-el-preprocesamiento-y-que-decisiones-resultaron-irrelevantes">5. ¿Cómo afectó el preprocesamiento y qué decisiones resultaron irrelevantes?</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#que-haria-el-modelo-con-otro-microscopio-o-protocolo">6. ¿Qué haría el modelo con otro microscopio o protocolo?</a></li>
+</ul>
+            </nav>
+        </div>
+    </div>
+</div>
+
+              
+                
+<div id="searchbox"></div>
+                <article class="bd-article">
+                  
+  <section class="tex2jax_ignore mathjax_ignore" id="analisis-critico-de-la-segmentacion">
+<h1>Análisis crítico de la segmentación<a class="headerlink" href="#analisis-critico-de-la-segmentacion" title="Link to this heading">#</a></h1>
+<p>En este capítulo respondemos las seis preguntas críticas del bloque de segmentación con la evidencia de los capítulos <a class="reference internal" href="13_seg_resultados.html"><span class="doc">Resultados de segmentación</span></a> y <a class="reference internal" href="14_seg_ablaciones_robustez.html"><span class="doc">Ablaciones, robustez, calibración y eficiencia en segmentación</span></a>. Cada respuesta cita la cifra que la sostiene y su intervalo; donde la evidencia no alcanza, lo decimos.</p>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="kn">import</span><span class="w"> </span><span class="nn">pandas</span><span class="w"> </span><span class="k">as</span><span class="w"> </span><span class="nn">pd</span>
+<span class="kn">from</span><span class="w"> </span><span class="nn">IPython.display</span><span class="w"> </span><span class="kn">import</span> <span class="n">Markdown</span><span class="p">,</span> <span class="n">display</span>
+
+<span class="kn">from</span><span class="w"> </span><span class="nn">project.book_utils</span><span class="w"> </span><span class="kn">import</span> <span class="n">ci</span><span class="p">,</span> <span class="n">exists</span><span class="p">,</span> <span class="n">need</span><span class="p">,</span> <span class="n">pct</span><span class="p">,</span> <span class="n">style</span>
+
+<span class="n">style</span><span class="p">()</span>
+<span class="n">pd</span><span class="o">.</span><span class="n">set_option</span><span class="p">(</span><span class="s2">"display.precision"</span><span class="p">,</span> <span class="mi">3</span><span class="p">)</span>
+<span class="n">S</span> <span class="o">=</span> <span class="n">need</span><span class="p">(</span><span class="s2">"analysis/seg_stats/stats.pkl"</span><span class="p">)</span>
+<span class="n">L</span> <span class="o">=</span> <span class="n">S</span><span class="p">[</span><span class="s2">"labels"</span><span class="p">]</span>
+<span class="n">SUM</span> <span class="o">=</span> <span class="n">S</span><span class="p">[</span><span class="s2">"summary"</span><span class="p">]</span>
+<span class="n">CT</span> <span class="o">=</span> <span class="p">{</span><span class="s2">"astro"</span><span class="p">:</span> <span class="s2">"astrocitos"</span><span class="p">,</span> <span class="s2">"cort"</span><span class="p">:</span> <span class="s2">"neuronas corticales"</span><span class="p">,</span> <span class="s2">"shsy5y"</span><span class="p">:</span> <span class="s2">"SH-SY5Y"</span><span class="p">}</span>
+<span class="n">md</span> <span class="o">=</span> <span class="k">lambda</span> <span class="n">t</span><span class="p">:</span> <span class="n">display</span><span class="p">(</span><span class="n">Markdown</span><span class="p">(</span><span class="n">t</span><span class="p">))</span>  <span class="c1"># noqa: E731</span>
+</pre></div>
+</div>
+</div>
+</div>
+<section id="que-modelo-funciona-mejor-para-que-tipo-celular-y-regimen-y-por-que">
+<h2>1. ¿Qué modelo funciona mejor, para qué tipo celular y régimen, y por qué?<a class="headerlink" href="#que-modelo-funciona-mejor-para-que-tipo-celular-y-regimen-y-por-que" title="Link to this heading">#</a></h2>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">best</span> <span class="o">=</span> <span class="n">SUM</span><span class="o">.</span><span class="n">ap</span><span class="o">.</span><span class="n">idxmax</span><span class="p">()</span>
+<span class="n">md</span><span class="p">(</span><span class="sa">f</span><span class="s2">"Por AP@[.5:.95] medio en test, el mejor modelo es **</span><span class="si">{</span><span class="n">L</span><span class="p">[</span><span class="n">best</span><span class="p">]</span><span class="si">}</span><span class="s2">** con </span><span class="si">{</span><span class="n">ci</span><span class="p">(</span><span class="n">SUM</span><span class="o">.</span><span class="n">ap</span><span class="p">[</span><span class="n">best</span><span class="p">],</span><span class="w"> </span><span class="n">SUM</span><span class="o">.</span><span class="n">ap_lo</span><span class="p">[</span><span class="n">best</span><span class="p">],</span><span class="w"> </span><span class="n">SUM</span><span class="o">.</span><span class="n">ap_hi</span><span class="p">[</span><span class="n">best</span><span class="p">])</span><span class="si">}</span><span class="s2">."</span><span class="p">)</span>
+<span class="n">st_</span> <span class="o">=</span> <span class="n">S</span><span class="p">[</span><span class="s2">"stratified"</span><span class="p">]</span>
+<span class="n">rows</span> <span class="o">=</span> <span class="p">[]</span>
+<span class="k">for</span> <span class="n">col</span> <span class="ow">in</span> <span class="p">(</span><span class="s2">"cell_type"</span><span class="p">,</span> <span class="s2">"densidad"</span><span class="p">,</span> <span class="s2">"tamaño"</span><span class="p">):</span>
+    <span class="n">t</span> <span class="o">=</span> <span class="n">st_</span><span class="p">[</span><span class="n">col</span><span class="p">]</span>
+    <span class="k">for</span> <span class="n">lvl</span><span class="p">,</span> <span class="n">g</span> <span class="ow">in</span> <span class="n">t</span><span class="o">.</span><span class="n">groupby</span><span class="p">(</span><span class="s2">"nivel"</span><span class="p">):</span>
+        <span class="n">w</span> <span class="o">=</span> <span class="n">g</span><span class="o">.</span><span class="n">sort_values</span><span class="p">(</span><span class="s2">"ap"</span><span class="p">,</span> <span class="n">ascending</span><span class="o">=</span><span class="kc">False</span><span class="p">)</span><span class="o">.</span><span class="n">iloc</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span>
+        <span class="n">rows</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="nb">dict</span><span class="p">(</span><span class="n">estrato</span><span class="o">=</span><span class="n">col</span><span class="o">.</span><span class="n">replace</span><span class="p">(</span><span class="s2">"cell_type"</span><span class="p">,</span> <span class="s2">"tipo celular"</span><span class="p">),</span> <span class="n">nivel</span><span class="o">=</span><span class="n">CT</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="n">lvl</span><span class="p">,</span> <span class="n">lvl</span><span class="p">),</span> <span class="n">mejor</span><span class="o">=</span><span class="n">L</span><span class="p">[</span><span class="n">w</span><span class="o">.</span><span class="n">model</span><span class="p">],</span>
+                         <span class="n">AP</span><span class="o">=</span><span class="n">ci</span><span class="p">(</span><span class="n">w</span><span class="o">.</span><span class="n">ap</span><span class="p">,</span> <span class="n">w</span><span class="o">.</span><span class="n">lo</span><span class="p">,</span> <span class="n">w</span><span class="o">.</span><span class="n">hi</span><span class="p">),</span> <span class="n">segundo</span><span class="o">=</span><span class="n">L</span><span class="p">[</span><span class="n">g</span><span class="o">.</span><span class="n">sort_values</span><span class="p">(</span><span class="s2">"ap"</span><span class="p">,</span> <span class="n">ascending</span><span class="o">=</span><span class="kc">False</span><span class="p">)</span><span class="o">.</span><span class="n">iloc</span><span class="p">[</span><span class="mi">1</span><span class="p">]</span><span class="o">.</span><span class="n">model</span><span class="p">]</span> <span class="k">if</span> <span class="nb">len</span><span class="p">(</span><span class="n">g</span><span class="p">)</span> <span class="o">&gt;</span> <span class="mi">1</span> <span class="k">else</span> <span class="s2">"—"</span><span class="p">))</span>
+<span class="n">display</span><span class="p">(</span><span class="n">pd</span><span class="o">.</span><span class="n">DataFrame</span><span class="p">(</span><span class="n">rows</span><span class="p">)</span><span class="o">.</span><span class="n">style</span><span class="o">.</span><span class="n">hide</span><span class="p">(</span><span class="n">axis</span><span class="o">=</span><span class="s2">"index"</span><span class="p">))</span>
+<span class="n">h3</span> <span class="o">=</span> <span class="n">st_</span><span class="p">[</span><span class="s2">"h3"</span><span class="p">]</span>
+<span class="n">md</span><span class="p">(</span><span class="sa">f</span><span class="s2">"El orden de los modelos </span><span class="si">{</span><span class="s1">'es el mismo'</span><span class="w"> </span><span class="k">if</span><span class="w"> </span><span class="n">h3</span><span class="p">[</span><span class="s1">'identical'</span><span class="p">]</span><span class="w"> </span><span class="k">else</span><span class="w"> </span><span class="s1">'cambia'</span><span class="si">}</span><span class="s2"> entre tipos celulares (W de Kendall = </span><span class="si">{</span><span class="n">h3</span><span class="p">[</span><span class="s1">'kendall_w'</span><span class="p">]</span><span class="si">:</span><span class="s2">.2f</span><span class="si">}</span><span class="s2">; "</span>
+   <span class="sa">f</span><span class="s2">"W = 1 es acuerdo total)."</span><span class="p">)</span>
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<p>Por AP&#64;[.5:.95] medio en test, el mejor modelo es <strong>Cellpose ajustado</strong> con 0.253 [0.226, 0.281].</p>
+<div class="output text_html"><style type="text/css">
+</style>
+<table id="T_c4c5c">
+  <thead>
+    <tr>
+      <th id="T_c4c5c_level0_col0" class="col_heading level0 col0" >estrato</th>
+      <th id="T_c4c5c_level0_col1" class="col_heading level0 col1" >nivel</th>
+      <th id="T_c4c5c_level0_col2" class="col_heading level0 col2" >mejor</th>
+      <th id="T_c4c5c_level0_col3" class="col_heading level0 col3" >AP</th>
+      <th id="T_c4c5c_level0_col4" class="col_heading level0 col4" >segundo</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <td id="T_c4c5c_row0_col0" class="data row0 col0" >tipo celular</td>
+      <td id="T_c4c5c_row0_col1" class="data row0 col1" >astrocitos</td>
+      <td id="T_c4c5c_row0_col2" class="data row0 col2" >Cellpose cero-shot</td>
+      <td id="T_c4c5c_row0_col3" class="data row0 col3" >0.159 [0.126, 0.192]</td>
+      <td id="T_c4c5c_row0_col4" class="data row0 col4" >Cellpose ajustado</td>
+    </tr>
+    <tr>
+      <td id="T_c4c5c_row1_col0" class="data row1 col0" >tipo celular</td>
+      <td id="T_c4c5c_row1_col1" class="data row1 col1" >neuronas corticales</td>
+      <td id="T_c4c5c_row1_col2" class="data row1 col2" >Cellpose ajustado</td>
+      <td id="T_c4c5c_row1_col3" class="data row1 col3" >0.331 [0.292, 0.368]</td>
+      <td id="T_c4c5c_row1_col4" class="data row1 col4" >Mask R-CNN</td>
+    </tr>
+    <tr>
+      <td id="T_c4c5c_row2_col0" class="data row2 col0" >tipo celular</td>
+      <td id="T_c4c5c_row2_col1" class="data row2 col1" >SH-SY5Y</td>
+      <td id="T_c4c5c_row2_col2" class="data row2 col2" >Cellpose ajustado</td>
+      <td id="T_c4c5c_row2_col3" class="data row2 col3" >0.217 [0.198, 0.238]</td>
+      <td id="T_c4c5c_row2_col4" class="data row2 col4" >Mask R-CNN</td>
+    </tr>
+    <tr>
+      <td id="T_c4c5c_row3_col0" class="data row3 col0" >densidad</td>
+      <td id="T_c4c5c_row3_col1" class="data row3 col1" >alta</td>
+      <td id="T_c4c5c_row3_col2" class="data row3 col2" >Cellpose ajustado</td>
+      <td id="T_c4c5c_row3_col3" class="data row3 col3" >0.189 [0.163, 0.213]</td>
+      <td id="T_c4c5c_row3_col4" class="data row3 col4" >U-Net++</td>
+    </tr>
+    <tr>
+      <td id="T_c4c5c_row4_col0" class="data row4 col0" >densidad</td>
+      <td id="T_c4c5c_row4_col1" class="data row4 col1" >baja</td>
+      <td id="T_c4c5c_row4_col2" class="data row4 col2" >Cellpose ajustado</td>
+      <td id="T_c4c5c_row4_col3" class="data row4 col3" >0.298 [0.245, 0.348]</td>
+      <td id="T_c4c5c_row4_col4" class="data row4 col4" >Mask R-CNN</td>
+    </tr>
+    <tr>
+      <td id="T_c4c5c_row5_col0" class="data row5 col0" >densidad</td>
+      <td id="T_c4c5c_row5_col1" class="data row5 col1" >media</td>
+      <td id="T_c4c5c_row5_col2" class="data row5 col2" >Cellpose ajustado</td>
+      <td id="T_c4c5c_row5_col3" class="data row5 col3" >0.274 [0.223, 0.325]</td>
+      <td id="T_c4c5c_row5_col4" class="data row5 col4" >Mask R-CNN</td>
+    </tr>
+    <tr>
+      <td id="T_c4c5c_row6_col0" class="data row6 col0" >tamaño</td>
+      <td id="T_c4c5c_row6_col1" class="data row6 col1" >grandes</td>
+      <td id="T_c4c5c_row6_col2" class="data row6 col2" >Cellpose ajustado</td>
+      <td id="T_c4c5c_row6_col3" class="data row6 col3" >0.153 [0.122, 0.185]</td>
+      <td id="T_c4c5c_row6_col4" class="data row6 col4" >Cellpose cero-shot</td>
+    </tr>
+    <tr>
+      <td id="T_c4c5c_row7_col0" class="data row7 col0" >tamaño</td>
+      <td id="T_c4c5c_row7_col1" class="data row7 col1" >medianas</td>
+      <td id="T_c4c5c_row7_col2" class="data row7 col2" >Cellpose ajustado</td>
+      <td id="T_c4c5c_row7_col3" class="data row7 col3" >0.322 [0.286, 0.358]</td>
+      <td id="T_c4c5c_row7_col4" class="data row7 col4" >Mask R-CNN</td>
+    </tr>
+    <tr>
+      <td id="T_c4c5c_row8_col0" class="data row8 col0" >tamaño</td>
+      <td id="T_c4c5c_row8_col1" class="data row8 col1" >pequeñas</td>
+      <td id="T_c4c5c_row8_col2" class="data row8 col2" >Cellpose ajustado</td>
+      <td id="T_c4c5c_row8_col3" class="data row8 col3" >0.286 [0.238, 0.335]</td>
+      <td id="T_c4c5c_row8_col4" class="data row8 col4" >Mask R-CNN</td>
+    </tr>
+  </tbody>
+</table>
+</div><p>El orden de los modelos cambia entre tipos celulares (W de Kendall = 0.82; W = 1 es acuerdo total).</p>
+</div>
+</div>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">ct_t</span> <span class="o">=</span> <span class="n">st_</span><span class="p">[</span><span class="s2">"cell_type"</span><span class="p">]</span>
+<span class="k">def</span><span class="w"> </span><span class="nf">winner</span><span class="p">(</span><span class="n">lvl</span><span class="p">):</span>
+    <span class="n">g</span> <span class="o">=</span> <span class="n">ct_t</span><span class="p">[</span><span class="n">ct_t</span><span class="o">.</span><span class="n">nivel</span> <span class="o">==</span> <span class="n">lvl</span><span class="p">]</span><span class="o">.</span><span class="n">sort_values</span><span class="p">(</span><span class="s2">"ap"</span><span class="p">,</span> <span class="n">ascending</span><span class="o">=</span><span class="kc">False</span><span class="p">)</span>
+    <span class="k">return</span> <span class="n">g</span><span class="o">.</span><span class="n">iloc</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span><span class="o">.</span><span class="n">model</span> <span class="k">if</span> <span class="nb">len</span><span class="p">(</span><span class="n">g</span><span class="p">)</span> <span class="k">else</span> <span class="kc">None</span>
+<span class="n">boundary</span> <span class="o">=</span> <span class="p">{</span><span class="s2">"unetpp_main"</span><span class="p">,</span> <span class="s2">"hover_main"</span><span class="p">,</span> <span class="s2">"cellpose_zeroshot"</span><span class="p">,</span> <span class="s2">"cellpose_finetune"</span><span class="p">}</span>
+<span class="n">boxes</span> <span class="o">=</span> <span class="p">{</span><span class="s2">"maskrcnn_main"</span><span class="p">,</span> <span class="s2">"sam_box"</span><span class="p">}</span>
+<span class="n">w_sh</span> <span class="o">=</span> <span class="n">winner</span><span class="p">(</span><span class="s2">"shsy5y"</span><span class="p">)</span>
+<span class="k">if</span> <span class="n">w_sh</span> <span class="ow">in</span> <span class="n">boundary</span><span class="p">:</span>
+    <span class="n">md</span><span class="p">(</span><span class="sa">f</span><span class="s2">"En SH-SY5Y gana </span><span class="si">{</span><span class="n">L</span><span class="p">[</span><span class="n">w_sh</span><span class="p">]</span><span class="si">}</span><span class="s2">, un método que separa instancias con una señal explícita de frontera o de flujo. Es consistente con el "</span>
+       <span class="s2">"mecanismo que proponemos: estas neuronas forman agregados densos de células pequeñas con neuritas finas que se tocan, y las cajas "</span>
+       <span class="s2">"solapadas de un detector compiten en la supresión de no máximos, mientras que una frontera predicha separa células en contacto."</span><span class="p">)</span>
+<span class="k">elif</span> <span class="n">w_sh</span> <span class="ow">in</span> <span class="n">boxes</span><span class="p">:</span>
+    <span class="n">md</span><span class="p">(</span><span class="sa">f</span><span class="s2">"En SH-SY5Y gana </span><span class="si">{</span><span class="n">L</span><span class="p">[</span><span class="n">w_sh</span><span class="p">]</span><span class="si">}</span><span class="s2">, un método basado en cajas, a pesar de los agregados densos. La supresión de no máximos no fue el cuello "</span>
+       <span class="s2">"de botella que esperábamos; la taxonomía de la sección 3 muestra qué tipo de error domina en los demás modelos."</span><span class="p">)</span>
+<span class="n">w_as</span> <span class="o">=</span> <span class="n">winner</span><span class="p">(</span><span class="s2">"astro"</span><span class="p">)</span>
+<span class="k">if</span> <span class="n">w_as</span> <span class="ow">is</span> <span class="ow">not</span> <span class="kc">None</span><span class="p">:</span>
+    <span class="n">a_ap</span> <span class="o">=</span> <span class="n">ct_t</span><span class="p">[(</span><span class="n">ct_t</span><span class="o">.</span><span class="n">nivel</span> <span class="o">==</span> <span class="s2">"astro"</span><span class="p">)</span> <span class="o">&amp;</span> <span class="p">(</span><span class="n">ct_t</span><span class="o">.</span><span class="n">model</span> <span class="o">==</span> <span class="n">w_as</span><span class="p">)]</span><span class="o">.</span><span class="n">ap</span><span class="o">.</span><span class="n">iloc</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span>
+    <span class="n">md</span><span class="p">(</span><span class="sa">f</span><span class="s2">"En astrocitos gana </span><span class="si">{</span><span class="n">L</span><span class="p">[</span><span class="n">w_as</span><span class="p">]</span><span class="si">}</span><span class="s2"> con AP </span><span class="si">{</span><span class="n">a_ap</span><span class="si">:</span><span class="s2">.3f</span><span class="si">}</span><span class="s2">. Los astrocitos son grandes, de forma irregular y con anotaciones poligonales gruesas "</span>
+       <span class="s2">"(capítulo </span><span class="si">{doc}</span><span class="s2">`10_seg_eda`); el techo de AP lo fija en parte la anotación, porque un contorno preciso del modelo no "</span>
+       <span class="s2">"coincide con un polígono grueso a umbrales de IoU altos."</span><span class="p">)</span>
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<p>En SH-SY5Y gana Cellpose ajustado, un método que separa instancias con una señal explícita de frontera o de flujo. Es consistente con el mecanismo que proponemos: estas neuronas forman agregados densos de células pequeñas con neuritas finas que se tocan, y las cajas solapadas de un detector compiten en la supresión de no máximos, mientras que una frontera predicha separa células en contacto.</p>
+<p>En astrocitos gana Cellpose cero-shot con AP 0.159. Los astrocitos son grandes, de forma irregular y con anotaciones poligonales gruesas (capítulo <a class="reference internal" href="10_seg_eda.html"><span class="doc">Análisis exploratorio y auditoría de Sartorius</span></a>); el techo de AP lo fija en parte la anotación, porque un contorno preciso del modelo no coincide con un polígono grueso a umbrales de IoU altos.</p>
+</div>
+</div>
+</section>
+<section id="coinciden-los-rankings-en-pixeles-e-instancias">
+<h2>2. ¿Coinciden los <em>rankings</em> en píxeles e instancias?<a class="headerlink" href="#coinciden-los-rankings-en-pixeles-e-instancias" title="Link to this heading">#</a></h2>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">h2</span> <span class="o">=</span> <span class="n">S</span><span class="p">[</span><span class="s2">"h2"</span><span class="p">]</span>
+<span class="k">if</span> <span class="n">h2</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="s2">"spearman_auc"</span><span class="p">):</span>
+    <span class="n">r</span><span class="p">,</span> <span class="n">p</span> <span class="o">=</span> <span class="n">h2</span><span class="p">[</span><span class="s2">"spearman_auc"</span><span class="p">]</span>
+    <span class="n">rb</span><span class="p">,</span> <span class="n">pb</span> <span class="o">=</span> <span class="n">h2</span><span class="p">[</span><span class="s2">"spearman_bacc"</span><span class="p">]</span>
+    <span class="n">md</span><span class="p">(</span><span class="sa">f</span><span class="s2">"Entre los </span><span class="si">{</span><span class="n">h2</span><span class="p">[</span><span class="s1">'n_models'</span><span class="p">]</span><span class="si">}</span><span class="s2"> modelos con probabilidad por píxel, la correlación de Spearman entre el orden por AUC-ROC de píxel y el "</span>
+       <span class="sa">f</span><span class="s2">"orden por AP es ρ = </span><span class="si">{</span><span class="n">r</span><span class="si">:</span><span class="s2">.2f</span><span class="si">}</span><span class="s2"> (p = </span><span class="si">{</span><span class="n">p</span><span class="si">:</span><span class="s2">.2g</span><span class="si">}</span><span class="s2">); con *balanced accuracy*, ρ = </span><span class="si">{</span><span class="n">rb</span><span class="si">:</span><span class="s2">.2f</span><span class="si">}</span><span class="s2"> (p = </span><span class="si">{</span><span class="n">pb</span><span class="si">:</span><span class="s2">.2g</span><span class="si">}</span><span class="s2">). "</span>
+       <span class="sa">f</span><span class="s2">"**H2 </span><span class="si">{</span><span class="s1">'se refuta'</span><span class="w"> </span><span class="k">if</span><span class="w"> </span><span class="n">h2</span><span class="p">[</span><span class="s1">'refuted'</span><span class="p">]</span><span class="w"> </span><span class="k">else</span><span class="w"> </span><span class="s1">'no se refuta'</span><span class="si">}</span><span class="s2">** (el umbral pre-registrado de refutación es ρ &gt; 0.9)."</span><span class="p">)</span>
+    <span class="n">sat</span> <span class="o">=</span> <span class="p">[</span><span class="n">k</span> <span class="k">for</span> <span class="n">k</span><span class="p">,</span> <span class="n">v</span> <span class="ow">in</span> <span class="n">h2</span><span class="p">[</span><span class="s2">"saturated"</span><span class="p">]</span><span class="o">.</span><span class="n">items</span><span class="p">()</span> <span class="k">if</span> <span class="n">v</span><span class="p">]</span>
+    <span class="k">if</span> <span class="n">sat</span><span class="p">:</span>
+        <span class="n">md</span><span class="p">(</span><span class="s2">"Las métricas "</span> <span class="o">+</span> <span class="s2">" y "</span><span class="o">.</span><span class="n">join</span><span class="p">(</span><span class="n">sat</span><span class="p">)</span><span class="o">.</span><span class="n">replace</span><span class="p">(</span><span class="s2">"auc_roc"</span><span class="p">,</span> <span class="s2">"AUC-ROC"</span><span class="p">)</span><span class="o">.</span><span class="n">replace</span><span class="p">(</span><span class="s2">"balanced_accuracy"</span><span class="p">,</span> <span class="s2">"*balanced accuracy*"</span><span class="p">)</span>
+           <span class="o">+</span> <span class="s2">" superan 0.95 en todos los modelos: saturan y no discriminan entre ellos."</span><span class="p">)</span>
+    <span class="n">c</span> <span class="o">=</span> <span class="n">h2</span><span class="p">[</span><span class="s2">"contradictions"</span><span class="p">]</span>
+    <span class="k">if</span> <span class="nb">len</span><span class="p">(</span><span class="n">c</span><span class="p">):</span>
+        <span class="n">md</span><span class="p">(</span><span class="sa">f</span><span class="s2">"Por imagen, Dice y AP ordenan al revés a un par de modelos en el </span><span class="si">{</span><span class="n">pct</span><span class="p">(</span><span class="n">c</span><span class="o">.</span><span class="n">frac_contradice</span><span class="o">.</span><span class="n">mean</span><span class="p">())</span><span class="si">}</span><span class="s2"> de los casos en promedio."</span><span class="p">)</span>
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<p>Entre los 7 modelos con probabilidad por píxel, la correlación de Spearman entre el orden por AUC-ROC de píxel y el orden por AP es ρ = 0.75 (p = 0.052); con <em>balanced accuracy</em>, ρ = 0.54 (p = 0.22). <strong>H2 no se refuta</strong> (el umbral pre-registrado de refutación es ρ &gt; 0.9).</p>
+<p>Por imagen, Dice y AP ordenan al revés a un par de modelos en el 25.9 % de los casos en promedio.</p>
+</div>
+</div>
+<p>Para el uso práctico (contar células, medir su área y seguirlas en el tiempo), la métrica relevante es la de instancias: un error de fusión entre dos células cuenta como un acierto casi completo en Dice de píxel y como dos fallos en AP. Recomendamos AP&#64;[.5:.95] como métrica principal, PQ como resumen que separa calidad de detección (RQ) y de forma (SQ), y las métricas de píxel solo como diagnóstico del mapa de primer plano.</p>
+</section>
+<section id="que-errores-dominan-y-como-se-relacionan-con-los-datos">
+<h2>3. ¿Qué errores dominan y cómo se relacionan con los datos?<a class="headerlink" href="#que-errores-dominan-y-como-se-relacionan-con-los-datos" title="Link to this heading">#</a></h2>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">tx</span> <span class="o">=</span> <span class="n">S</span><span class="p">[</span><span class="s2">"taxonomy"</span><span class="p">]</span>
+<span class="n">tx</span> <span class="o">=</span> <span class="n">tx</span><span class="p">[</span><span class="n">tx</span><span class="o">.</span><span class="n">model</span> <span class="o">==</span> <span class="n">best</span><span class="p">]</span><span class="o">.</span><span class="n">set_index</span><span class="p">(</span><span class="s2">"cell_type"</span><span class="p">)</span>
+<span class="n">fr</span> <span class="o">=</span> <span class="n">tx</span><span class="p">[[</span><span class="s2">"frac_omitida"</span><span class="p">,</span> <span class="s2">"frac_fusionada"</span><span class="p">,</span> <span class="s2">"frac_dividida"</span><span class="p">,</span> <span class="s2">"frac_borde"</span><span class="p">,</span> <span class="s2">"frac_falsa"</span><span class="p">]]</span><span class="o">.</span><span class="n">rename</span><span class="p">(</span>
+    <span class="n">columns</span><span class="o">=</span><span class="k">lambda</span> <span class="n">c</span><span class="p">:</span> <span class="n">c</span><span class="o">.</span><span class="n">replace</span><span class="p">(</span><span class="s2">"frac_"</span><span class="p">,</span> <span class="s2">""</span><span class="p">))</span><span class="o">.</span><span class="n">rename</span><span class="p">(</span><span class="n">index</span><span class="o">=</span><span class="n">CT</span><span class="p">)</span>
+<span class="n">display</span><span class="p">(</span><span class="n">fr</span><span class="p">)</span>
+<span class="n">dom</span> <span class="o">=</span> <span class="n">fr</span><span class="o">.</span><span class="n">idxmax</span><span class="p">(</span><span class="n">axis</span><span class="o">=</span><span class="mi">1</span><span class="p">)</span>
+<span class="n">md</span><span class="p">(</span><span class="s2">"Error dominante de "</span> <span class="o">+</span> <span class="n">L</span><span class="p">[</span><span class="n">best</span><span class="p">]</span> <span class="o">+</span> <span class="s2">" por tipo celular (fracción de instancias reales): "</span>
+   <span class="o">+</span> <span class="s2">"; "</span><span class="o">.</span><span class="n">join</span><span class="p">(</span><span class="sa">f</span><span class="s2">"</span><span class="si">{</span><span class="n">t</span><span class="si">}</span><span class="s2">: </span><span class="si">{</span><span class="n">d</span><span class="si">}</span><span class="s2"> (</span><span class="si">{</span><span class="n">fr</span><span class="o">.</span><span class="n">loc</span><span class="p">[</span><span class="n">t</span><span class="p">,</span><span class="w"> </span><span class="n">d</span><span class="p">]</span><span class="si">:</span><span class="s2">.2f</span><span class="si">}</span><span class="s2">)"</span> <span class="k">for</span> <span class="n">t</span><span class="p">,</span> <span class="n">d</span> <span class="ow">in</span> <span class="n">dom</span><span class="o">.</span><span class="n">items</span><span class="p">())</span> <span class="o">+</span> <span class="s2">"."</span><span class="p">)</span>
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<div class="output text_html"><div>
+<style scoped>
+    .dataframe tbody tr th:only-of-type {
+        vertical-align: middle;
+    }
+
+    .dataframe tbody tr th {
+        vertical-align: top;
+    }
+
+    .dataframe thead th {
+        text-align: right;
+    }
+</style>
+<table border="1" class="dataframe">
+  <thead>
+    <tr style="text-align: right;">
+      <th></th>
+      <th>omitida</th>
+      <th>fusionada</th>
+      <th>dividida</th>
+      <th>borde</th>
+      <th>falsa</th>
+    </tr>
+    <tr>
+      <th>cell_type</th>
+      <th></th>
+      <th></th>
+      <th></th>
+      <th></th>
+      <th></th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <th>astrocitos</th>
+      <td>0.526</td>
+      <td>0.014</td>
+      <td>0.008</td>
+      <td>0.144</td>
+      <td>0.027</td>
+    </tr>
+    <tr>
+      <th>neuronas corticales</th>
+      <td>0.201</td>
+      <td>0.012</td>
+      <td>0.004</td>
+      <td>0.043</td>
+      <td>0.043</td>
+    </tr>
+    <tr>
+      <th>SH-SY5Y</th>
+      <td>0.168</td>
+      <td>0.111</td>
+      <td>0.023</td>
+      <td>0.083</td>
+      <td>0.033</td>
+    </tr>
+  </tbody>
+</table>
+</div></div><p>Error dominante de Cellpose ajustado por tipo celular (fracción de instancias reales): astrocitos: omitida (0.53); neuronas corticales: omitida (0.20); SH-SY5Y: omitida (0.17).</p>
+</div>
+</div>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="kn">from</span><span class="w"> </span><span class="nn">scipy.stats</span><span class="w"> </span><span class="kn">import</span> <span class="n">spearmanr</span>  <span class="c1"># noqa: E402</span>
+
+<span class="n">TM</span> <span class="o">=</span> <span class="n">need</span><span class="p">(</span><span class="s2">"seg/eval/test_metrics.pkl"</span><span class="p">)</span>
+<span class="n">g</span> <span class="o">=</span> <span class="n">TM</span><span class="p">[</span><span class="n">TM</span><span class="o">.</span><span class="n">model</span> <span class="o">==</span> <span class="n">best</span><span class="p">]</span><span class="o">.</span><span class="n">groupby</span><span class="p">(</span><span class="s2">"id"</span><span class="p">)[[</span><span class="s2">"n_gt"</span><span class="p">,</span> <span class="s2">"err_omitida"</span><span class="p">,</span> <span class="s2">"err_fusionada"</span><span class="p">,</span> <span class="s2">"err_dividida"</span><span class="p">]]</span><span class="o">.</span><span class="n">mean</span><span class="p">()</span>
+<span class="n">rows_</span> <span class="o">=</span> <span class="p">[]</span>
+<span class="k">for</span> <span class="n">e</span><span class="p">,</span> <span class="n">nombre</span> <span class="ow">in</span> <span class="p">((</span><span class="s2">"err_omitida"</span><span class="p">,</span> <span class="s2">"omisiones"</span><span class="p">),</span> <span class="p">(</span><span class="s2">"err_fusionada"</span><span class="p">,</span> <span class="s2">"fusiones"</span><span class="p">),</span> <span class="p">(</span><span class="s2">"err_dividida"</span><span class="p">,</span> <span class="s2">"divisiones"</span><span class="p">)):</span>
+    <span class="n">rho</span><span class="p">,</span> <span class="n">pv</span> <span class="o">=</span> <span class="n">spearmanr</span><span class="p">(</span><span class="n">g</span><span class="o">.</span><span class="n">n_gt</span><span class="p">,</span> <span class="n">g</span><span class="p">[</span><span class="n">e</span><span class="p">]</span> <span class="o">/</span> <span class="n">g</span><span class="o">.</span><span class="n">n_gt</span><span class="o">.</span><span class="n">clip</span><span class="p">(</span><span class="n">lower</span><span class="o">=</span><span class="mi">1</span><span class="p">))</span>
+    <span class="n">rows_</span><span class="o">.</span><span class="n">append</span><span class="p">((</span><span class="n">nombre</span><span class="p">,</span> <span class="n">rho</span><span class="p">,</span> <span class="n">pv</span><span class="p">))</span>
+<span class="n">txt</span> <span class="o">=</span> <span class="s2">"; "</span><span class="o">.</span><span class="n">join</span><span class="p">(</span><span class="sa">f</span><span class="s2">"</span><span class="si">{</span><span class="n">n</span><span class="si">}</span><span class="s2">: ρ = </span><span class="si">{</span><span class="n">r</span><span class="si">:</span><span class="s2">.2f</span><span class="si">}</span><span class="s2"> (p = </span><span class="si">{</span><span class="n">p</span><span class="si">:</span><span class="s2">.2g</span><span class="si">}</span><span class="s2">)"</span> <span class="k">for</span> <span class="n">n</span><span class="p">,</span> <span class="n">r</span><span class="p">,</span> <span class="n">p</span> <span class="ow">in</span> <span class="n">rows_</span><span class="p">)</span>
+<span class="n">sube</span> <span class="o">=</span> <span class="p">[</span><span class="n">n</span> <span class="k">for</span> <span class="n">n</span><span class="p">,</span> <span class="n">r</span><span class="p">,</span> <span class="n">p</span> <span class="ow">in</span> <span class="n">rows_</span> <span class="k">if</span> <span class="n">r</span> <span class="o">&gt;</span> <span class="mi">0</span> <span class="ow">and</span> <span class="n">p</span> <span class="o">&lt;</span> <span class="mf">0.05</span><span class="p">]</span>
+<span class="n">md</span><span class="p">(</span><span class="sa">f</span><span class="s2">"Correlación de Spearman entre la densidad (células anotadas por imagen) y la fracción de cada error en </span><span class="si">{</span><span class="n">L</span><span class="p">[</span><span class="n">best</span><span class="p">]</span><span class="si">}</span><span class="s2">, con "</span>
+   <span class="sa">f</span><span class="s2">"</span><span class="si">{</span><span class="nb">len</span><span class="p">(</span><span class="n">g</span><span class="p">)</span><span class="si">}</span><span class="s2"> imágenes de test: </span><span class="si">{</span><span class="n">txt</span><span class="si">}</span><span class="s2">. "</span>
+   <span class="o">+</span> <span class="p">(</span><span class="sa">f</span><span class="s2">"Con más contactos entre células crecen las </span><span class="si">{</span><span class="s1">' y las '</span><span class="o">.</span><span class="n">join</span><span class="p">(</span><span class="n">sube</span><span class="p">)</span><span class="si">}</span><span class="s2">: es el patrón esperable cuando la señal que separa "</span>
+      <span class="s2">"instancias (la frontera predicha, el campo de flujo o la caja del detector) no distingue dos células que se tocan, o marca "</span>
+      <span class="s2">"dos centros en una célula alargada."</span> <span class="k">if</span> <span class="n">sube</span> <span class="k">else</span>
+      <span class="s2">"Ninguna fracción de error crece de forma significativa con la densidad en este test."</span><span class="p">))</span>
+<span class="n">top_div</span> <span class="o">=</span> <span class="n">fr</span><span class="p">[</span><span class="s2">"dividida"</span><span class="p">]</span><span class="o">.</span><span class="n">idxmax</span><span class="p">()</span>
+<span class="n">md</span><span class="p">(</span><span class="sa">f</span><span class="s2">"La mayor fracción de divisiones está en </span><span class="si">{</span><span class="n">top_div</span><span class="si">}</span><span class="s2"> (</span><span class="si">{</span><span class="n">fr</span><span class="o">.</span><span class="n">loc</span><span class="p">[</span><span class="n">top_div</span><span class="p">,</span><span class="w"> </span><span class="s1">'dividida'</span><span class="p">]</span><span class="si">:</span><span class="s2">.2f</span><span class="si">}</span><span class="s2">)"</span>
+   <span class="o">+</span> <span class="p">(</span><span class="s2">", la línea con neuritas largas: una célula alargada con dos ensanchamientos puede recibir dos centros y partirse."</span> <span class="k">if</span> <span class="n">top_div</span> <span class="o">==</span> <span class="n">CT</span><span class="p">[</span><span class="s2">"shsy5y"</span><span class="p">]</span> <span class="k">else</span> <span class="s2">"."</span><span class="p">))</span>
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<p>Correlación de Spearman entre la densidad (células anotadas por imagen) y la fracción de cada error en Cellpose ajustado, con 93 imágenes de test: omisiones: ρ = 0.15 (p = 0.15); fusiones: ρ = 0.64 (p = 7.2e-12); divisiones: ρ = 0.46 (p = 3e-06). Con más contactos entre células crecen las fusiones y las divisiones: es el patrón esperable cuando la señal que separa instancias (la frontera predicha, el campo de flujo o la caja del detector) no distingue dos células que se tocan, o marca dos centros en una célula alargada.</p>
+<p>La mayor fracción de divisiones está en SH-SY5Y (0.02), la línea con neuritas largas: una célula alargada con dos ensanchamientos puede recibir dos centros y partirse.</p>
+</div>
+</div>
+<p>Las detecciones falsas incluyen tanto ruido como células reales sin anotar: la inspección visual del capítulo <a class="reference internal" href="10_seg_eda.html"><span class="doc">Análisis exploratorio y auditoría de Sartorius</span></a> encontró errores evidentes de anotación en una parte de los recortes revisados, así que una fracción de los «falsos positivos» no es error del modelo.</p>
+</section>
+<section id="limitaciones-sesgos-del-conjunto-de-datos-y-amenazas-a-la-validez">
+<h2>4. Limitaciones, sesgos del conjunto de datos y amenazas a la validez<a class="headerlink" href="#limitaciones-sesgos-del-conjunto-de-datos-y-amenazas-a-la-validez" title="Link to this heading">#</a></h2>
+<div class="pst-scrollable-table-container"><table class="table">
+<thead>
+<tr class="row-odd"><th class="head"><p>Tipo</p></th>
+<th class="head"><p>Amenaza</p></th>
+<th class="head"><p>Qué hicimos</p></th>
+<th class="head"><p>Validez de la conclusión</p></th>
+</tr>
+</thead>
+<tbody>
+<tr class="row-even"><td><p>Interna</p></td>
+<td><p>Fuga entre particiones por imágenes del mismo pocillo o placa</p></td>
+<td><p>Partición agrupada por <code class="docutils literal notranslate"><span class="pre">sample_id</span></code> y estratificada por tipo celular</p></td>
+<td><p>Válida si las imágenes de un mismo grupo no comparten placa con otros grupos</p></td>
+</tr>
+<tr class="row-odd"><td><p>Interna</p></td>
+<td><p>Selección del posproceso con test</p></td>
+<td><p>Rejilla del posproceso congelada en validación; test evaluado una vez</p></td>
+<td><p>—</p></td>
+</tr>
+<tr class="row-even"><td><p>Interna</p></td>
+<td><p>Presupuesto de entrenamiento desigual entre modelos</p></td>
+<td><p>Mismo número máximo de épocas por familia, <em>early stopping</em> en validación; desviaciones registradas. Al 25 % de los datos, Mask R-CNN recibió muchos menos pasos de gradiente que la U-Net++ (tabla de H1 en el capítulo <a class="reference internal" href="13_seg_resultados.html"><span class="doc">Resultados de segmentación</span></a>)</p></td>
+<td><p>Las diferencias pequeñas pueden deberse al presupuesto; el contraste de H1 al 25 % mezcla preentrenamiento y presupuesto de optimización</p></td>
+</tr>
+<tr class="row-odd"><td><p>Interna</p></td>
+<td><p>Réplicas de las ablaciones recortadas</p></td>
+<td><p>Variantes con una semilla rotuladas como exploratorias; con dos, solo IC por imagen y rango de la diferencia entre semillas</p></td>
+<td><p>Las variantes de una semilla no admiten conclusión confirmatoria; las de dos no tienen estimación de la varianza entre semillas</p></td>
+</tr>
+<tr class="row-even"><td><p>Externa</p></td>
+<td><p>Un microscopio, un laboratorio, tres líneas celulares, contraste de fase</p></td>
+<td><p>LOCTO y perturbaciones de imagen</p></td>
+<td><p>No generaliza a otras modalidades sin reevaluar</p></td>
+</tr>
+<tr class="row-odd"><td><p>Constructo</p></td>
+<td><p>Anotaciones con errores y polígonos gruesos en astrocitos</p></td>
+<td><p>Inspección visual y taxonomía de errores</p></td>
+<td><p>El AP de astrocitos tiene un techo por debajo de 1</p></td>
+</tr>
+<tr class="row-even"><td><p>Constructo</p></td>
+<td><p>AP&#64;[.5:.95] penaliza el desplazamiento de borde de células pequeñas más que el de grandes</p></td>
+<td><p>Reportamos AP50, PQ y HD95 junto al AP</p></td>
+<td><p>El orden por AP mezcla detección y precisión de borde</p></td>
+</tr>
+<tr class="row-odd"><td><p>Conclusión estadística</p></td>
+<td><p>Imágenes de test por tipo celular pocas para estratos finos</p></td>
+<td><p>IC <em>bootstrap</em>, Holm, modelo mixto con imagen como grupo</p></td>
+<td><p>Diferencias por estrato con IC solapados quedan sin decidir</p></td>
+</tr>
+</tbody>
+</table>
+</div>
+</section>
+<section id="como-afecto-el-preprocesamiento-y-que-decisiones-resultaron-irrelevantes">
+<h2>5. ¿Cómo afectó el preprocesamiento y qué decisiones resultaron irrelevantes?<a class="headerlink" href="#como-afecto-el-preprocesamiento-y-que-decisiones-resultaron-irrelevantes" title="Link to this heading">#</a></h2>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">ab</span> <span class="o">=</span> <span class="n">S</span><span class="p">[</span><span class="s2">"ablations"</span><span class="p">]</span>
+<span class="k">for</span> <span class="n">g</span> <span class="ow">in</span> <span class="p">(</span><span class="s2">"pérdida"</span><span class="p">,</span> <span class="s2">"fracción"</span><span class="p">):</span>
+    <span class="k">if</span> <span class="n">g</span> <span class="ow">in</span> <span class="n">ab</span><span class="p">:</span>
+        <span class="n">t0</span> <span class="o">=</span> <span class="n">ab</span><span class="p">[</span><span class="n">g</span><span class="p">][</span><span class="s2">"table"</span><span class="p">]</span>
+        <span class="n">expl</span> <span class="o">=</span> <span class="n">t0</span><span class="p">[</span><span class="n">t0</span><span class="o">.</span><span class="n">seeds</span> <span class="o">&lt;</span> <span class="mi">2</span><span class="p">]</span>
+        <span class="n">t</span> <span class="o">=</span> <span class="n">t0</span><span class="p">[</span><span class="n">t0</span><span class="o">.</span><span class="n">seeds</span> <span class="o">&gt;=</span> <span class="mi">2</span><span class="p">]</span>
+        <span class="n">incons</span> <span class="o">=</span> <span class="n">t</span><span class="o">.</span><span class="n">signo_consistente</span><span class="o">.</span><span class="n">eq</span><span class="p">(</span><span class="kc">False</span><span class="p">)</span>              <span class="c1"># el signo cambia entre semillas: no sostiene «mejor» ni «peor»</span>
+        <span class="n">eq</span> <span class="o">=</span> <span class="p">(</span><span class="n">t</span><span class="o">.</span><span class="n">lo</span> <span class="o">&gt;=</span> <span class="o">-</span><span class="mf">0.02</span><span class="p">)</span> <span class="o">&amp;</span> <span class="p">(</span><span class="n">t</span><span class="o">.</span><span class="n">hi</span> <span class="o">&lt;=</span> <span class="mf">0.02</span><span class="p">)</span>                 <span class="c1"># equivalente: IC completo dentro de ±δ</span>
+        <span class="n">sig</span> <span class="o">=</span> <span class="p">(</span><span class="n">t</span><span class="o">.</span><span class="n">hi</span> <span class="o">&lt;</span> <span class="mi">0</span><span class="p">)</span> <span class="o">|</span> <span class="p">(</span><span class="n">t</span><span class="o">.</span><span class="n">lo</span> <span class="o">&gt;</span> <span class="mi">0</span><span class="p">)</span>                         <span class="c1"># IC que excluye 0</span>
+
+        <span class="k">def</span><span class="w"> </span><span class="nf">_tag</span><span class="p">(</span><span class="n">r</span><span class="p">):</span>
+            <span class="k">return</span> <span class="sa">f</span><span class="s2">"</span><span class="si">{</span><span class="nb">int</span><span class="p">(</span><span class="n">r</span><span class="o">.</span><span class="n">seeds</span><span class="p">)</span><span class="si">}</span><span class="s2"> semillas, "</span> <span class="o">+</span> <span class="p">(</span><span class="s2">"mismo signo en todas"</span> <span class="k">if</span> <span class="n">r</span><span class="o">.</span><span class="n">signo_consistente</span> <span class="k">else</span> <span class="s2">"signo distinto entre semillas"</span><span class="p">)</span>
+
+        <span class="n">lst</span> <span class="o">=</span> <span class="k">lambda</span> <span class="n">m</span><span class="p">:</span> <span class="s2">", "</span><span class="o">.</span><span class="n">join</span><span class="p">(</span><span class="sa">f</span><span class="s2">"</span><span class="si">{</span><span class="n">r</span><span class="o">.</span><span class="n">variante</span><span class="si">}</span><span class="s2"> (</span><span class="si">{</span><span class="nb">round</span><span class="p">(</span><span class="n">r</span><span class="p">[</span><span class="s1">'diff'</span><span class="p">],</span><span class="w"> </span><span class="mi">3</span><span class="p">)</span><span class="w"> </span><span class="o">+</span><span class="w"> </span><span class="mf">0.0</span><span class="si">:</span><span class="s2">+.3f</span><span class="si">}</span><span class="s2">; </span><span class="si">{</span><span class="n">_tag</span><span class="p">(</span><span class="n">r</span><span class="p">)</span><span class="si">}</span><span class="s2">)"</span> <span class="k">for</span> <span class="n">_</span><span class="p">,</span> <span class="n">r</span> <span class="ow">in</span> <span class="n">t</span><span class="p">[</span><span class="n">m</span><span class="p">]</span><span class="o">.</span><span class="n">iterrows</span><span class="p">())</span>  <span class="c1"># noqa: E731</span>
+        <span class="n">parts</span> <span class="o">=</span> <span class="p">[]</span>
+        <span class="k">if</span> <span class="p">(</span><span class="n">eq</span> <span class="o">&amp;</span> <span class="o">~</span><span class="n">sig</span><span class="p">)</span><span class="o">.</span><span class="n">any</span><span class="p">():</span>
+            <span class="n">parts</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="sa">f</span><span class="s2">"equivalentes a la referencia (IC dentro de ±0.02): </span><span class="si">{</span><span class="n">lst</span><span class="p">(</span><span class="n">eq</span><span class="w"> </span><span class="o">&amp;</span><span class="w"> </span><span class="o">~</span><span class="n">sig</span><span class="p">)</span><span class="si">}</span><span class="s2">"</span><span class="p">)</span>
+        <span class="k">if</span> <span class="p">(</span><span class="n">eq</span> <span class="o">&amp;</span> <span class="n">sig</span><span class="p">)</span><span class="o">.</span><span class="n">any</span><span class="p">():</span>
+            <span class="n">parts</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="sa">f</span><span class="s2">"distintas de la referencia pero dentro de ±0.02, sin relevancia práctica: </span><span class="si">{</span><span class="n">lst</span><span class="p">(</span><span class="n">eq</span><span class="w"> </span><span class="o">&amp;</span><span class="w"> </span><span class="n">sig</span><span class="p">)</span><span class="si">}</span><span class="s2">"</span><span class="p">)</span>
+        <span class="k">if</span> <span class="p">(</span><span class="o">~</span><span class="n">eq</span> <span class="o">&amp;</span> <span class="p">(</span><span class="n">t</span><span class="o">.</span><span class="n">hi</span> <span class="o">&lt;</span> <span class="mi">0</span><span class="p">)</span> <span class="o">&amp;</span> <span class="o">~</span><span class="n">incons</span><span class="p">)</span><span class="o">.</span><span class="n">any</span><span class="p">():</span>
+            <span class="n">parts</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="sa">f</span><span class="s2">"peores (IC entero bajo 0, fuera de ±0.02 y mismo signo en todas las semillas): </span><span class="si">{</span><span class="n">lst</span><span class="p">(</span><span class="o">~</span><span class="n">eq</span><span class="w"> </span><span class="o">&amp;</span><span class="w"> </span><span class="p">(</span><span class="n">t</span><span class="o">.</span><span class="n">hi</span><span class="w"> </span><span class="o">&lt;</span><span class="w"> </span><span class="mi">0</span><span class="p">)</span><span class="w"> </span><span class="o">&amp;</span><span class="w"> </span><span class="o">~</span><span class="n">incons</span><span class="p">)</span><span class="si">}</span><span class="s2">"</span><span class="p">)</span>
+        <span class="k">if</span> <span class="p">(</span><span class="o">~</span><span class="n">eq</span> <span class="o">&amp;</span> <span class="p">(</span><span class="n">t</span><span class="o">.</span><span class="n">lo</span> <span class="o">&gt;</span> <span class="mi">0</span><span class="p">)</span> <span class="o">&amp;</span> <span class="o">~</span><span class="n">incons</span><span class="p">)</span><span class="o">.</span><span class="n">any</span><span class="p">():</span>
+            <span class="n">parts</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="sa">f</span><span class="s2">"mejores (IC entero sobre 0 y mismo signo en todas las semillas): </span><span class="si">{</span><span class="n">lst</span><span class="p">(</span><span class="o">~</span><span class="n">eq</span><span class="w"> </span><span class="o">&amp;</span><span class="w"> </span><span class="p">(</span><span class="n">t</span><span class="o">.</span><span class="n">lo</span><span class="w"> </span><span class="o">&gt;</span><span class="w"> </span><span class="mi">0</span><span class="p">)</span><span class="w"> </span><span class="o">&amp;</span><span class="w"> </span><span class="o">~</span><span class="n">incons</span><span class="p">)</span><span class="si">}</span><span class="s2">"</span><span class="p">)</span>
+        <span class="k">if</span> <span class="p">(</span><span class="o">~</span><span class="n">eq</span> <span class="o">&amp;</span> <span class="n">sig</span> <span class="o">&amp;</span> <span class="n">incons</span><span class="p">)</span><span class="o">.</span><span class="n">any</span><span class="p">():</span>
+            <span class="n">parts</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="sa">f</span><span class="s2">"sin decidir: IC por imagen que excluye 0 pero signo distinto entre semillas: </span><span class="si">{</span><span class="n">lst</span><span class="p">(</span><span class="o">~</span><span class="n">eq</span><span class="w"> </span><span class="o">&amp;</span><span class="w"> </span><span class="n">sig</span><span class="w"> </span><span class="o">&amp;</span><span class="w"> </span><span class="n">incons</span><span class="p">)</span><span class="si">}</span><span class="s2">"</span><span class="p">)</span>
+        <span class="k">if</span> <span class="p">(</span><span class="o">~</span><span class="n">eq</span> <span class="o">&amp;</span> <span class="o">~</span><span class="n">sig</span><span class="p">)</span><span class="o">.</span><span class="n">any</span><span class="p">():</span>
+            <span class="n">parts</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="sa">f</span><span class="s2">"sin decidir (IC que cruza 0 y sale de ±0.02): </span><span class="si">{</span><span class="n">lst</span><span class="p">(</span><span class="o">~</span><span class="n">eq</span><span class="w"> </span><span class="o">&amp;</span><span class="w"> </span><span class="o">~</span><span class="n">sig</span><span class="p">)</span><span class="si">}</span><span class="s2">"</span><span class="p">)</span>
+        <span class="k">if</span> <span class="nb">len</span><span class="p">(</span><span class="n">expl</span><span class="p">):</span>
+            <span class="n">parts</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="s2">"exploratorias, una semilla y sin conclusión confirmatoria: "</span> <span class="o">+</span> <span class="s2">", "</span><span class="o">.</span><span class="n">join</span><span class="p">(</span>
+                <span class="sa">f</span><span class="s2">"</span><span class="si">{</span><span class="n">r</span><span class="o">.</span><span class="n">variante</span><span class="si">}</span><span class="s2"> (</span><span class="si">{</span><span class="nb">round</span><span class="p">(</span><span class="n">r</span><span class="p">[</span><span class="s1">'diff'</span><span class="p">],</span><span class="w"> </span><span class="mi">3</span><span class="p">)</span><span class="w"> </span><span class="o">+</span><span class="w"> </span><span class="mf">0.0</span><span class="si">:</span><span class="s2">+.3f</span><span class="si">}</span><span class="s2"> [</span><span class="si">{</span><span class="n">r</span><span class="o">.</span><span class="n">lo</span><span class="si">:</span><span class="s2">.3f</span><span class="si">}</span><span class="s2">, </span><span class="si">{</span><span class="n">r</span><span class="o">.</span><span class="n">hi</span><span class="si">:</span><span class="s2">.3f</span><span class="si">}</span><span class="s2">])"</span> <span class="k">for</span> <span class="n">_</span><span class="p">,</span> <span class="n">r</span> <span class="ow">in</span> <span class="n">expl</span><span class="o">.</span><span class="n">iterrows</span><span class="p">()))</span>
+        <span class="n">md</span><span class="p">(</span><span class="sa">f</span><span class="s2">"**</span><span class="si">{</span><span class="n">g</span><span class="o">.</span><span class="n">capitalize</span><span class="p">()</span><span class="si">}</span><span class="s2">** (referencia </span><span class="si">{</span><span class="n">ab</span><span class="p">[</span><span class="n">g</span><span class="p">][</span><span class="s1">'reference'</span><span class="p">]</span><span class="o">.</span><span class="n">replace</span><span class="p">(</span><span class="s1">' (ref.)'</span><span class="p">,</span><span class="w"> </span><span class="s1">''</span><span class="p">)</span><span class="si">}</span><span class="s2">, AP </span><span class="si">{</span><span class="n">ab</span><span class="p">[</span><span class="n">g</span><span class="p">][</span><span class="s1">'ref_ap'</span><span class="p">]</span><span class="si">:</span><span class="s2">.3f</span><span class="si">}</span><span class="s2">): "</span> <span class="o">+</span> <span class="s2">"; "</span><span class="o">.</span><span class="n">join</span><span class="p">(</span><span class="n">parts</span><span class="p">)</span> <span class="o">+</span> <span class="s2">"."</span><span class="p">)</span>
+<span class="k">if</span> <span class="n">exists</span><span class="p">(</span><span class="s2">"eda/seg/normalization.pkl"</span><span class="p">):</span>
+    <span class="n">nz</span> <span class="o">=</span> <span class="n">need</span><span class="p">(</span><span class="s2">"eda/seg/normalization.pkl"</span><span class="p">)</span>
+    <span class="n">md</span><span class="p">(</span><span class="s2">"La normalización por percentiles de cada imagen reduce la diferencia de contraste entre los tres tipos celulares (capítulo "</span>
+       <span class="s2">"</span><span class="si">{doc}</span><span class="s2">`11_seg_preprocesamiento`) y, como efecto lateral, anula los cambios afines de brillo y contraste (perturbaciones del "</span>
+       <span class="s2">"capítulo </span><span class="si">{doc}</span><span class="s2">`14_seg_ablaciones_robustez`). No la sometimos a ablación con entrenamiento completo por presupuesto, así que su "</span>
+       <span class="s2">"efecto sobre el AP en datos limpios queda sin medir."</span><span class="p">)</span>
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<p><strong>Pérdida</strong> (referencia CE + Dice, AP 0.214): equivalentes a la referencia (IC dentro de ±0.02): focal + Tversky (+0.001; 2 semillas, signo distinto entre semillas); distintas de la referencia pero dentro de ±0.02, sin relevancia práctica: CE (+0.005; 2 semillas, mismo signo en todas); peores (IC entero bajo 0, fuera de ±0.02 y mismo signo en todas las semillas): Dice (-0.036; 2 semillas, mismo signo en todas).</p>
+<p><strong>Fracción</strong> (referencia 100 %, AP 0.214): exploratorias, una semilla y sin conclusión confirmatoria: 50 % (+0.003 [-0.002, 0.008]), 25 % (+0.000 [-0.005, 0.005]), 10 % (-0.004 [-0.009, 0.000]).</p>
+<p>La normalización por percentiles de cada imagen reduce la diferencia de contraste entre los tres tipos celulares (capítulo <a class="reference internal" href="11_seg_preprocesamiento.html"><span class="doc">Preprocesamiento y aumento de datos</span></a>) y, como efecto lateral, anula los cambios afines de brillo y contraste (perturbaciones del capítulo <a class="reference internal" href="14_seg_ablaciones_robustez.html"><span class="doc">Ablaciones, robustez, calibración y eficiencia en segmentación</span></a>). No la sometimos a ablación con entrenamiento completo por presupuesto, así que su efecto sobre el AP en datos limpios queda sin medir.</p>
+</div>
+</div>
+</section>
+<section id="que-haria-el-modelo-con-otro-microscopio-o-protocolo">
+<h2>6. ¿Qué haría el modelo con otro microscopio o protocolo?<a class="headerlink" href="#que-haria-el-modelo-con-otro-microscopio-o-protocolo" title="Link to this heading">#</a></h2>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">lo</span> <span class="o">=</span> <span class="n">S</span><span class="p">[</span><span class="s2">"locto"</span><span class="p">]</span>
+<span class="k">if</span> <span class="nb">len</span><span class="p">(</span><span class="n">lo</span><span class="p">):</span>
+    <span class="k">for</span> <span class="n">_</span><span class="p">,</span> <span class="n">r</span> <span class="ow">in</span> <span class="n">lo</span><span class="o">.</span><span class="n">iterrows</span><span class="p">():</span>
+        <span class="n">md</span><span class="p">(</span><span class="sa">f</span><span class="s2">"- Sin </span><span class="si">{</span><span class="n">CT</span><span class="p">[</span><span class="n">r</span><span class="o">.</span><span class="n">excluded</span><span class="p">]</span><span class="si">}</span><span class="s2"> en entrenamiento, el AP en </span><span class="si">{</span><span class="n">CT</span><span class="p">[</span><span class="n">r</span><span class="o">.</span><span class="n">excluded</span><span class="p">]</span><span class="si">}</span><span class="s2"> pasa de </span><span class="si">{</span><span class="n">r</span><span class="o">.</span><span class="n">ap_main</span><span class="si">:</span><span class="s2">.3f</span><span class="si">}</span><span class="s2"> a </span><span class="si">{</span><span class="n">r</span><span class="o">.</span><span class="n">ap_locto</span><span class="si">:</span><span class="s2">.3f</span><span class="si">}</span><span class="s2"> "</span>
+           <span class="sa">f</span><span class="s2">"(diferencia </span><span class="si">{</span><span class="n">ci</span><span class="p">(</span><span class="nb">round</span><span class="p">(</span><span class="n">r</span><span class="p">[</span><span class="s1">'diff'</span><span class="p">],</span><span class="w"> </span><span class="mi">3</span><span class="p">)</span><span class="w"> </span><span class="o">+</span><span class="w"> </span><span class="mf">0.0</span><span class="p">,</span><span class="w"> </span><span class="n">r</span><span class="o">.</span><span class="n">lo</span><span class="p">,</span><span class="w"> </span><span class="n">r</span><span class="o">.</span><span class="n">hi</span><span class="p">)</span><span class="si">}</span><span class="s2">, n = </span><span class="si">{</span><span class="nb">int</span><span class="p">(</span><span class="n">r</span><span class="o">.</span><span class="n">n</span><span class="p">)</span><span class="si">}</span><span class="s2">; "</span>
+           <span class="o">+</span> <span class="p">(</span><span class="s2">"exploratoria, 1 semilla"</span> <span class="k">if</span> <span class="n">r</span><span class="o">.</span><span class="n">seeds</span> <span class="o">&lt;</span> <span class="mi">2</span> <span class="k">else</span>
+              <span class="sa">f</span><span class="s2">"</span><span class="si">{</span><span class="nb">int</span><span class="p">(</span><span class="n">r</span><span class="o">.</span><span class="n">seeds</span><span class="p">)</span><span class="si">}</span><span class="s2"> semillas, diferencia por semilla de </span><span class="si">{</span><span class="n">r</span><span class="o">.</span><span class="n">diff_seed_min</span><span class="si">:</span><span class="s2">+.3f</span><span class="si">}</span><span class="s2"> a </span><span class="si">{</span><span class="n">r</span><span class="o">.</span><span class="n">diff_seed_max</span><span class="si">:</span><span class="s2">+.3f</span><span class="si">}</span><span class="s2">"</span><span class="p">)</span> <span class="o">+</span> <span class="s2">")."</span><span class="p">)</span>
+<span class="k">if</span> <span class="n">exists</span><span class="p">(</span><span class="s2">"analysis/seg_perturb/rows.pkl"</span><span class="p">):</span>
+    <span class="n">pr</span> <span class="o">=</span> <span class="n">pd</span><span class="o">.</span><span class="n">DataFrame</span><span class="p">(</span><span class="n">need</span><span class="p">(</span><span class="s2">"analysis/seg_perturb/rows.pkl"</span><span class="p">))</span>
+    <span class="n">g</span> <span class="o">=</span> <span class="n">pr</span><span class="o">.</span><span class="n">groupby</span><span class="p">([</span><span class="s2">"model"</span><span class="p">,</span> <span class="s2">"perturbation"</span><span class="p">,</span> <span class="s2">"severity"</span><span class="p">])</span><span class="o">.</span><span class="n">ap</span><span class="o">.</span><span class="n">mean</span><span class="p">()</span><span class="o">.</span><span class="n">reset_index</span><span class="p">()</span>
+    <span class="n">base</span> <span class="o">=</span> <span class="n">g</span><span class="p">[</span><span class="n">g</span><span class="o">.</span><span class="n">perturbation</span> <span class="o">==</span> <span class="s2">"ninguna"</span><span class="p">]</span><span class="o">.</span><span class="n">set_index</span><span class="p">(</span><span class="s2">"model"</span><span class="p">)</span><span class="o">.</span><span class="n">ap</span>
+    <span class="n">worst</span> <span class="o">=</span> <span class="n">g</span><span class="p">[(</span><span class="n">g</span><span class="o">.</span><span class="n">perturbation</span> <span class="o">!=</span> <span class="s2">"ninguna"</span><span class="p">)</span> <span class="o">&amp;</span> <span class="p">(</span><span class="n">g</span><span class="o">.</span><span class="n">severity</span> <span class="o">==</span> <span class="mi">5</span><span class="p">)]</span><span class="o">.</span><span class="n">assign</span><span class="p">(</span><span class="n">caida</span><span class="o">=</span><span class="k">lambda</span> <span class="n">d</span><span class="p">:</span> <span class="n">d</span><span class="o">.</span><span class="n">model</span><span class="o">.</span><span class="n">map</span><span class="p">(</span><span class="n">base</span><span class="p">)</span> <span class="o">-</span> <span class="n">d</span><span class="o">.</span><span class="n">ap</span><span class="p">)</span>
+    <span class="n">worst</span> <span class="o">=</span> <span class="n">worst</span><span class="o">.</span><span class="n">sort_values</span><span class="p">(</span><span class="s2">"caida"</span><span class="p">,</span> <span class="n">ascending</span><span class="o">=</span><span class="kc">False</span><span class="p">)</span><span class="o">.</span><span class="n">head</span><span class="p">(</span><span class="mi">4</span><span class="p">)</span>
+    <span class="n">md</span><span class="p">(</span><span class="s2">"Con la severidad máxima, las cuatro caídas más grandes de AP son: "</span>
+       <span class="o">+</span> <span class="s2">"; "</span><span class="o">.</span><span class="n">join</span><span class="p">(</span><span class="sa">f</span><span class="s2">"</span><span class="si">{</span><span class="n">L</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="n">m</span><span class="p">,</span><span class="w"> </span><span class="n">m</span><span class="p">)</span><span class="si">}</span><span class="s2"> con </span><span class="si">{</span><span class="n">k</span><span class="si">}</span><span class="s2"> (</span><span class="si">{</span><span class="n">c</span><span class="si">:</span><span class="s2">.3f</span><span class="si">}</span><span class="s2">)"</span> <span class="k">for</span> <span class="n">m</span><span class="p">,</span> <span class="n">k</span><span class="p">,</span> <span class="n">c</span> <span class="ow">in</span> <span class="nb">zip</span><span class="p">(</span><span class="n">worst</span><span class="o">.</span><span class="n">model</span><span class="p">,</span> <span class="n">worst</span><span class="o">.</span><span class="n">perturbation</span><span class="p">,</span> <span class="n">worst</span><span class="o">.</span><span class="n">caida</span><span class="p">))</span> <span class="o">+</span> <span class="s2">"."</span><span class="p">)</span>
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<ul class="simple">
+<li><p>Sin astrocitos en entrenamiento, el AP en astrocitos pasa de 0.077 a 0.035 (diferencia -0.041 [-0.055, -0.027], n = 21; 2 semillas, diferencia por semilla de -0.044 a -0.038).</p></li>
+</ul>
+<ul class="simple">
+<li><p>Sin neuronas corticales en entrenamiento, el AP en neuronas corticales pasa de 0.298 a 0.175 (diferencia -0.123 [-0.144, -0.104], n = 48; 2 semillas, diferencia por semilla de -0.131 a -0.113).</p></li>
+</ul>
+<ul class="simple">
+<li><p>Sin SH-SY5Y en entrenamiento, el AP en SH-SY5Y pasa de 0.166 a 0.048 (diferencia -0.118 [-0.138, -0.099], n = 24; 2 semillas, diferencia por semilla de -0.121 a -0.113).</p></li>
+</ul>
+<p>Con la severidad máxima, las cuatro caídas más grandes de AP son: Mask R-CNN con desenfoque (σ px) (0.228); U-Net++ con desenfoque (σ px) (0.191); Mask R-CNN con ruido gaussiano (σ) (0.140); U-Net++ con ruido gaussiano (σ) (0.132).</p>
+</div>
+</div>
+<p>Un microscopio distinto cambia el contraste, el ruido, el desenfoque y la escala en píxeles por micra. Las perturbaciones del capítulo <a class="reference internal" href="14_seg_ablaciones_robustez.html"><span class="doc">Ablaciones, robustez, calibración y eficiencia en segmentación</span></a> simulan los tres primeros; la escala no la simulamos y es la más peligrosa para los métodos con posproceso de tamaño fijo (el <code class="docutils literal notranslate"><span class="pre">min_size</span></code> del watershed y las anclas de Mask R-CNN). LOCTO mide algo distinto: una línea celular nueva con el mismo microscopio. Antes de desplegar en otro equipo hace falta un conjunto de validación etiquetado de ese equipo, una recalibración del posproceso con él y el monitoreo de la confianza media por imagen (capítulo <a class="reference internal" href="31_monitoreo_deriva.html"><span class="doc">Monitoreo y experimento de deriva</span></a>).</p>
+</section>
+</section>
+
+    <script type="text/x-thebe-config">
+    {
+        requestKernel: true,
+        binderOptions: {
+            repo: "binder-examples/jupyter-stacks-datascience",
+            ref: "master",
+        },
+        codeMirrorConfig: {
+            theme: "abcdef",
+            mode: "python"
+        },
+        kernelOptions: {
+            name: "python3",
+            path: "./."
+        },
+        predefinedOutput: true
+    }
+    </script>
+    <script>kernelName = 'python3'</script>
+
+                </article>
+              
+
+              
+              
+              
+              
+                <footer class="prev-next-footer d-print-none">
+                  
+<div class="prev-next-area">
+    <a class="left-prev"
+       href="14_seg_ablaciones_robustez.html"
+       title="página anterior">
+      <i class="fa-solid fa-angle-left"></i>
+      <div class="prev-next-info">
+        <p class="prev-next-subtitle">anterior</p>
+        <p class="prev-next-title">Ablaciones, robustez, calibración y eficiencia en segmentación</p>
+      </div>
+    </a>
+    <a class="right-next"
+       href="20_nlp_eda.html"
+       title="siguiente página">
+      <div class="prev-next-info">
+        <p class="prev-next-subtitle">siguiente</p>
+        <p class="prev-next-title">Análisis exploratorio y auditoría de las hojas de vida</p>
+      </div>
+      <i class="fa-solid fa-angle-right"></i>
+    </a>
+</div>
+                </footer>
+              
+            </div>
+            
+            
+              
+                <dialog id="pst-secondary-sidebar-modal"></dialog>
+                <div id="pst-secondary-sidebar" class="bd-sidebar-secondary bd-toc"><div class="sidebar-secondary-items sidebar-secondary__inner">
+
+
+  <div class="sidebar-secondary-item"><div
+    id="pst-page-navigation-heading-2"
+    class="page-toc tocsection onthispage">
+    <i class="fa-solid fa-list"></i> Contenido
+  </div>
+  <nav id="pst-page-toc-nav" class="page-toc" aria-labelledby="pst-page-navigation-heading-2">
+    <ul class="pst-show_toc_level nav section-nav flex-column">
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#que-modelo-funciona-mejor-para-que-tipo-celular-y-regimen-y-por-que">1. ¿Qué modelo funciona mejor, para qué tipo celular y régimen, y por qué?</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#coinciden-los-rankings-en-pixeles-e-instancias">2. ¿Coinciden los <em>rankings</em> en píxeles e instancias?</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#que-errores-dominan-y-como-se-relacionan-con-los-datos">3. ¿Qué errores dominan y cómo se relacionan con los datos?</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#limitaciones-sesgos-del-conjunto-de-datos-y-amenazas-a-la-validez">4. Limitaciones, sesgos del conjunto de datos y amenazas a la validez</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#como-afecto-el-preprocesamiento-y-que-decisiones-resultaron-irrelevantes">5. ¿Cómo afectó el preprocesamiento y qué decisiones resultaron irrelevantes?</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#que-haria-el-modelo-con-otro-microscopio-o-protocolo">6. ¿Qué haría el modelo con otro microscopio o protocolo?</a></li>
+</ul>
+  </nav></div>
+
+</div></div>
+              
+            
+          </div>
+          <footer class="bd-footer-content">
+            
+<div class="bd-footer-content__inner container">
+  
+  <div class="footer-item">
+    
+<p class="component-author">
+Por Anyely Sanjuan Benavides y Juan David Díaz Fernández
+</p>
+
+  </div>
+  
+  <div class="footer-item">
+    
+
+  <p class="copyright">
+    
+      © Copyright 2026.
+      <br/>
+    
+  </p>
+
+  </div>
+  
+  <div class="footer-item">
+    
+  </div>
+  
+  <div class="footer-item">
+    
+  </div>
+  
+</div>
+          </footer>
+        
+
+      </main>
+    </div>
+  </div>
+  
+  <!-- Scripts loaded after <body> so the DOM is not blocked -->
+  <script defer src="_static/scripts/bootstrap.js?digest=55c26ed414f5f8a31ebb"></script>
+<script defer src="_static/scripts/pydata-sphinx-theme.js?digest=55c26ed414f5f8a31ebb"></script>
+
+  <footer class="bd-footer">
+  </footer>
+  </body>
+</html>

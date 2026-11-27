@@ -1,0 +1,695 @@
+
+<!DOCTYPE html>
+
+
+<html lang="es" data-content_root="./" >
+
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" /><meta name="viewport" content="width=device-width, initial-scale=1" />
+
+    <title>Problema, objetivos y preguntas de investigación &#8212; Segmentación de células y clasificación de hojas de vida</title>
+  
+  
+  
+  <script data-cfasync="false">
+    document.documentElement.dataset.mode = localStorage.getItem("mode") || "";
+    document.documentElement.dataset.theme = localStorage.getItem("theme") || "";
+  </script>
+  <!--
+    this give us a css class that will be invisible only if js is disabled
+  -->
+  <noscript>
+    <style>
+      .pst-js-only { display: none !important; }
+
+    </style>
+  </noscript>
+  
+  <!-- Loaded before other Sphinx assets -->
+  <link href="_static/styles/theme.css?digest=55c26ed414f5f8a31ebb" rel="stylesheet" />
+<link href="_static/styles/pydata-sphinx-theme.css?digest=55c26ed414f5f8a31ebb" rel="stylesheet" />
+
+    <link rel="stylesheet" type="text/css" href="_static/pygments.css?v=03e43079" />
+    <link rel="stylesheet" type="text/css" href="_static/styles/sphinx-book-theme.css?v=3c74b3bc" />
+    <link rel="stylesheet" type="text/css" href="_static/togglebutton.css?v=9c3e77be" />
+    <link rel="stylesheet" type="text/css" href="_static/copybutton.css?v=76b2166b" />
+    <link rel="stylesheet" type="text/css" href="_static/mystnb.11b39860a7a0cbfd473a3ad8a317855267ff0bd372690045ca344a6b62be495e.css?v=8cd3d715" />
+    <link rel="stylesheet" type="text/css" href="_static/sphinx-thebe.css?v=4fa983c6" />
+    <link rel="stylesheet" type="text/css" href="_static/sphinx-design.min.css?v=6a604523" />
+    <link rel="stylesheet" type="text/css" href="_static/autores.css?v=fc0dcfce" />
+  
+  <!-- So that users can add custom icons -->
+  <script defer src="_static/scripts/fontawesome.js?digest=55c26ed414f5f8a31ebb"></script>
+  <!-- Pre-loaded scripts that we'll load fully later -->
+  <link rel="preload" as="script" href="_static/scripts/bootstrap.js?digest=55c26ed414f5f8a31ebb" />
+<link rel="preload" as="script" href="_static/scripts/pydata-sphinx-theme.js?digest=55c26ed414f5f8a31ebb" />
+
+    <script src="_static/documentation_options.js?v=78d55cf8"></script>
+    <script src="_static/doctools.js?v=9a2dae69"></script>
+    <script src="_static/sphinx_highlight.js?v=dc90522c"></script>
+    <script src="_static/clipboard.min.js?v=a7894cd8"></script>
+    <script src="_static/copybutton.js?v=f281be69"></script>
+    <script src="_static/scripts/sphinx-book-theme.js?v=fab101a9"></script>
+    <script>let toggleHintShow = 'Haz clic para mostrar';</script>
+    <script>let toggleHintHide = 'Haz clic para ocultar';</script>
+    <script>let toggleOpenOnPrint = 'true';</script>
+    <script src="_static/togglebutton.js?v=b8b12719"></script>
+    <script src="_static/translations.js?v=d190bf04"></script>
+    <script>var togglebuttonSelector = '.toggle, .admonition.dropdown';</script>
+    <script data-sd-tabs-storage-prefix="sphinx-design-tab-id-" src="_static/design-tabs.js?v=fcb327ea"></script>
+    <script>const THEBE_JS_URL = "https://unpkg.com/thebe@0.8.2/lib/index.js"; const thebe_selector = ".thebe,.cell"; const thebe_selector_input = "pre"; const thebe_selector_output = ".output, .cell_output"</script>
+    <script async="async" src="_static/sphinx-thebe.js?v=c100c467"></script>
+    <script>var togglebuttonSelector = '.toggle, .admonition.dropdown';</script>
+    <script>const THEBE_JS_URL = "https://unpkg.com/thebe@0.8.2/lib/index.js"; const thebe_selector = ".thebe,.cell"; const thebe_selector_input = "pre"; const thebe_selector_output = ".output, .cell_output"</script>
+    <script>window.MathJax = {"options": {"processHtmlClass": "tex2jax_process|mathjax_process|math|output_area"}}</script>
+    <script defer="defer" src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-mml-chtml.js"></script>
+    <script>DOCUMENTATION_OPTIONS.pagename = '01_problema_objetivos';</script>
+    <script>DOCUMENTATION_OPTIONS.search_as_you_type = false;</script>
+    <link rel="index" title="Índice" href="genindex.html" />
+    <link rel="search" title="Búsqueda" href="search.html" />
+    <link rel="next" title="Datos y fichas de datos" href="02_datos_fichas.html" />
+    <link rel="prev" title="Segmentación de células y clasificación de hojas de vida" href="intro.html" />
+  <meta name="viewport" content="width=device-width, initial-scale=1"/>
+  <meta name="docsearch:language" content="es"/>
+  <meta name="docsearch:version" content="" />
+  
+    
+    <script src="_static/searchtools.js"></script>
+    <script src="_static/language_data.js"></script>
+    <script src="searchindex.js"></script>
+  
+  </head>
+  <body data-default-mode="">
+  
+  
+  <div id="pst-skip-link" class="skip-link d-print-none"><a href="#main-content">Saltar al contenido principal</a></div>
+
+  
+  <div id="pst-scroll-pixel-helper"></div>
+  
+  <button type="button" class="btn rounded-pill" id="pst-back-to-top">
+    <i class="fa-solid fa-arrow-up"></i>Volver arriba</button>
+  
+  
+  
+  
+  <dialog id="pst-search-dialog">
+    
+<form class="bd-search d-flex align-items-center"
+      action="search.html"
+      method="get">
+  <i class="fa-solid fa-magnifying-glass"></i>
+  <input type="search"
+         class="form-control"
+         name="q"
+         placeholder="Search this book..."
+         aria-label="Search this book..."
+         autocomplete="off"
+         autocorrect="off"
+         autocapitalize="off"
+         spellcheck="false"/>
+  <span class="search-button__kbd-shortcut"><kbd class="kbd-shortcut__modifier">Ctrl</kbd>+<kbd>K</kbd></span>
+</form>
+  </dialog>
+
+  <div class="pst-async-banner-revealer d-none">
+  <aside id="bd-header-version-warning" class="d-none d-print-none" aria-label="Advertencia de versión"></aside>
+</div>
+
+  
+    <header id="pst-header" class="bd-header navbar navbar-expand-lg bd-navbar d-print-none">
+<div class="bd-header__inner bd-page-width">
+  <button class="pst-navbar-icon sidebar-toggle primary-toggle" aria-label="Navegación del sitio">
+    <span class="fa-solid fa-bars"></span>
+  </button>
+  
+  
+  <div class="col-lg-9 navbar-header-items">
+    
+    
+    <div class="navbar-header-items__end">
+      
+        <div class="navbar-item navbar-persistent--container">
+          
+
+<button class="btn search-button-field search-button__button pst-js-only" title="Búsqueda" aria-label="Búsqueda" data-bs-placement="bottom" data-bs-toggle="tooltip">
+ <i class="fa-solid fa-magnifying-glass"></i>
+ <span class="search-button__default-text">Búsqueda</span>
+ <span class="search-button__kbd-shortcut"><kbd class="kbd-shortcut__modifier">Ctrl</kbd>+<kbd class="kbd-shortcut__modifier">K</kbd></span>
+</button>
+        </div>
+      
+      
+    </div>
+    
+  </div>
+  
+  
+    <div class="navbar-persistent--mobile">
+
+<button class="btn search-button-field search-button__button pst-js-only" title="Búsqueda" aria-label="Búsqueda" data-bs-placement="bottom" data-bs-toggle="tooltip">
+ <i class="fa-solid fa-magnifying-glass"></i>
+ <span class="search-button__default-text">Búsqueda</span>
+ <span class="search-button__kbd-shortcut"><kbd class="kbd-shortcut__modifier">Ctrl</kbd>+<kbd class="kbd-shortcut__modifier">K</kbd></span>
+</button>
+    </div>
+  
+
+  
+    <button class="pst-navbar-icon sidebar-toggle secondary-toggle" aria-label="En esta página">
+      <span class="fa-solid fa-outdent"></span>
+    </button>
+  
+</div>
+
+    </header>
+  
+
+  <div class="bd-container">
+    <div class="bd-container__inner bd-page-width">
+      
+      
+      
+      <dialog id="pst-primary-sidebar-modal"></dialog>
+      <div id="pst-primary-sidebar" class="bd-sidebar-primary bd-sidebar">
+        
+
+  
+  <div class="sidebar-header-items sidebar-primary__section">
+    
+    
+    
+    
+  </div>
+  
+    <div class="sidebar-primary-items__start sidebar-primary__section">
+        <div class="sidebar-primary-item">
+
+  
+    
+  
+
+<a class="navbar-brand logo" href="intro.html">
+  
+  
+  
+  
+  
+  
+    <p class="title logo__title">Segmentación de células y clasificación de hojas de vida</p>
+  
+</a></div>
+        <div class="sidebar-primary-item"><div class="sidebar-autores">
+  <div class="autor">
+    <img src="_static/autores/anyely.jpg" alt="Anyely Sanjuan Benavides">
+    <p class="autor-nombre">Anyely Sanjuan Benavides</p>
+    <p class="autor-detalle">Msc. Analítica de Datos<br>Universidad del Norte</p>
+  </div>
+  <div class="autor">
+    <img src="_static/autores/juan.jpg" alt="Juan David Díaz Fernández">
+    <p class="autor-nombre">Juan David Díaz Fernández</p>
+    <p class="autor-detalle">Msc. Ingeniería Mecánica<br>Universidad del Norte</p>
+  </div>
+</div></div>
+        <div class="sidebar-primary-item">
+
+<button class="btn search-button-field search-button__button pst-js-only" title="Búsqueda" aria-label="Búsqueda" data-bs-placement="bottom" data-bs-toggle="tooltip">
+ <i class="fa-solid fa-magnifying-glass"></i>
+ <span class="search-button__default-text">Búsqueda</span>
+ <span class="search-button__kbd-shortcut"><kbd class="kbd-shortcut__modifier">Ctrl</kbd>+<kbd class="kbd-shortcut__modifier">K</kbd></span>
+</button></div>
+        <div class="sidebar-primary-item"><nav class="bd-links bd-docs-nav" aria-label="Main">
+    <div class="bd-toc-item navbar-nav active">
+        
+        <ul class="nav bd-sidenav bd-sidenav__home-link">
+            <li class="toctree-l1">
+                <a class="reference internal" href="intro.html">
+                    Segmentación de células y clasificación de hojas de vida
+                </a>
+            </li>
+        </ul>
+        <p aria-level="2" class="caption" role="heading"><span class="caption-text">Planteamiento</span></p>
+<ul class="current nav bd-sidenav">
+<li class="toctree-l1 current active"><a class="current reference internal" href="#">Problema, objetivos y preguntas de investigación</a></li>
+<li class="toctree-l1"><a class="reference internal" href="02_datos_fichas.html">Datos y fichas de datos</a></li>
+<li class="toctree-l1"><a class="reference internal" href="03_declaracion_apriori.html">Declaración a priori</a></li>
+<li class="toctree-l1"><a class="reference internal" href="04_fundamentos_teoricos.html">Fundamentos teóricos</a></li>
+</ul>
+<p aria-level="2" class="caption" role="heading"><span class="caption-text">Bloque 1: segmentación de instancias celulares</span></p>
+<ul class="nav bd-sidenav">
+<li class="toctree-l1"><a class="reference internal" href="10_seg_eda.html">Análisis exploratorio y auditoría de Sartorius</a></li>
+<li class="toctree-l1"><a class="reference internal" href="11_seg_preprocesamiento.html">Preprocesamiento y aumento de datos</a></li>
+<li class="toctree-l1"><a class="reference internal" href="12_seg_modelos.html">Modelos de segmentación</a></li>
+<li class="toctree-l1"><a class="reference internal" href="13_seg_resultados.html">Resultados de segmentación</a></li>
+<li class="toctree-l1"><a class="reference internal" href="14_seg_ablaciones_robustez.html">Ablaciones, robustez, calibración y eficiencia en segmentación</a></li>
+<li class="toctree-l1"><a class="reference internal" href="15_seg_analisis_critico.html">Análisis crítico de la segmentación</a></li>
+</ul>
+<p aria-level="2" class="caption" role="heading"><span class="caption-text">Bloque 2: clasificación de texto</span></p>
+<ul class="nav bd-sidenav">
+<li class="toctree-l1"><a class="reference internal" href="20_nlp_eda.html">Análisis exploratorio y auditoría de las hojas de vida</a></li>
+<li class="toctree-l1"><a class="reference internal" href="21_nlp_representaciones.html">Preprocesamiento y representaciones de texto</a></li>
+<li class="toctree-l1"><a class="reference internal" href="22_nlp_modelos.html">Modelos de clasificación de texto y búsqueda de hiperparámetros</a></li>
+<li class="toctree-l1"><a class="reference internal" href="23_nlp_resultados.html">Resultados de clasificación de texto</a></li>
+<li class="toctree-l1"><a class="reference internal" href="24_nlp_robustez_equidad.html">Calibración, robustez, equidad y explicabilidad del clasificador de texto</a></li>
+<li class="toctree-l1"><a class="reference internal" href="25_nlp_analisis_critico.html">Eficiencia, riesgo en reclutamiento y análisis crítico del clasificador de texto</a></li>
+</ul>
+<p aria-level="2" class="caption" role="heading"><span class="caption-text">Despliegue y cierre</span></p>
+<ul class="nav bd-sidenav">
+<li class="toctree-l1"><a class="reference internal" href="30_mlops.html">Despliegue: API, contenedor, integración continua y registro de modelos</a></li>
+<li class="toctree-l1"><a class="reference internal" href="31_monitoreo_deriva.html">Monitoreo y experimento de deriva</a></li>
+<li class="toctree-l1"><a class="reference internal" href="40_comparacion_final.html">Comparación final y decisión</a></li>
+<li class="toctree-l1"><a class="reference internal" href="41_conclusiones.html">Conclusiones, limitaciones y trabajo futuro</a></li>
+<li class="toctree-l1"><a class="reference internal" href="42_reproducibilidad.html">Reproducibilidad, autoría y uso de herramientas</a></li>
+<li class="toctree-l1"><a class="reference internal" href="43_referencias.html">Referencias</a></li>
+</ul>
+
+    </div>
+</nav></div>
+    </div>
+  
+  
+  <div class="sidebar-primary-items__end sidebar-primary__section">
+      <div class="sidebar-primary-item">
+<div id="ethical-ad-placement"
+      class="flat"
+      data-ea-publisher="readthedocs"
+      data-ea-type="readthedocs-sidebar"
+      data-ea-manual="true">
+</div></div>
+  </div>
+
+
+      </div>
+      
+      <main id="main-content" class="bd-main" role="main">
+        
+        
+
+<div class="sbt-scroll-pixel-helper"></div>
+
+          <div class="bd-content">
+            <div class="bd-article-container">
+              
+              <div class="bd-header-article d-print-none">
+<div class="header-article-items header-article__inner">
+  
+    <div class="header-article-items__start">
+      
+        <div class="header-article-item"><button class="sidebar-toggle primary-toggle btn btn-sm" title="Toggle primary sidebar" data-bs-placement="bottom" data-bs-toggle="tooltip">
+  <span class="fa-solid fa-bars"></span>
+</button></div>
+      
+    </div>
+  
+  
+    <div class="header-article-items__end">
+      
+        <div class="header-article-item">
+
+<div class="article-header-buttons">
+
+
+<a href="https://github.com/Anyita-12/proyecto-integrador-dl" target="_blank"
+   class="btn btn-sm btn-source-repository-button"
+   title="Repositorio de origen"
+   data-bs-placement="bottom" data-bs-toggle="tooltip"
+>
+  
+
+<span class="btn__icon-container">
+  <i class="fab fa-github"></i>
+  </span>
+
+</a>
+
+
+
+
+
+
+<div class="dropdown dropdown-download-buttons">
+  <button class="btn dropdown-toggle" type="button" data-bs-toggle="dropdown" aria-expanded="false" aria-label="Descarga esta pagina">
+    <i class="fas fa-download"></i>
+  </button>
+  <ul class="dropdown-menu">
+      
+      
+      
+      <li><a href="_sources/01_problema_objetivos.md" target="_blank"
+   class="btn btn-sm btn-download-source-button dropdown-item"
+   title="Descargar archivo fuente"
+   data-bs-placement="left" data-bs-toggle="tooltip"
+>
+  
+
+<span class="btn__icon-container">
+  <i class="fas fa-file"></i>
+  </span>
+<span class="btn__text-container">.md</span>
+</a>
+</li>
+      
+      
+      
+      
+      <li>
+<button onclick="window.print()"
+  class="btn btn-sm btn-download-pdf-button dropdown-item"
+  title="Imprimir en PDF"
+  data-bs-placement="left" data-bs-toggle="tooltip"
+>
+  
+
+<span class="btn__icon-container">
+  <i class="fas fa-file-pdf"></i>
+  </span>
+<span class="btn__text-container">.pdf</span>
+</button>
+</li>
+      
+  </ul>
+</div>
+
+
+
+
+<button onclick="toggleFullScreen()"
+  class="btn btn-sm btn-fullscreen-button pst-navbar-icon"
+  title="Modo de pantalla completa"
+  data-bs-placement="bottom" data-bs-toggle="tooltip"
+>
+  
+
+<span class="btn__icon-container">
+  <i class="fas fa-expand"></i>
+  </span>
+
+</button>
+
+
+
+<button class="btn btn-sm nav-link pst-navbar-icon theme-switch-button pst-js-only" aria-label="Tema" data-bs-title="Tema"  data-bs-placement="bottom" data-bs-toggle="tooltip">
+  <i class="theme-switch fa-solid fa-sun                fa-lg" data-mode="light" title="Claro"></i>
+  <i class="theme-switch fa-solid fa-moon               fa-lg" data-mode="dark"  title="Oscuro"></i>
+  <i class="theme-switch fa-solid fa-circle-half-stroke fa-lg" data-mode="auto"  title="Sistema"></i>
+</button>
+
+
+<button class="btn btn-sm pst-navbar-icon search-button search-button__button pst-js-only" title="Búsqueda" aria-label="Búsqueda" data-bs-placement="bottom" data-bs-toggle="tooltip">
+    <i class="fa-solid fa-magnifying-glass fa-lg"></i>
+</button>
+<button class="sidebar-toggle secondary-toggle btn btn-sm pst-navbar-icon" title="Toggle secondary sidebar" data-bs-placement="bottom" data-bs-toggle="tooltip">
+    <span class="fa-solid fa-list"></span>
+</button>
+</div></div>
+      
+    </div>
+  
+</div>
+</div>
+              
+              
+
+<div id="jb-print-docs-body" class="onlyprint">
+    <h1>Problema, objetivos y preguntas de investigación</h1>
+    <!-- Table of contents -->
+    <div id="print-main-content">
+        <div id="jb-print-toc">
+            
+            <div>
+                <h2> Contenido </h2>
+            </div>
+            <nav aria-label="Page">
+                <ul class="pst-show_toc_level nav section-nav flex-column">
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#dos-problemas-con-un-mismo-protocolo">Dos problemas con un mismo protocolo</a><ul class="nav section-nav flex-column">
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#segmentacion-de-instancias-celulares">Segmentación de instancias celulares</a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#clasificacion-de-hojas-de-vida">Clasificación de hojas de vida</a></li>
+</ul>
+</li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#objetivo-general">Objetivo general</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#objetivos-especificos">Objetivos específicos</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#preguntas-de-investigacion">Preguntas de investigación</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#alcance">Alcance</a></li>
+</ul>
+            </nav>
+        </div>
+    </div>
+</div>
+
+              
+                
+<div id="searchbox"></div>
+                <article class="bd-article">
+                  
+  <section class="tex2jax_ignore mathjax_ignore" id="problema-objetivos-y-preguntas-de-investigacion">
+<h1>Problema, objetivos y preguntas de investigación<a class="headerlink" href="#problema-objetivos-y-preguntas-de-investigacion" title="Link to this heading">#</a></h1>
+<p>En este capítulo definimos formalmente los dos problemas, fijamos el objetivo general y los objetivos específicos, y relacionamos cada pregunta de investigación con el capítulo que la responde.</p>
+<section id="dos-problemas-con-un-mismo-protocolo">
+<h2>Dos problemas con un mismo protocolo<a class="headerlink" href="#dos-problemas-con-un-mismo-protocolo" title="Link to this heading">#</a></h2>
+<section id="segmentacion-de-instancias-celulares">
+<h3>Segmentación de instancias celulares<a class="headerlink" href="#segmentacion-de-instancias-celulares" title="Link to this heading">#</a></h3>
+<p>La segmentación de células en imágenes de microscopía es el paso previo a medir su número, forma y crecimiento en cultivos. La competencia Sartorius <span class="bibtex-citation" id="id1">[<a class="reference internal" href="43_referencias.html#id2" title="Sartorius. Sartorius - cell instance segmentation. Competencia de Kaggle, 2021. URL: https://www.kaggle.com/competitions/sartorius-cell-instance-segmentation.">Sartorius, 2021</a>]</span> plantea este problema para neuronas y células gliales en contraste de fase, donde las células tienen poco contraste con el fondo, se tocan entre sí y varían mucho de forma entre tipos celulares. El conjunto LIVECell <span class="bibtex-citation" id="id2">[<a class="reference internal" href="43_referencias.html#id5" title="Christoffer Edlund, Timothy R. Jackson, Nabeel Khalid, Nicola Bevan, Timothy Dale, Andreas Dengel, Sheraz Ahmed, Johan Trygg, and Rickard Sjögren. LIVECell—a large-scale dataset for label-free live cell segmentation. Nature Methods, 18:1038–1045, 2021. doi:10.1038/s41592-021-01249-6.">Edlund <em>et al.</em>, 2021</a>]</span> es la referencia de contexto para esta modalidad.</p>
+<p><strong>Formalización.</strong> Una imagen es <span class="math notranslate nohighlight">\(x \in \{0,\dots,255\}^{520\times 704}\)</span>. La salida es un conjunto de máscaras binarias disjuntas <span class="math notranslate nohighlight">\(\{M_1,\dots,M_K\}\)</span>, una por célula, con <span class="math notranslate nohighlight">\(K\)</span> desconocido. Un modelo es bueno si, para cada célula de referencia, produce exactamente una máscara con IoU alto y no produce máscaras sin célula. La métrica de la competencia, que adoptamos como primaria, promedia sobre umbrales de IoU <span class="math notranslate nohighlight">\(t\in\{0.50, 0.55, \dots, 0.95\}\)</span> la razón <span class="math notranslate nohighlight">\(\text{TP}/(\text{TP}+\text{FP}+\text{FN})\)</span> por imagen (AP&#64;[0.5:0.95]).</p>
+<p>Dos rasgos del problema guían el diseño:</p>
+<ul class="simple">
+<li><p><strong>Separar células que se tocan.</strong> El 73 % de las células toca a otra (91 % en astrocitos). Una segmentación semántica buena (primer plano frente a fondo) puede tener un AP de instancia bajo si fusiona células vecinas.</p></li>
+<li><p><strong>Escala heterogénea.</strong> Las neuronas corticales y SH-SY5Y son pequeñas y numerosas; los astrocitos son unas tres veces más grandes y tienen formas irregulares.</p></li>
+</ul>
+</section>
+<section id="clasificacion-de-hojas-de-vida">
+<h3>Clasificación de hojas de vida<a class="headerlink" href="#clasificacion-de-hojas-de-vida" title="Link to this heading">#</a></h3>
+<p>La competencia Jarvis Calling Hiring Contest <span class="bibtex-citation" id="id3">[<a class="reference internal" href="43_referencias.html#id3" title="Kaggle. Jarvis calling hiring contest. Competencia de Kaggle. URL: https://www.kaggle.com/competitions/jarvis-calling-hiring-contest.">Kaggle, n.d.</a>]</span> ofrece 2484 currículos en inglés, cada uno con una de 24 categorías profesionales. Clasificar un currículo por categoría es una tarea de enrutamiento: dirigir el documento a la bolsa de empleo o al reclutador correspondiente. Como ocurre en un contexto de selección de personal, un error sistemático contra un grupo de candidatos tiene consecuencias para personas reales, y por eso el análisis de equidad forma parte de la evaluación.</p>
+<p><strong>Formalización.</strong> Un documento es una secuencia de <em>tokens</em> <span class="math notranslate nohighlight">\(w_{1:T}\)</span>, con <span class="math notranslate nohighlight">\(T\)</span> variable (mediana de 757 palabras). La salida es una distribución <span class="math notranslate nohighlight">\(\hat p(y\mid w_{1:T})\)</span> sobre <span class="math notranslate nohighlight">\(y\in\{1,\dots,24\}\)</span>. La métrica primaria es la F1 macro, que da el mismo peso a las 24 clases y no oculta un mal desempeño en las clases pequeñas (BPO tiene 22 documentos en total).</p>
+<p>Dos rasgos del problema guían el diseño:</p>
+<ul class="simple">
+<li><p><strong>Textos largos.</strong> El 89.9 % de los currículos supera los 510 <em>tokens</em> que admite DistilBERT, lo que obliga a truncar.</p></li>
+<li><p><strong>Atajos léxicos.</strong> En el 67.8 % de los documentos el nombre de la categoría aparece entre las 10 primeras palabras. Un modelo puede acertar leyendo solo el título, sin usar el resto del currículo.</p></li>
+</ul>
+</section>
+</section>
+<section id="objetivo-general">
+<h2>Objetivo general<a class="headerlink" href="#objetivo-general" title="Link to this heading">#</a></h2>
+<p>Diseñar, implementar y comparar con validez estadística modelos de <em>deep learning</em> y clásicos para la segmentación de instancias celulares y la clasificación de currículos, y cuantificar no solo cuánto aciertan, sino cuándo, por qué, con qué incertidumbre, a qué costo y con qué riesgos fallan.</p>
+</section>
+<section id="objetivos-especificos">
+<h2>Objetivos específicos<a class="headerlink" href="#objetivos-especificos" title="Link to this heading">#</a></h2>
+<div class="pst-scrollable-table-container"><table class="table">
+<thead>
+<tr class="row-odd"><th class="head"><p>ID</p></th>
+<th class="head"><p>Objetivo</p></th>
+<th class="head"><p>Dónde se cumple</p></th>
+</tr>
+</thead>
+<tbody>
+<tr class="row-even"><td><p>O1</p></td>
+<td><p>Auditar los datos: sesgos, fugas, duplicados y ruido de anotación</p></td>
+<td><p>Capítulos <a class="reference internal" href="02_datos_fichas.html"><span class="doc">Datos y fichas de datos</span></a>, <a class="reference internal" href="10_seg_eda.html"><span class="doc">Análisis exploratorio y auditoría de Sartorius</span></a> y <a class="reference internal" href="20_nlp_eda.html"><span class="doc">Análisis exploratorio y auditoría de las hojas de vida</span></a></p></td>
+</tr>
+<tr class="row-odd"><td><p>O2</p></td>
+<td><p>Implementar desde cero al menos un modelo por dominio, con pérdidas y métricas propias, y configurar los demás</p></td>
+<td><p>U-Net++ con <em>watershed</em> y BiLSTM/CNN-1D en Keras; capítulos <a class="reference internal" href="12_seg_modelos.html"><span class="doc">Modelos de segmentación</span></a> y <a class="reference internal" href="22_nlp_modelos.html"><span class="doc">Modelos de clasificación de texto y búsqueda de hiperparámetros</span></a></p></td>
+</tr>
+<tr class="row-even"><td><p>O3</p></td>
+<td><p>Comparar modelos con un protocolo controlado e inferencia estadística</p></td>
+<td><p>Capítulos <a class="reference internal" href="13_seg_resultados.html"><span class="doc">Resultados de segmentación</span></a> y <a class="reference internal" href="23_nlp_resultados.html"><span class="doc">Resultados de clasificación de texto</span></a></p></td>
+</tr>
+<tr class="row-odd"><td><p>O4</p></td>
+<td><p>Medir con ablaciones qué componentes explican el rendimiento</p></td>
+<td><p>Capítulos <a class="reference internal" href="14_seg_ablaciones_robustez.html"><span class="doc">Ablaciones, robustez, calibración y eficiencia en segmentación</span></a> y <a class="reference internal" href="21_nlp_representaciones.html"><span class="doc">Preprocesamiento y representaciones de texto</span></a></p></td>
+</tr>
+<tr class="row-even"><td><p>O5</p></td>
+<td><p>Evaluar robustez, calibración, incertidumbre y equidad</p></td>
+<td><p>Capítulos <a class="reference internal" href="14_seg_ablaciones_robustez.html"><span class="doc">Ablaciones, robustez, calibración y eficiencia en segmentación</span></a> y <a class="reference internal" href="24_nlp_robustez_equidad.html"><span class="doc">Calibración, robustez, equidad y explicabilidad del clasificador de texto</span></a></p></td>
+</tr>
+<tr class="row-odd"><td><p>O6</p></td>
+<td><p>Empaquetar y desplegar el mejor modelo de cada dominio con pruebas, CI/CD y detección de deriva</p></td>
+<td><p>Capítulos <a class="reference internal" href="30_mlops.html"><span class="doc">Despliegue: API, contenedor, integración continua y registro de modelos</span></a> y <a class="reference internal" href="31_monitoreo_deriva.html"><span class="doc">Monitoreo y experimento de deriva</span></a></p></td>
+</tr>
+</tbody>
+</table>
+</div>
+</section>
+<section id="preguntas-de-investigacion">
+<h2>Preguntas de investigación<a class="headerlink" href="#preguntas-de-investigacion" title="Link to this heading">#</a></h2>
+<div class="pst-scrollable-table-container"><table class="table">
+<thead>
+<tr class="row-odd"><th class="head"><p>ID</p></th>
+<th class="head"><p>Pregunta</p></th>
+<th class="head"><p>Capítulo</p></th>
+</tr>
+</thead>
+<tbody>
+<tr class="row-even"><td><p>RQ1</p></td>
+<td><p>¿Cómo varía el desempeño de los paradigmas de segmentación según tipo celular, densidad y tamaño de objeto, y qué diferencias son estadística y prácticamente relevantes?</p></td>
+<td><p><a class="reference internal" href="13_seg_resultados.html"><span class="doc">Resultados de segmentación</span></a></p></td>
+</tr>
+<tr class="row-odd"><td><p>RQ2</p></td>
+<td><p>¿Cuál es la contribución de la función de pérdida y del preentrenamiento, y cómo escala el rendimiento con la fracción de datos de entrenamiento?</p></td>
+<td><p><a class="reference internal" href="14_seg_ablaciones_robustez.html"><span class="doc">Ablaciones, robustez, calibración y eficiencia en segmentación</span></a></p></td>
+</tr>
+<tr class="row-even"><td><p>RQ3</p></td>
+<td><p>¿Son consistentes las métricas de píxel (Dice, AUC, <em>balanced accuracy</em>) con las de instancia (AP, PQ)? ¿Cuándo se contradicen?</p></td>
+<td><p><a class="reference internal" href="13_seg_resultados.html"><span class="doc">Resultados de segmentación</span></a></p></td>
+</tr>
+<tr class="row-odd"><td><p>RQ4</p></td>
+<td><p>¿Qué tan robustos y calibrados son los modelos ante un tipo celular no visto y ante perturbaciones de imagen?</p></td>
+<td><p><a class="reference internal" href="14_seg_ablaciones_robustez.html"><span class="doc">Ablaciones, robustez, calibración y eficiencia en segmentación</span></a></p></td>
+</tr>
+<tr class="row-even"><td><p>RQ5</p></td>
+<td><p>Con el mismo presupuesto de búsqueda de hiperparámetros y controlando la varianza entre semillas, ¿justifica el costo de un <em>transformer</em> su ganancia frente a modelos clásicos?</p></td>
+<td><p><a class="reference internal" href="23_nlp_resultados.html"><span class="doc">Resultados de clasificación de texto</span></a></p></td>
+</tr>
+<tr class="row-odd"><td><p>RQ6</p></td>
+<td><p>¿Qué parte del rendimiento se debe a atajos léxicos o a ruido de etiquetas, y cómo cambia con perturbaciones controladas?</p></td>
+<td><p><a class="reference internal" href="24_nlp_robustez_equidad.html"><span class="doc">Calibración, robustez, equidad y explicabilidad del clasificador de texto</span></a></p></td>
+</tr>
+<tr class="row-even"><td><p>RQ7</p></td>
+<td><p>¿Están calibradas las probabilidades y hay disparidades de desempeño entre subgrupos?</p></td>
+<td><p><a class="reference internal" href="24_nlp_robustez_equidad.html"><span class="doc">Calibración, robustez, equidad y explicabilidad del clasificador de texto</span></a></p></td>
+</tr>
+<tr class="row-odd"><td><p>RQ8</p></td>
+<td><p>¿Cómo se degrada el rendimiento ante deriva de datos, y con qué rapidez y potencia la detecta el monitoreo?</p></td>
+<td><p><a class="reference internal" href="31_monitoreo_deriva.html"><span class="doc">Monitoreo y experimento de deriva</span></a></p></td>
+</tr>
+</tbody>
+</table>
+</div>
+<p>Las hipótesis H1–H5, con su criterio de refutación numérico, están en el capítulo <a class="reference internal" href="03_declaracion_apriori.html"><span class="doc">Declaración a priori</span></a>. Refutar una hipótesis con evidencia sólida es un resultado tan informativo como confirmarla.</p>
+</section>
+<section id="alcance">
+<h2>Alcance<a class="headerlink" href="#alcance" title="Link to this heading">#</a></h2>
+<p>Las conclusiones de este libro valen para las particiones descritas en el capítulo <a class="reference internal" href="02_datos_fichas.html"><span class="doc">Datos y fichas de datos</span></a>: imágenes de contraste de fase de los tres tipos celulares de Sartorius y currículos en inglés de las 24 categorías de Jarvis. No evaluamos los datos sin etiqueta de Sartorius (<code class="docutils literal notranslate"><span class="pre">train_semi_supervised/</span></code>, LIVECell) ni otras modalidades de microscopía, y no evaluamos el uso del clasificador de currículos para decidir contrataciones.</p>
+</section>
+</section>
+
+    <script type="text/x-thebe-config">
+    {
+        requestKernel: true,
+        binderOptions: {
+            repo: "binder-examples/jupyter-stacks-datascience",
+            ref: "master",
+        },
+        codeMirrorConfig: {
+            theme: "abcdef",
+            mode: "python"
+        },
+        kernelOptions: {
+            name: "python3",
+            path: "./."
+        },
+        predefinedOutput: true
+    }
+    </script>
+    <script>kernelName = 'python3'</script>
+
+                </article>
+              
+
+              
+              
+              
+              
+                <footer class="prev-next-footer d-print-none">
+                  
+<div class="prev-next-area">
+    <a class="left-prev"
+       href="intro.html"
+       title="página anterior">
+      <i class="fa-solid fa-angle-left"></i>
+      <div class="prev-next-info">
+        <p class="prev-next-subtitle">anterior</p>
+        <p class="prev-next-title">Segmentación de células y clasificación de hojas de vida</p>
+      </div>
+    </a>
+    <a class="right-next"
+       href="02_datos_fichas.html"
+       title="siguiente página">
+      <div class="prev-next-info">
+        <p class="prev-next-subtitle">siguiente</p>
+        <p class="prev-next-title">Datos y fichas de datos</p>
+      </div>
+      <i class="fa-solid fa-angle-right"></i>
+    </a>
+</div>
+                </footer>
+              
+            </div>
+            
+            
+              
+                <dialog id="pst-secondary-sidebar-modal"></dialog>
+                <div id="pst-secondary-sidebar" class="bd-sidebar-secondary bd-toc"><div class="sidebar-secondary-items sidebar-secondary__inner">
+
+
+  <div class="sidebar-secondary-item"><div
+    id="pst-page-navigation-heading-2"
+    class="page-toc tocsection onthispage">
+    <i class="fa-solid fa-list"></i> Contenido
+  </div>
+  <nav id="pst-page-toc-nav" class="page-toc" aria-labelledby="pst-page-navigation-heading-2">
+    <ul class="pst-show_toc_level nav section-nav flex-column">
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#dos-problemas-con-un-mismo-protocolo">Dos problemas con un mismo protocolo</a><ul class="nav section-nav flex-column">
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#segmentacion-de-instancias-celulares">Segmentación de instancias celulares</a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#clasificacion-de-hojas-de-vida">Clasificación de hojas de vida</a></li>
+</ul>
+</li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#objetivo-general">Objetivo general</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#objetivos-especificos">Objetivos específicos</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#preguntas-de-investigacion">Preguntas de investigación</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#alcance">Alcance</a></li>
+</ul>
+  </nav></div>
+
+</div></div>
+              
+            
+          </div>
+          <footer class="bd-footer-content">
+            
+<div class="bd-footer-content__inner container">
+  
+  <div class="footer-item">
+    
+<p class="component-author">
+Por Anyely Sanjuan Benavides y Juan David Díaz Fernández
+</p>
+
+  </div>
+  
+  <div class="footer-item">
+    
+
+  <p class="copyright">
+    
+      © Copyright 2026.
+      <br/>
+    
+  </p>
+
+  </div>
+  
+  <div class="footer-item">
+    
+  </div>
+  
+  <div class="footer-item">
+    
+  </div>
+  
+</div>
+          </footer>
+        
+
+      </main>
+    </div>
+  </div>
+  
+  <!-- Scripts loaded after <body> so the DOM is not blocked -->
+  <script defer src="_static/scripts/bootstrap.js?digest=55c26ed414f5f8a31ebb"></script>
+<script defer src="_static/scripts/pydata-sphinx-theme.js?digest=55c26ed414f5f8a31ebb"></script>
+
+  <footer class="bd-footer">
+  </footer>
+  </body>
+</html>
